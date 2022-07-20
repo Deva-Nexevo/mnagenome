@@ -1,1 +1,45 @@
 /* You can add global styles to this file, and also import other style files */
+@font-face {
+    font-family: ProximaNova-Regular;
+    src: url('../src/assets/font/ProximaNova-Regular.ttf');
+}
+@font-face {
+    font-family: ProximaNova-Bold;
+    src: url('../src/assets/font/ProximaNova-Bold.ttf');
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    font-size: 16px;
+    line-height: 26px;
+    color: #000;
+    box-sizing: border-box;
+    font-family: ProximaNova-Regular;
+}
+.font-bold {
+    font-family: ProximaNova-Bold;
+}
+.br-30 {
+    border-radius: 30px;
+}
+:focus {
+    box-shadow: unset !important;
+}
+.form-control:focus {
+    border-color: #ced4da !important;
+}
+.section_login input {
+    border-radius: 30px;
+    padding: 10px 20px;
+}
+.btn-login {
+    padding: 10px 60px !important;
+}
+
+/* media query */
+@media (min-width: 1200px) {
+    .section_login {
+        height: 100vh;
+    }
+}
