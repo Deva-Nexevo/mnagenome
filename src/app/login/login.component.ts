@@ -9,7 +9,7 @@ export class LoginComponent implements OnInit {
 
   constructor() { 
   }
-  imageSrc = 'assets/images/man.png'  
+  imageSrc = 'assets/images/beats.gif'  
 
   ngOnInit(): void {
   }
