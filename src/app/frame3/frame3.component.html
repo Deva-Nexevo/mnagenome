@@ -1,0 +1,346 @@
+<section class="section_frame">
+    <section class="section_frame1 py-1">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-center">
+                <img src="{{logo}}" alt="" class="logo-img">
+                <h1 class="fs-25 mb-0 cl-purple">DEI Dashboard</h1>
+                <a class="d-flex" routerLink="/login"><mat-icon>power_settings_new</mat-icon></a>
+            </div>
+
+        </div>
+    </section>
+    <section class="section_frame1-filters frame3 py-3">
+        <div class="container">
+            <div class="row justify-content-center align-items-center"> 
+                <!-- <button class="filter-btn btn filter-modal" (click)="mandate.show()">MANDATE</button>
+                <button class="filter-btn btn filter-modal" (click)="overview.show()">RESPONSE OVERVIEW</button> -->
+                <button class="filter-btn btn filters-btn">View by | <span class="text-white"> All</span></button>
+                <button class="filter-btn btn filters-btn d-flex"><mat-icon class="text-white">refresh</mat-icon></button>
+                <div class="btn-group" dropdown>
+                    <button id="button-animated" dropdownToggle type="button" class="filter-btn btn dropdown-toggle"
+                            aria-controls="dropdown-animated">
+                      AGE <span class="caret"></span>
+                    </button>
+                    <ul id="dropdown-animated" *dropdownMenu class="dropdown-menu"
+                        role="menu" aria-labelledby="button-animated">
+                      <li role="menuitem"><a class="dropdown-item" href="#">Action</a></li>
+                      <li role="menuitem"><a class="dropdown-item" href="#">Another action</a>
+                      </li>
+                      <li role="menuitem"><a class="dropdown-item" href="#">Something else
+                        here</a></li>
+                    </ul>
+                </div>
+                <div class="btn-group" dropdown>
+                    <button id="button-animated" dropdownToggle type="button" class="filter-btn btn dropdown-toggle"
+                            aria-controls="dropdown-animated">
+                      GENDER <span class="caret"></span>
+                    </button>
+                    <ul id="dropdown-animated" *dropdownMenu class="dropdown-menu"
+                        role="menu" aria-labelledby="button-animated">
+                      <li role="menuitem"><a class="dropdown-item" href="#">Action</a></li>
+                      <li role="menuitem"><a class="dropdown-item" href="#">Another action</a>
+                      </li>
+                      <li role="menuitem"><a class="dropdown-item" href="#">Something else
+                        here</a></li>
+                    </ul>
+                </div>
+                <div class="btn-group" dropdown>
+                    <button id="button-animated" dropdownToggle type="button" class="filter-btn btn dropdown-toggle"
+                            aria-controls="dropdown-animated">
+                            Sexual Orientation <span class="caret"></span>
+                    </button>
+                    <ul id="dropdown-animated" *dropdownMenu class="dropdown-menu"
+                        role="menu" aria-labelledby="button-animated">
+                      <li role="menuitem"><a class="dropdown-item" href="#">Action</a></li>
+                      <li role="menuitem"><a class="dropdown-item" href="#">Another action</a>
+                      </li>
+                      <li role="menuitem"><a class="dropdown-item" href="#">Something else
+                        here</a></li>
+                    </ul>
+                </div>
+                <div class="btn-group" dropdown>
+                    <button id="button-animated" dropdownToggle type="button" class="filter-btn btn dropdown-toggle"
+                            aria-controls="dropdown-animated">
+                            Work Location <span class="caret"></span>
+                    </button>
+                    <ul id="dropdown-animated" *dropdownMenu class="dropdown-menu"
+                        role="menu" aria-labelledby="button-animated">
+                      <li role="menuitem"><a class="dropdown-item" href="#">Action</a></li>
+                      <li role="menuitem"><a class="dropdown-item" href="#">Another action</a>
+                      </li>
+                      <li role="menuitem"><a class="dropdown-item" href="#">Something else
+                        here</a></li>
+                    </ul>
+                </div>
+                <div class="btn-group" dropdown>
+                    <button id="button-animated" dropdownToggle type="button" class="filter-btn btn dropdown-toggle"
+                            aria-controls="dropdown-animated">
+                            Language <span class="caret"></span>
+                    </button>
+                    <ul id="dropdown-animated" *dropdownMenu class="dropdown-menu"
+                        role="menu" aria-labelledby="button-animated">
+                      <li role="menuitem"><a class="dropdown-item" href="#">Action</a></li>
+                      <li role="menuitem"><a class="dropdown-item" href="#">Another action</a>
+                      </li>
+                      <li role="menuitem"><a class="dropdown-item" href="#">Something else
+                        here</a></li>
+                    </ul>
+                </div>
+                <div class="btn-group" dropdown>
+                    <button id="button-animated" dropdownToggle type="button" class="filter-btn btn dropdown-toggle"
+                            aria-controls="dropdown-animated">
+                            Association <span class="caret"></span>
+                    </button>
+                    <ul id="dropdown-animated" *dropdownMenu class="dropdown-menu"
+                        role="menu" aria-labelledby="button-animated">
+                      <li role="menuitem"><a class="dropdown-item" href="#">Action</a></li>
+                      <li role="menuitem"><a class="dropdown-item" href="#">Another action</a>
+                      </li>
+                      <li role="menuitem"><a class="dropdown-item" href="#">Something else
+                        here</a></li>
+                    </ul>
+                </div>
+                <div class="btn-group" dropdown>
+                    <button id="button-animated" dropdownToggle type="button" class="filter-btn btn dropdown-toggle"
+                            aria-controls="dropdown-animated">
+                            Organisation Ownership <span class="caret"></span>
+                    </button>
+                    <ul id="dropdown-animated" *dropdownMenu class="dropdown-menu"
+                        role="menu" aria-labelledby="button-animated">
+                      <li role="menuitem"><a class="dropdown-item" href="#">Action</a></li>
+                      <li role="menuitem"><a class="dropdown-item" href="#">Another action</a>
+                      </li>
+                      <li role="menuitem"><a class="dropdown-item" href="#">Something else
+                        here</a></li>
+                    </ul>
+                </div>
+                <div class="btn-group" dropdown>
+                    <button id="button-animated" dropdownToggle type="button" class="filter-btn btn dropdown-toggle"
+                            aria-controls="dropdown-animated">
+                            Organisation Type <span class="caret"></span>
+                    </button>
+                    <ul id="dropdown-animated" *dropdownMenu class="dropdown-menu"
+                        role="menu" aria-labelledby="button-animated">
+                      <li role="menuitem"><a class="dropdown-item" href="#">Action</a></li>
+                      <li role="menuitem"><a class="dropdown-item" href="#">Another action</a>
+                      </li>
+                      <li role="menuitem"><a class="dropdown-item" href="#">Something else
+                        here</a></li>
+                    </ul>
+                </div>
+                <div class="btn-group" dropdown>
+                    <button id="button-animated" dropdownToggle type="button" class="filter-btn btn dropdown-toggle"
+                            aria-controls="dropdown-animated">
+                            Organisation Size <span class="caret"></span>
+                    </button>
+                    <ul id="dropdown-animated" *dropdownMenu class="dropdown-menu"
+                        role="menu" aria-labelledby="button-animated">
+                      <li role="menuitem"><a class="dropdown-item" href="#">Action</a></li>
+                      <li role="menuitem"><a class="dropdown-item" href="#">Another action</a>
+                      </li>
+                      <li role="menuitem"><a class="dropdown-item" href="#">Something else
+                        here</a></li>
+                    </ul>
+                </div>
+                <div class="btn-group" dropdown>
+                    <button id="button-animated" dropdownToggle type="button" class="filter-btn btn dropdown-toggle"
+                            aria-controls="dropdown-animated">
+                            Industry Sector <span class="caret"></span>
+                    </button>
+                    <ul id="dropdown-animated" *dropdownMenu class="dropdown-menu"
+                        role="menu" aria-labelledby="button-animated">
+                      <li role="menuitem"><a class="dropdown-item" href="#">Action</a></li>
+                      <li role="menuitem"><a class="dropdown-item" href="#">Another action</a>
+                      </li>
+                      <li role="menuitem"><a class="dropdown-item" href="#">Something else
+                        here</a></li>
+                    </ul>
+                </div>
+                <div class="btn-group" dropdown>
+                    <button id="button-animated" dropdownToggle type="button" class="filter-btn btn dropdown-toggle"
+                            aria-controls="dropdown-animated">
+                            Grade in company <span class="caret"></span>
+                    </button>
+                    <ul id="dropdown-animated" *dropdownMenu class="dropdown-menu"
+                        role="menu" aria-labelledby="button-animated">
+                      <li role="menuitem"><a class="dropdown-item" href="#">Action</a></li>
+                      <li role="menuitem"><a class="dropdown-item" href="#">Another action</a>
+                      </li>
+                      <li role="menuitem"><a class="dropdown-item" href="#">Something else
+                        here</a></li>
+                    </ul>
+                </div>
+                <div class="btn-group" dropdown>
+                    <button id="button-animated" dropdownToggle type="button" class="filter-btn btn dropdown-toggle"
+                            aria-controls="dropdown-animated">
+                            Ethnicity <span class="caret"></span>
+                    </button>
+                    <ul id="dropdown-animated" *dropdownMenu class="dropdown-menu"
+                        role="menu" aria-labelledby="button-animated">
+                      <li role="menuitem"><a class="dropdown-item" href="#">Action</a></li>
+                      <li role="menuitem"><a class="dropdown-item" href="#">Another action</a>
+                      </li>
+                      <li role="menuitem"><a class="dropdown-item" href="#">Something else
+                        here</a></li>
+                    </ul>
+                </div>
+                <div class="btn-group" dropdown>
+                    <button id="button-animated" dropdownToggle type="button" class="filter-btn btn dropdown-toggle"
+                            aria-controls="dropdown-animated">
+                            Education <span class="caret"></span>
+                    </button>
+                    <ul id="dropdown-animated" *dropdownMenu class="dropdown-menu"
+                        role="menu" aria-labelledby="button-animated">
+                      <li role="menuitem"><a class="dropdown-item" href="#">Action</a></li>
+                      <li role="menuitem"><a class="dropdown-item" href="#">Another action</a>
+                      </li>
+                      <li role="menuitem"><a class="dropdown-item" href="#">Something else
+                        here</a></li>
+                    </ul>
+                </div>
+                <div class="btn-group" dropdown>
+                    <button id="button-animated" dropdownToggle type="button" class="filter-btn btn dropdown-toggle"
+                            aria-controls="dropdown-animated">
+                            Employment Status <span class="caret"></span>
+                    </button>
+                    <ul id="dropdown-animated" *dropdownMenu class="dropdown-menu"
+                        role="menu" aria-labelledby="button-animated">
+                      <li role="menuitem"><a class="dropdown-item" href="#">Action</a></li>
+                      <li role="menuitem"><a class="dropdown-item" href="#">Another action</a>
+                      </li>
+                      <li role="menuitem"><a class="dropdown-item" href="#">Something else
+                        here</a></li>
+                    </ul>
+                </div>
+            </div> 
+        </div>
+    </section>
+</section>
+<section class="section_frame1-intro py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-4">
+                <div class="frame1-intro box-shadow br-15 px-1 py-4 text-center h-100">
+                    <p class="cl-purple fs-25 mb-1"><mat-icon class="mr-2 align-middle">compare_arrows</mat-icon>Total no. of responses</p>
+                    <hr class="my-4">
+                    <h4 class="fs-25 mb-4 cl-orange">4092</h4>
+                    <button class="filter-btn btn filter-modal fs-16 bgc-orange px-5 text-white br-30" (click)="sample.show()">Sample</button>
+                </div>
+            </div>
+            <div class="col-12 text-center pt-4">
+                <button class="filter-btn btn filter-modal fs-16 bgc-blue text-white br-30 px-5">Report</button>
+                <!-- SAMPLE POPUP -->
+                <div bsModal #sample="bs-modal" class="modal fade" tabindex="-1"
+                role="dialog" aria-labelledby="dialog-sizes-name1">
+                    <div class="modal-dialog modal-lg modal-dialog-centered">
+                        <div class="modal-content p-4">
+                        <div class="">
+                            <button type="button" class="close pull-right" (click)="sample.hide()" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            ...
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 pt-4 mt-3 overall-dimensions">
+                <h2 class="fs-25 mb-4 pb-3 cl-purple text-center">DIVERSITY, EQUITY & INCLUSION DIMENSIONS</h2>
+                <div class="row">
+                    <div class="col-lg-3 pb-4">
+                        <div class="frame1-intro box-shadow br-15 p-4 text-center h-100">
+                            <h4 class="fs-22">Sustaining Change</h4>
+                            <p class="fs-16">How impactful are the changes/interventions around DEI?</p>
+                            <p class="pt-4 fs-30 mb-3">4.32</p>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 pb-4">
+                        <div class="frame1-intro box-shadow br-15 p-4 text-center h-100">
+                            <h4 class="fs-22">Delivering Change</h4>
+                            <p class="fs-16">What key areas in DEI need change?</p>
+                            <p class="pt-4 fs-30 mb-3">3.57</p>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 pb-4">
+                        <div class="frame1-intro box-shadow br-15 p-4 text-center h-100">
+                            <h4 class="fs-22">Accountability & Power of Influence</h4>
+                            <p class="fs-16">Is my Leadership/Organization enhancing DEI?</p>
+                            <p class="pt-4 fs-30 mb-3">3.98</p>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 pb-4">
+                        <div class="frame1-intro box-shadow br-15 p-4 text-center h-100">
+                            <h4 class="fs-22">Ownership</h4>
+                            <p class="fs-16">Do I understand the nuances of DEI & act accordingly?</p>
+                            <p class="pt-4 fs-30 mb-3">3.96</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 pt-5">
+                <h2 class="fs-25 mb-5 cl-purple text-center">HEAT MAP</h2>
+                <div class="box-shadow p-5 br-15"></div>
+            </div>
+            <div class="col-12 pt-5">
+                <h2 class="fs-25 mb-3 cl-purple text-center">OPEN TEXT ANALYSIS</h2>
+                <p class="cl-orange text-center mb-4">Natural Language Processing (NLP)</p>
+                <div class="d-flex justify-content-center align-items-center pb-4">
+                    <p class="cl-purple text-center mb-0 mr-4">Choose question : </p>
+                    <button type="button" class="filter-btn btn br-30" (click)="select.show()">
+                            Click to select<span class="caret"></span>
+                    </button>
+                </div>
+                <p class="text-center fs-25 mb-3"><span class="font-bold cl-orange pr-1 fs-25 ">Sustaining Change : </span>Does your immediate manager encourage people with different ideas and opinions to speak up?</p>
+                <p class="text-center fs-25 mb-0">% of disagreement : <span class="font-bold cl-orange pr-1 fs-25 ">8.65 %</span></p>
+                <div class="row pt-5">
+                    <div class="col-lg-6"></div>
+                    <div class="col-lg-6">
+                        <div class="box-shadow br-15 pl-5 pr-4 py-4">
+                            <h4 class="fs-22 cl-orange mb-3 text-center">COMMENTS</h4>
+                            <hr class="my-2">
+                            <ol class="mb-0">
+                                <li class="py-1"><b>Yes:</b> 2719 (79.99%),<b>  No:</b>  289 (8.4%)</li>
+                                <li class="py-1">Yes, Our organization provided us the best <b>facilities</b> for <b>physical</b> well being.</li>
+                                <li class="py-1">Yes My organization facilitates many activities for physical well being. i.e <b>yoga</b> class , <b>Gym</b>, Jumbo classes different clubs.</li>
+                                <li class="py-1">Our organization provides and encourages  physical <b>fitness</b> for every employee. Good infrastructure such as modern and open gyms, <b>yoga</b> centers, physiotherapy and so on are available</li>
+                                <li class="py-1">My organization has developed several<b> health</b> and physical well – being maintaining facilities within the plant. They also encourage employees and their families to utilize these facilities</li>
+                              </ol>
+                        </div>
+                    </div>
+                </div>
+                 <!-- SELECT POPUP -->
+                    <div bsModal #select="bs-modal" class="modal fade select" tabindex="-1"
+                    role="dialog" aria-labelledby="dialog-sizes-name1">
+                    <div class="modal-dialog modal-lg modal-dialog-centered">
+                        <div class="modal-content p-4">
+                            <div class="">
+                                <button type="button" class="close pull-right" (click)="select.hide()" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <ul class="mb-0">
+                                    <li><a href=""><span class="font-bold cl-orange pr-1">Physical Well-being : </span>Does your organization help you manage your physical well being?</a></li>
+                                    <li><a href=""><span class="font-bold cl-orange pr-1">Environmental Well-being : </span>What do you do individually to contribute to the community?</a></li>
+                                    <li><a href=""><span class="font-bold cl-orange pr-1">Financial Well-being : </span> What steps have you taken to secure your financial stability?  have you taken to secure your financial stability?</a></li>
+                                </ul> 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="section_footer py-1">
+    <div class="container">
+        <div class="row justify-content-between align-items-center">
+            <div class="col-12 text-center">
+                <img src="{{imageSrc}}" alt="" class="footer-img">
+                <p>&#169; Culturelytics All Rights Reserved</p>
+            </div>
+        </div>
+    </div>
+</section>

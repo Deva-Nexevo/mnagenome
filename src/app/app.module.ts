@@ -8,12 +8,17 @@ import {MatIconModule} from '@angular/material/icon';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { ModalModule } from 'ngx-bootstrap/modal';
+import { CarouselModule } from 'ngx-owl-carousel-o';
+import { Frame2Component } from './frame2/frame2.component';
+import { Frame3Component } from './frame3/frame3.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    Frame1Component
+    Frame1Component,
+    Frame2Component,
+    Frame3Component,
   ],
   imports: [
     BrowserModule,
@@ -22,6 +27,7 @@ import { ModalModule } from 'ngx-bootstrap/modal';
     BrowserAnimationsModule,
     BsDropdownModule.forRoot(),
     ModalModule.forRoot(),
+    CarouselModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

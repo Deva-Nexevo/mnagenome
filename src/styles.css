@@ -1,4 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
+
 @font-face {
     font-family: ProximaNova-Regular;
     src: url('../src/assets/font/ProximaNova-Regular.ttf');
@@ -24,28 +25,35 @@
     }
 }
 
+a {
+    text-decoration: none !important;
+}
+
 .font-bold, h1, h2, h3, h4, h5, h6 {
-    font-family: ProximaNova-Bold;
+    font-family: ProximaNova-Bold !important;
 }
 
 .fs-16 {
-    font-size: 16px;
+    font-size: 16px !important;
 }
 .fs-22 {
-    font-size: 20px;
+    font-size: 20px !important;
 }
 .fs-25 {
-    font-size: 25px;
+    font-size: 25px !important;
 }
 .fs-30 {
-    font-size: 30px;
+    font-size: 30px !important;
 }
 .fs-40 {
-    font-size: 40px;
+    font-size: 40px !important;
 }
 
 .cl-purple {
     color: purple;
+}
+.cl-orange {
+    color: #f15822;
 }
 
 .bgc-orange {
@@ -73,8 +81,8 @@
 }
 button.close {
     position: absolute;
-    top: -5px;
-    right: -5px;
+    top: -15px;
+    right: -15px;
     opacity: 1;
     line-height: 0;
     background: #fff;
@@ -98,6 +106,17 @@ button.close span {
     background-color: #339fd9 !important;
     font-size: 18px;
 }
+.section_footer .footer-img {
+    width: 200px;
+}
+.section_frame {
+    position: sticky;
+    top: 0;
+    width: 100%;
+    transition: all 1s ease;
+    z-index: 999;
+    background-color: #fff;
+}
 .section_frame1 .logo-img {
     width: 40px;
 }
@@ -107,13 +126,16 @@ button.close span {
 .section_frame1-filters {
     border-bottom: 1px solid #e1e1e1;
 }
+.section_frame1-filters .owl-carousel .owl-item {
+    width: auto !important;
+}
 .section_frame1-filters .dropdown-toggle::after {
     display: none;
 }
 .section_frame1-filters .filter-btn {
     border-radius: 30px;
     padding: 7px 15px;
-    margin-right: 8px;
+    margin:5px 8px 5px 0;
 }
 .section_frame1-filters .filter-btn, .section_frame1-filters .filter-btn span {
     color: #fff;
@@ -140,13 +162,31 @@ button.close span {
 .section_frame1-intro button {
     padding: 12px 60px;
 }
-.overall-dimensions button {
+.overall-dimensions button.btn {
     color: #fff;
     padding: 5px 15px;
     border-radius: 30px;
     font-size: 15px;
     min-width: 100px;
     margin: 0 8px 8px 0;
+}
+.select li {
+    list-style: none;
+    padding-block: 10px;
+}
+
+
+
+.section_frame1-intro.frame2 .frame1-intro button {
+    padding: 5px 15px;
+    color: #fff;
+    font-size: 15px;
+    margin: 0 5px 5px 0;
+}
+
+
+.section_frame1-filters.frame3 .btn-group .filter-btn {
+    background-color: #f15822 !important;
 }
 /* media query */
 @media (min-width: 1200px) {
