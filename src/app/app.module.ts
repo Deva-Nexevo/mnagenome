@@ -11,6 +11,7 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 import { CarouselModule } from 'ngx-owl-carousel-o';
 import { Frame2Component } from './frame2/frame2.component';
 import { Frame3Component } from './frame3/frame3.component';
+import {MatMenuModule} from '@angular/material/menu';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { Frame3Component } from './frame3/frame3.component';
     BsDropdownModule.forRoot(),
     ModalModule.forRoot(),
     CarouselModule,
+    MatMenuModule
   ],
   providers: [],
   bootstrap: [AppComponent]

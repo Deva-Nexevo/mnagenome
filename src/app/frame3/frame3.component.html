@@ -16,201 +16,103 @@
                 <button class="filter-btn btn filter-modal" (click)="overview.show()">RESPONSE OVERVIEW</button> -->
                 <button class="filter-btn btn filters-btn">View by | <span class="text-white"> All</span></button>
                 <button class="filter-btn btn filters-btn d-flex"><mat-icon class="text-white">refresh</mat-icon></button>
-                <div class="btn-group" dropdown>
-                    <button id="button-animated" dropdownToggle type="button" class="filter-btn btn dropdown-toggle"
-                            aria-controls="dropdown-animated">
-                      AGE <span class="caret"></span>
-                    </button>
-                    <ul id="dropdown-animated" *dropdownMenu class="dropdown-menu"
-                        role="menu" aria-labelledby="button-animated">
-                      <li role="menuitem"><a class="dropdown-item" href="#">Action</a></li>
-                      <li role="menuitem"><a class="dropdown-item" href="#">Another action</a>
-                      </li>
-                      <li role="menuitem"><a class="dropdown-item" href="#">Something else
-                        here</a></li>
-                    </ul>
+                <div class="btn-group">
+                    <button class="filter-btn" mat-button [matMenuTriggerFor]="menu">AGE</button>
+                    <mat-menu #menu="matMenu">
+                    <button mat-menu-item>Item 1</button>
+                    <button mat-menu-item>Item 2</button>
+                    </mat-menu>
                 </div>
-                <div class="btn-group" dropdown>
-                    <button id="button-animated" dropdownToggle type="button" class="filter-btn btn dropdown-toggle"
-                            aria-controls="dropdown-animated">
-                      GENDER <span class="caret"></span>
-                    </button>
-                    <ul id="dropdown-animated" *dropdownMenu class="dropdown-menu"
-                        role="menu" aria-labelledby="button-animated">
-                      <li role="menuitem"><a class="dropdown-item" href="#">Action</a></li>
-                      <li role="menuitem"><a class="dropdown-item" href="#">Another action</a>
-                      </li>
-                      <li role="menuitem"><a class="dropdown-item" href="#">Something else
-                        here</a></li>
-                    </ul>
+                <div class="btn-group">
+                    <button class="filter-btn" mat-button [matMenuTriggerFor]="menu">GENDER</button>
+                    <mat-menu #menu="matMenu">
+                    <button mat-menu-item>Item 1</button>
+                    <button mat-menu-item>Item 2</button>
+                    </mat-menu>
                 </div>
-                <div class="btn-group" dropdown>
-                    <button id="button-animated" dropdownToggle type="button" class="filter-btn btn dropdown-toggle"
-                            aria-controls="dropdown-animated">
-                            Sexual Orientation <span class="caret"></span>
-                    </button>
-                    <ul id="dropdown-animated" *dropdownMenu class="dropdown-menu"
-                        role="menu" aria-labelledby="button-animated">
-                      <li role="menuitem"><a class="dropdown-item" href="#">Action</a></li>
-                      <li role="menuitem"><a class="dropdown-item" href="#">Another action</a>
-                      </li>
-                      <li role="menuitem"><a class="dropdown-item" href="#">Something else
-                        here</a></li>
-                    </ul>
+                <div class="btn-group">
+                    <button class="filter-btn" mat-button [matMenuTriggerFor]="menu">Sexual Orientation</button>
+                    <mat-menu #menu="matMenu">
+                    <button mat-menu-item>Item 1</button>
+                    <button mat-menu-item>Item 2</button>
+                    </mat-menu>
                 </div>
-                <div class="btn-group" dropdown>
-                    <button id="button-animated" dropdownToggle type="button" class="filter-btn btn dropdown-toggle"
-                            aria-controls="dropdown-animated">
-                            Work Location <span class="caret"></span>
-                    </button>
-                    <ul id="dropdown-animated" *dropdownMenu class="dropdown-menu"
-                        role="menu" aria-labelledby="button-animated">
-                      <li role="menuitem"><a class="dropdown-item" href="#">Action</a></li>
-                      <li role="menuitem"><a class="dropdown-item" href="#">Another action</a>
-                      </li>
-                      <li role="menuitem"><a class="dropdown-item" href="#">Something else
-                        here</a></li>
-                    </ul>
+                <div class="btn-group">
+                    <button class="filter-btn" mat-button [matMenuTriggerFor]="menu">Work Location</button>
+                    <mat-menu #menu="matMenu">
+                    <button mat-menu-item>Item 1</button>
+                    <button mat-menu-item>Item 2</button>
+                    </mat-menu>
                 </div>
-                <div class="btn-group" dropdown>
-                    <button id="button-animated" dropdownToggle type="button" class="filter-btn btn dropdown-toggle"
-                            aria-controls="dropdown-animated">
-                            Language <span class="caret"></span>
-                    </button>
-                    <ul id="dropdown-animated" *dropdownMenu class="dropdown-menu"
-                        role="menu" aria-labelledby="button-animated">
-                      <li role="menuitem"><a class="dropdown-item" href="#">Action</a></li>
-                      <li role="menuitem"><a class="dropdown-item" href="#">Another action</a>
-                      </li>
-                      <li role="menuitem"><a class="dropdown-item" href="#">Something else
-                        here</a></li>
-                    </ul>
+                <div class="btn-group">
+                    <button class="filter-btn" mat-button [matMenuTriggerFor]="menu">Language</button>
+                    <mat-menu #menu="matMenu">
+                    <button mat-menu-item>Item 1</button>
+                    <button mat-menu-item>Item 2</button>
+                    </mat-menu>
                 </div>
-                <div class="btn-group" dropdown>
-                    <button id="button-animated" dropdownToggle type="button" class="filter-btn btn dropdown-toggle"
-                            aria-controls="dropdown-animated">
-                            Association <span class="caret"></span>
-                    </button>
-                    <ul id="dropdown-animated" *dropdownMenu class="dropdown-menu"
-                        role="menu" aria-labelledby="button-animated">
-                      <li role="menuitem"><a class="dropdown-item" href="#">Action</a></li>
-                      <li role="menuitem"><a class="dropdown-item" href="#">Another action</a>
-                      </li>
-                      <li role="menuitem"><a class="dropdown-item" href="#">Something else
-                        here</a></li>
-                    </ul>
+                <div class="btn-group">
+                    <button class="filter-btn" mat-button [matMenuTriggerFor]="menu">Association</button>
+                    <mat-menu #menu="matMenu">
+                    <button mat-menu-item>Item 1</button>
+                    <button mat-menu-item>Item 2</button>
+                    </mat-menu>
                 </div>
-                <div class="btn-group" dropdown>
-                    <button id="button-animated" dropdownToggle type="button" class="filter-btn btn dropdown-toggle"
-                            aria-controls="dropdown-animated">
-                            Organisation Ownership <span class="caret"></span>
-                    </button>
-                    <ul id="dropdown-animated" *dropdownMenu class="dropdown-menu"
-                        role="menu" aria-labelledby="button-animated">
-                      <li role="menuitem"><a class="dropdown-item" href="#">Action</a></li>
-                      <li role="menuitem"><a class="dropdown-item" href="#">Another action</a>
-                      </li>
-                      <li role="menuitem"><a class="dropdown-item" href="#">Something else
-                        here</a></li>
-                    </ul>
+                <div class="btn-group">
+                    <button class="filter-btn" mat-button [matMenuTriggerFor]="menu">Organisation Ownership</button>
+                    <mat-menu #menu="matMenu">
+                    <button mat-menu-item>Item 1</button>
+                    <button mat-menu-item>Item 2</button>
+                    </mat-menu>
                 </div>
-                <div class="btn-group" dropdown>
-                    <button id="button-animated" dropdownToggle type="button" class="filter-btn btn dropdown-toggle"
-                            aria-controls="dropdown-animated">
-                            Organisation Type <span class="caret"></span>
-                    </button>
-                    <ul id="dropdown-animated" *dropdownMenu class="dropdown-menu"
-                        role="menu" aria-labelledby="button-animated">
-                      <li role="menuitem"><a class="dropdown-item" href="#">Action</a></li>
-                      <li role="menuitem"><a class="dropdown-item" href="#">Another action</a>
-                      </li>
-                      <li role="menuitem"><a class="dropdown-item" href="#">Something else
-                        here</a></li>
-                    </ul>
+                <div class="btn-group">
+                    <button class="filter-btn" mat-button [matMenuTriggerFor]="menu">Organisation Type</button>
+                    <mat-menu #menu="matMenu">
+                    <button mat-menu-item>Item 1</button>
+                    <button mat-menu-item>Item 2</button>
+                    </mat-menu>
                 </div>
-                <div class="btn-group" dropdown>
-                    <button id="button-animated" dropdownToggle type="button" class="filter-btn btn dropdown-toggle"
-                            aria-controls="dropdown-animated">
-                            Organisation Size <span class="caret"></span>
-                    </button>
-                    <ul id="dropdown-animated" *dropdownMenu class="dropdown-menu"
-                        role="menu" aria-labelledby="button-animated">
-                      <li role="menuitem"><a class="dropdown-item" href="#">Action</a></li>
-                      <li role="menuitem"><a class="dropdown-item" href="#">Another action</a>
-                      </li>
-                      <li role="menuitem"><a class="dropdown-item" href="#">Something else
-                        here</a></li>
-                    </ul>
+                <div class="btn-group">
+                    <button class="filter-btn" mat-button [matMenuTriggerFor]="menu">Organisation Size</button>
+                    <mat-menu #menu="matMenu">
+                    <button mat-menu-item>Item 1</button>
+                    <button mat-menu-item>Item 2</button>
+                    </mat-menu>
                 </div>
-                <div class="btn-group" dropdown>
-                    <button id="button-animated" dropdownToggle type="button" class="filter-btn btn dropdown-toggle"
-                            aria-controls="dropdown-animated">
-                            Industry Sector <span class="caret"></span>
-                    </button>
-                    <ul id="dropdown-animated" *dropdownMenu class="dropdown-menu"
-                        role="menu" aria-labelledby="button-animated">
-                      <li role="menuitem"><a class="dropdown-item" href="#">Action</a></li>
-                      <li role="menuitem"><a class="dropdown-item" href="#">Another action</a>
-                      </li>
-                      <li role="menuitem"><a class="dropdown-item" href="#">Something else
-                        here</a></li>
-                    </ul>
+                <div class="btn-group">
+                    <button class="filter-btn" mat-button [matMenuTriggerFor]="menu">Industry Sector</button>
+                    <mat-menu #menu="matMenu">
+                    <button mat-menu-item>Item 1</button>
+                    <button mat-menu-item>Item 2</button>
+                    </mat-menu>
                 </div>
-                <div class="btn-group" dropdown>
-                    <button id="button-animated" dropdownToggle type="button" class="filter-btn btn dropdown-toggle"
-                            aria-controls="dropdown-animated">
-                            Grade in company <span class="caret"></span>
-                    </button>
-                    <ul id="dropdown-animated" *dropdownMenu class="dropdown-menu"
-                        role="menu" aria-labelledby="button-animated">
-                      <li role="menuitem"><a class="dropdown-item" href="#">Action</a></li>
-                      <li role="menuitem"><a class="dropdown-item" href="#">Another action</a>
-                      </li>
-                      <li role="menuitem"><a class="dropdown-item" href="#">Something else
-                        here</a></li>
-                    </ul>
+                <div class="btn-group">
+                    <button class="filter-btn" mat-button [matMenuTriggerFor]="menu">Grade in company</button>
+                    <mat-menu #menu="matMenu">
+                    <button mat-menu-item>Item 1</button>
+                    <button mat-menu-item>Item 2</button>
+                    </mat-menu>
                 </div>
-                <div class="btn-group" dropdown>
-                    <button id="button-animated" dropdownToggle type="button" class="filter-btn btn dropdown-toggle"
-                            aria-controls="dropdown-animated">
-                            Ethnicity <span class="caret"></span>
-                    </button>
-                    <ul id="dropdown-animated" *dropdownMenu class="dropdown-menu"
-                        role="menu" aria-labelledby="button-animated">
-                      <li role="menuitem"><a class="dropdown-item" href="#">Action</a></li>
-                      <li role="menuitem"><a class="dropdown-item" href="#">Another action</a>
-                      </li>
-                      <li role="menuitem"><a class="dropdown-item" href="#">Something else
-                        here</a></li>
-                    </ul>
+                <div class="btn-group">
+                    <button class="filter-btn" mat-button [matMenuTriggerFor]="menu">Ethnicity</button>
+                    <mat-menu #menu="matMenu">
+                    <button mat-menu-item>Item 1</button>
+                    <button mat-menu-item>Item 2</button>
+                    </mat-menu>
                 </div>
-                <div class="btn-group" dropdown>
-                    <button id="button-animated" dropdownToggle type="button" class="filter-btn btn dropdown-toggle"
-                            aria-controls="dropdown-animated">
-                            Education <span class="caret"></span>
-                    </button>
-                    <ul id="dropdown-animated" *dropdownMenu class="dropdown-menu"
-                        role="menu" aria-labelledby="button-animated">
-                      <li role="menuitem"><a class="dropdown-item" href="#">Action</a></li>
-                      <li role="menuitem"><a class="dropdown-item" href="#">Another action</a>
-                      </li>
-                      <li role="menuitem"><a class="dropdown-item" href="#">Something else
-                        here</a></li>
-                    </ul>
+                <div class="btn-group">
+                    <button class="filter-btn" mat-button [matMenuTriggerFor]="menu">Education</button>
+                    <mat-menu #menu="matMenu">
+                    <button mat-menu-item>Item 1</button>
+                    <button mat-menu-item>Item 2</button>
+                    </mat-menu>
                 </div>
-                <div class="btn-group" dropdown>
-                    <button id="button-animated" dropdownToggle type="button" class="filter-btn btn dropdown-toggle"
-                            aria-controls="dropdown-animated">
-                            Employment Status <span class="caret"></span>
-                    </button>
-                    <ul id="dropdown-animated" *dropdownMenu class="dropdown-menu"
-                        role="menu" aria-labelledby="button-animated">
-                      <li role="menuitem"><a class="dropdown-item" href="#">Action</a></li>
-                      <li role="menuitem"><a class="dropdown-item" href="#">Another action</a>
-                      </li>
-                      <li role="menuitem"><a class="dropdown-item" href="#">Something else
-                        here</a></li>
-                    </ul>
+                <div class="btn-group">
+                    <button class="filter-btn" mat-button [matMenuTriggerFor]="menu">Employment Status</button>
+                    <mat-menu #menu="matMenu">
+                    <button mat-menu-item>Item 1</button>
+                    <button mat-menu-item>Item 2</button>
+                    </mat-menu>
                 </div>
             </div> 
         </div>

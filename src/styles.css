@@ -136,6 +136,7 @@ button.close span {
     border-radius: 30px;
     padding: 7px 15px;
     margin:5px 8px 5px 0;
+    border: 0;
 }
 .section_frame1-filters .filter-btn, .section_frame1-filters .filter-btn span {
     color: #fff;
