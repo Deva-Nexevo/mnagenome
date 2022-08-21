@@ -1,31 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { ChartConfiguration, ChartData, ChartType } from 'chart.js';
-import { BsDropdownConfig } from 'ngx-bootstrap/dropdown';
-import { OwlOptions } from 'ngx-owl-carousel-o';
 
 @Component({
-  selector: 'app-frame1',
-  templateUrl: './frame1.component.html',
-  providers: [
-    {
-      provide: BsDropdownConfig,
-      useValue: { isAnimated: true, autoClose: true },
-    },
-  ],
+  selector: 'doughnut-chart',
+  templateUrl: './doughchart.component.html',
 })
-export class Frame1Component implements OnInit {
+export class DoughchartComponent implements OnInit {
   ngOnInit(): void {}
-
-  customOptions: OwlOptions = {
-    items: 7,
-    loop: false,
-    dots: false,
-    nav: false,
-  };
-  logo = 'assets/images/beats-logo.png';
-  imageSrc = 'assets/images/beats.gif';
-  height: number = 150;
-
+  public height: number = 100;
   public doughnutChartType: ChartType = 'doughnut';
   public doughnutChartOptions: ChartConfiguration<any>['options'] = {
     responsive: true,
