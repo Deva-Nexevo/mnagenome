@@ -185,6 +185,11 @@ button.close span {
     margin: 0 5px 5px 0;
 }
 
+.filter-btn:disabled,
+.filter-btn[disabled]{
+  opacity: 0.4;
+}
+
 
 .section_frame1-filters.frame3 .btn-group .filter-btn {
     background-color: #f15822 !important;
@@ -194,4 +199,13 @@ button.close span {
     .section_login {
         height: 100vh;
     }
+}
+.invalid-feedback
+{
+  font-size: 12px !important;
+  display: none;
+  font: 500 6px Gotham Pro,Proxima Nova,arial,serif;
+  color: #e54b4b !important;
+  padding: 3px 0px 0px 0px;
+  font-style: italic;
 }

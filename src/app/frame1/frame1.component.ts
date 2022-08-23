@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { ChartConfiguration, ChartData, ChartType } from 'chart.js';
 import { BsDropdownConfig } from 'ngx-bootstrap/dropdown';
 import { OwlOptions } from 'ngx-owl-carousel-o';
+import { AuthenticationService, UserService } from '../_services';
 
 @Component({
   selector: 'app-frame1',
@@ -14,7 +16,37 @@ import { OwlOptions } from 'ngx-owl-carousel-o';
   ],
 })
 export class Frame1Component implements OnInit {
-  ngOnInit(): void {}
+  data: any;
+  loading: boolean = false;
+  currentEnabled: string = '';
+  currentSelectedValue: string = '';
+
+  ngOnInit(): void {
+    this.getAllData();
+  }
+
+  getAllData() {
+    this.loading = true;
+    this.data = [];
+    this.userService
+      .getRequestData('')
+      .pipe()
+      .subscribe((data) => {
+        if (data.status == 401) {
+          this.logout();
+        } else {
+          this.loading = false;
+          this.data = data.data;
+          console.log(this.data);
+        }
+      });
+  }
+
+  constructor(
+    private router: Router,
+    private authenticationService: AuthenticationService,
+    private userService: UserService
+  ) {}
 
   customOptions: OwlOptions = {
     items: 7,
@@ -42,4 +74,18 @@ export class Frame1Component implements OnInit {
       },
     ],
   };
+
+  logout() {
+    this.authenticationService.logout();
+    this.router.navigate(['/login']);
+  }
+
+  dropdownChange(value: string) {
+    this.currentEnabled = value;
+    this.currentSelectedValue = '';
+  }
+
+  dropdownMenuCliked(value: string) {
+    this.currentSelectedValue = value;
+  }
 }

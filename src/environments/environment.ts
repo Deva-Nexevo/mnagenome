@@ -3,7 +3,14 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: true,
+  //apiUrl: 'https://re-mote.io/api',
+  //siteUrl:'https://re-mote.io',
+  apiUrl: 'http://127.0.0.1:8000/api',
+  siteUrl: 'http://127.0.0.1:8000',
+  encKey: 'mnageencriptionmodeforpass',
+  encVa: '0123456789123456',
+  assestUrl: 'http://localhost:4200',
 };
 
 /*

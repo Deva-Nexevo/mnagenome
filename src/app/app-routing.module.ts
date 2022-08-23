@@ -1,15 +1,14 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AppComponent } from './app.component';
 import { Frame1Component } from './frame1/frame1.component';
-import { Frame2Component } from './frame2/frame2.component';
-import { Frame3Component } from './frame3/frame3.component';
 import { LoginComponent } from './login/login.component';
+import { AuthGuard } from './_helpers';
 
 const routes: Routes = [
   {
     path: '',
-    component: AppComponent,
+    component: Frame1Component,
+    canActivate: [AuthGuard],
   },
   {
     path: 'login',
@@ -18,15 +17,9 @@ const routes: Routes = [
   {
     path: 'frame1',
     component: Frame1Component,
+    canActivate: [AuthGuard],
   },
-  {
-    path: 'frame2',
-    component: Frame2Component,
-  },
-  {
-    path: 'frame3',
-    component: Frame3Component,
-  },
+  { path: '**', redirectTo: '' },
 ];
 
 @NgModule({

@@ -4,7 +4,7 @@
       <div class="d-flex justify-content-between align-items-center">
         <img src="{{ logo }}" alt="" class="logo-img" />
         <h1 class="fs-25 mb-0 cl-purple">EMPLOYEE WELL-BEING DASHBOARD</h1>
-        <a class="d-flex" routerLink="/login"
+        <a class="d-flex" href="javascript:void(0);" (click)="logout()"
           ><mat-icon>power_settings_new</mat-icon></a
         >
       </div>
@@ -12,118 +12,6 @@
   </section>
   <section class="section_frame1-filters py-3">
     <div class="container">
-      <!-- <div class="">
-                <owl-carousel-o [options]="customOptions">
-                    <ng-template carouselSlide>
-                        <button class="filter-btn btn filter-modal" (click)="mandate.show()">MANDATE</button>
-                    </ng-template>
-                    <ng-template carouselSlide>
-                        <button class="filter-btn btn filter-modal" (click)="overview.show()">RESPONSE OVERVIEW</button>
-                    </ng-template>
-                    <ng-template carouselSlide>
-                        <button class="filter-btn btn filters-btn d-flex"><mat-icon class="text-white">refresh</mat-icon></button>
-                    </ng-template>
-                    <ng-template carouselSlide>
-                        <button class="filter-btn btn filters-btn">View by | <span class="text-white"> All</span></button>
-                    </ng-template>
-                    <ng-template carouselSlide>
-                        <div class="btn-group" dropdown>
-                            <button id="button-animated" dropdownToggle type="button" class="filter-btn btn dropdown-toggle"
-                                    aria-controls="dropdown-animated">
-                                    TENURE <span class="caret"></span>
-                            </button>
-                            <ul id="dropdown-animated" *dropdownMenu class="dropdown-menu"
-                                role="menu" aria-labelledby="button-animated">
-                              <li role="menuitem"><a class="dropdown-item" href="#">Action</a></li>
-                              <li role="menuitem"><a class="dropdown-item" href="#">Another action</a>
-                              </li>
-                              <li role="menuitem"><a class="dropdown-item" href="#">Something else
-                                here</a></li>
-                            </ul>
-                        </div>
-                    </ng-template>
-                    <ng-template carouselSlide>
-                        <div class="btn-group" dropdown>
-                            <button id="button-animated" dropdownToggle type="button" class="filter-btn btn dropdown-toggle"
-                                    aria-controls="dropdown-animated">
-                              AGE <span class="caret"></span>
-                            </button>
-                            <ul id="dropdown-animated" *dropdownMenu class="dropdown-menu"
-                                role="menu" aria-labelledby="button-animated">
-                              <li role="menuitem"><a class="dropdown-item" href="#">Action</a></li>
-                              <li role="menuitem"><a class="dropdown-item" href="#">Another action</a>
-                              </li>
-                              <li role="menuitem"><a class="dropdown-item" href="#">Something else
-                                here</a></li>
-                            </ul>
-                        </div>
-                    </ng-template>
-                    <ng-template carouselSlide>
-                        <div class="btn-group" dropdown>
-                            <button id="button-animated" dropdownToggle type="button" class="filter-btn btn dropdown-toggle"
-                                    aria-controls="dropdown-animated">
-                              LEVEL <span class="caret"></span>
-                            </button>
-                            <ul id="dropdown-animated" *dropdownMenu class="dropdown-menu"
-                                role="menu" aria-labelledby="button-animated">
-                              <li role="menuitem"><a class="dropdown-item" href="#">Action</a></li>
-                              <li role="menuitem"><a class="dropdown-item" href="#">Another action</a>
-                              </li>
-                              <li role="menuitem"><a class="dropdown-item" href="#">Something else
-                                here</a></li>
-                            </ul>
-                        </div>
-                    </ng-template>
-                    <ng-template carouselSlide>
-                        <div class="btn-group" dropdown>
-                            <button id="button-animated" dropdownToggle type="button" class="filter-btn btn dropdown-toggle"
-                                    aria-controls="dropdown-animated">
-                              GENDER <span class="caret"></span>
-                            </button>
-                            <ul id="dropdown-animated" *dropdownMenu class="dropdown-menu"
-                                role="menu" aria-labelledby="button-animated">
-                              <li role="menuitem"><a class="dropdown-item" href="#">Action</a></li>
-                              <li role="menuitem"><a class="dropdown-item" href="#">Another action</a>
-                              </li>
-                              <li role="menuitem"><a class="dropdown-item" href="#">Something else
-                                here</a></li>
-                            </ul>
-                        </div>
-                    </ng-template>
-                    <ng-template carouselSlide>
-                        <div class="btn-group" dropdown>
-                            <button id="button-animated" dropdownToggle type="button" class="filter-btn btn dropdown-toggle"
-                                    aria-controls="dropdown-animated">
-                              BUSINESS UNIT <span class="caret"></span>
-                            </button>
-                            <ul id="dropdown-animated" *dropdownMenu class="dropdown-menu"
-                                role="menu" aria-labelledby="button-animated">
-                              <li role="menuitem"><a class="dropdown-item" href="#">Action</a></li>
-                              <li role="menuitem"><a class="dropdown-item" href="#">Another action</a>
-                              </li>
-                              <li role="menuitem"><a class="dropdown-item" href="#">Something else
-                                here</a></li>
-                            </ul>
-                        </div>
-                    </ng-template>
-                    <ng-template carouselSlide>
-                        <div class="btn-group" dropdown>
-                            <button id="button-animated" dropdownToggle type="button" class="filter-btn btn dropdown-toggle"
-                                    aria-controls="dropdown-animated">
-                              OVERALL EXPERIENCE <span class="caret"></span>
-                            </button>
-                            <ul id="dropdown-animated" *dropdownMenu class="dropdown-menu"
-                                role="menu" aria-labelledby="button-animated">
-                              <li role="menuitem"><a class="dropdown-item" href="#">Action</a></li>
-                              <li role="menuitem"><a class="dropdown-item" href="#">Another action</a>
-                              </li>
-                              <li role="menuitem"><a class="dropdown-item" href="#">Something else
-                                here</a></li>
-                            </ul>
-                        </div>
-                    </ng-template>
-                  </owl-carousel-o>
-            </div> -->
       <div class="row justify-content-center align-items-center">
         <button class="filter-btn btn filter-modal" (click)="mandate.show()">
           MANDATE
@@ -131,78 +19,156 @@
         <button class="filter-btn btn filter-modal" (click)="overview.show()">
           RESPONSE OVERVIEW
         </button>
-        <button class="filter-btn btn filters-btn d-flex">
+        <button
+          class="filter-btn btn filters-btn d-flex"
+          (click)="dropdownChange('')"
+        >
           <mat-icon class="text-white">refresh</mat-icon>
         </button>
         <button class="filter-btn btn filters-btn">
-          View by | <span class="text-white"> All</span>
+          View by |
+          <span class="text-white">
+            {{ currentEnabled === "" ? "All" : currentEnabled }}</span
+          >
+          <span class="text-white" *ngIf="currentSelectedValue">
+            | {{ currentSelectedValue }}</span
+          >
         </button>
-        <!-- <div class="btn-group" dropdown>
-                    <button id="button-animated" dropdownToggle type="button" class="filter-btn btn dropdown-toggle"
-                            aria-controls="dropdown-animated">
-                            TENURE <span class="caret"></span>
-                    </button>
-                    <ul id="dropdown-animated" *dropdownMenu class="dropdown-menu"
-                        role="menu" aria-labelledby="button-animated">
-                      <li role="menuitem"><a class="dropdown-item" href="#">Action</a></li>
-                      <li role="menuitem"><a class="dropdown-item" href="#">Another action</a>
-                      </li>
-                      <li role="menuitem"><a class="dropdown-item" href="#">Something else
-                        here</a></li>
-                    </ul>
-                </div> -->
         <div class="btn-group">
-          <button class="filter-btn" mat-button [matMenuTriggerFor]="menu">
+          <button
+            class="filter-btn"
+            mat-button
+            (click)="dropdownChange('Tenure')"
+            [disabled]="
+              currentEnabled === '' || currentEnabled === 'Tenure'
+                ? false
+                : true
+            "
+            [matMenuTriggerFor]="tenure"
+          >
             TENURE
           </button>
-          <mat-menu #menu="matMenu">
-            <button mat-menu-item>Item 1</button>
-            <button mat-menu-item>Item 2</button>
+          <mat-menu #tenure="matMenu">
+            <ng-container *ngFor="let tenure of data.dropDownList.tenures">
+              <button mat-menu-item (click)="dropdownMenuCliked(tenure.tenure)">
+                {{ tenure.tenure }}
+              </button>
+            </ng-container>
           </mat-menu>
         </div>
         <div class="btn-group">
-          <button class="filter-btn" mat-button [matMenuTriggerFor]="menu">
+          <button
+            class="filter-btn"
+            mat-button
+            [matMenuTriggerFor]="age"
+            (click)="dropdownChange('Age')"
+            [disabled]="
+              currentEnabled === '' || currentEnabled === 'Age' ? false : true
+            "
+          >
             AGE
           </button>
-          <mat-menu #menu="matMenu">
-            <button mat-menu-item>Item 1</button>
-            <button mat-menu-item>Item 2</button>
+          <mat-menu #age="matMenu">
+            <ng-container *ngFor="let age of data.dropDownList.ages">
+              <button mat-menu-item (click)="dropdownMenuCliked(age.age)">
+                {{ age.age }}
+              </button>
+            </ng-container>
           </mat-menu>
         </div>
         <div class="btn-group">
-          <button class="filter-btn" mat-button [matMenuTriggerFor]="menu">
+          <button
+            class="filter-btn"
+            mat-button
+            [matMenuTriggerFor]="level"
+            (click)="dropdownChange('Level')"
+            [disabled]="
+              currentEnabled === '' || currentEnabled === 'Level' ? false : true
+            "
+          >
             LEVEL
           </button>
-          <mat-menu #menu="matMenu">
-            <button mat-menu-item>Item 1</button>
-            <button mat-menu-item>Item 2</button>
+          <mat-menu #level="matMenu">
+            <ng-container *ngFor="let level of data.dropDownList.levels">
+              <button mat-menu-item (click)="dropdownMenuCliked(level.level)">
+                {{ level.level }}
+              </button>
+            </ng-container>
           </mat-menu>
         </div>
         <div class="btn-group">
-          <button class="filter-btn" mat-button [matMenuTriggerFor]="menu">
+          <button
+            class="filter-btn"
+            mat-button
+            [matMenuTriggerFor]="gender"
+            (click)="dropdownChange('Gender')"
+            [disabled]="
+              currentEnabled === '' || currentEnabled === 'Gender'
+                ? false
+                : true
+            "
+          >
             GENDER
           </button>
-          <mat-menu #menu="matMenu">
-            <button mat-menu-item>Item 1</button>
-            <button mat-menu-item>Item 2</button>
+          <mat-menu #gender="matMenu">
+            <ng-container *ngFor="let gender of data.dropDownList.genders">
+              <button mat-menu-item (click)="dropdownMenuCliked(gender.gender)">
+                {{ gender.gender }}
+              </button>
+            </ng-container>
           </mat-menu>
         </div>
         <div class="btn-group">
-          <button class="filter-btn" mat-button [matMenuTriggerFor]="menu">
+          <button
+            class="filter-btn"
+            mat-button
+            [matMenuTriggerFor]="businessUnit"
+            (click)="dropdownChange('Business Unit')"
+            [disabled]="
+              currentEnabled === '' || currentEnabled === 'Business Unit'
+                ? false
+                : true
+            "
+          >
             BUSINESS UNIT
           </button>
-          <mat-menu #menu="matMenu">
-            <button mat-menu-item>Item 1</button>
-            <button mat-menu-item>Item 2</button>
+          <mat-menu #businessUnit="matMenu">
+            <ng-container *ngFor="let unit of data.dropDownList.business_units">
+              <button mat-menu-item (click)="dropdownMenuCliked(unit.unit)">
+                {{ unit.unit }}
+              </button>
+            </ng-container>
           </mat-menu>
         </div>
         <div class="btn-group">
-          <button class="filter-btn" mat-button [matMenuTriggerFor]="menu">
+          <button
+            class="filter-btn"
+            mat-button
+            [matMenuTriggerFor]="overallExperience"
+            (click)="dropdownChange('Overall Experience')"
+            [disabled]="
+              currentEnabled === '' || currentEnabled === 'Overall Experience'
+                ? false
+                : true
+            "
+          >
             OVERALL EXPERIENCE
           </button>
-          <mat-menu #menu="matMenu">
-            <button mat-menu-item>Item 1</button>
-            <button mat-menu-item>Item 2</button>
+          <mat-menu #overallExperience="matMenu">
+            <ng-container
+              *ngFor="
+                let overall_experience of data.dropDownList.overall_experiences
+              "
+            >
+              <button
+                mat-menu-item
+                (click)="
+                  dropdownMenuCliked(overall_experience.overall_experience)
+                "
+              >
+                {{ overall_experience.overall_experience }}
+              </button>
+            </ng-container>
           </mat-menu>
         </div>
       </div>
@@ -230,7 +196,7 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body">...</div>
+      <div class="modal-body" [innerHTML]="data.insight.mandate"></div>
     </div>
   </div>
 </div>
@@ -256,7 +222,44 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body">...</div>
+      <div class="modal-body">
+        <h5>Response Overview</h5>
+        <ng-container
+          *ngFor="
+            let pie of [
+              'Age',
+              'Gender',
+              'Tenure',
+              'Business Unit',
+              'Level',
+              'Overall Experience'
+            ]
+          "
+        >
+          <div class="col-lg-12">
+            <div class="col-lg-6">
+              <pie-chart></pie-chart>
+            </div>
+            <div class="col-lg-6">
+              <h2>{{ pie }}</h2>
+              <div class="col-lg-12">
+                <div class="col-lg-6">
+                  <h1>Top 3</h1>
+                  <ng-container *ngFor="let pie1 of ['0-2', '2-3', '3-4']">
+                    <p>{{ pie1 }}</p>
+                  </ng-container>
+                </div>
+                <div class="col-lg-6">
+                  <h1>Bottom 3</h1>
+                  <ng-container *ngFor="let pie1 of ['0-2', '2-3', '3-4']">
+                    <p>{{ pie1 }}</p>
+                  </ng-container>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+      </div>
     </div>
   </div>
 </div>

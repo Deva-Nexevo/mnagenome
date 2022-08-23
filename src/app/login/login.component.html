@@ -1,27 +1,76 @@
 <section class="section_login bg-dark d-flex align-items-center py-5">
-    <div class="container">
-       <div class="login-details bg-white p-5 br-30">
-            <div class="row p-4">
-                <div class="col-lg-6 text-center align-self-center">
-                    <img src="{{imageSrc}}" alt="" class="img-fluid">
+  <div class="container">
+    <div class="login-details bg-white p-5 br-30">
+      <div class="row p-4">
+        <div class="col-lg-6 text-center align-self-center">
+          <img src="{{ imageSrc }}" alt="" class="img-fluid" />
+        </div>
+        <div class="col-lg-6">
+          <h1 class="text-center mb-4 fs-30">BEATS LOGIN</h1>
+          <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+            <div class="form-group">
+              <label for="exampleInputEmail1">Username</label>
+              <input
+                type="text"
+                class="form-control"
+                id="username"
+                placeholder="Username"
+                required
+                formControlName="email"
+                [(ngModel)]="tempUser"
+                [ngClass]="{ 'is-invalid': submitted && f['email'].errors }"
+              />
+              <div
+                *ngIf="submitted && f['email'].errors"
+                class="invalid-feedback"
+              >
+                <div *ngIf="f['email'].errors['required']">
+                  Username is required
                 </div>
-                <div class="col-lg-6">
-                    <h1 class="text-center mb-4 fs-30">BEATS LOGIN</h1>
-                    <form>
-                        <div class="form-group">
-                          <label for="exampleInputEmail1">Username</label>
-                          <input type="text" class="form-control" id="username" placeholder="Username" required>
-                        </div>
-                        <div class="form-group">
-                          <label for="exampleInputPassword1">Password</label>
-                          <input type="password" class="form-control" id="password" placeholder="Password" required>
-                        </div>
-                        <div class="text-center pt-4">
-                            <input type="submit" class="btn text-white btn-login" value="Login">
-                        </div>
-                    </form>
-                </div>
+              </div>
             </div>
-       </div>
+
+            <div class="form-group">
+              <label for="exampleInputPassword1">Password</label>
+              <input
+                type="password"
+                [(ngModel)]="tempPassword"
+                formControlName="password"
+                class="form-control"
+                id="password"
+                placeholder="Password"
+                required
+                [ngClass]="{ 'is-invalid': submitted && f['password'].errors }"
+              />
+              <div
+                *ngIf="submitted && f['password'].errors"
+                class="invalid-feedback"
+              >
+                <div *ngIf="f['password'].errors['required']">
+                  Password is required
+                </div>
+              </div>
+            </div>
+            <div class="text-center pt-4">
+              <button [disabled]="loading" class="btn text-white btn-login">
+                <span
+                  *ngIf="loading"
+                  class="spinner-border spinner-border-sm mr-1"
+                ></span>
+                Login
+              </button>
+              <!--               <input
+                type="submit"
+                class="btn text-white btn-login"
+                value="Login"
+              /> -->
+              <div *ngIf="error" class="alert alert-danger mt-3 mb-0">
+                Unable to login
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
     </div>
+  </div>
 </section>
