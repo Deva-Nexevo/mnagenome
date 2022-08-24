@@ -1,85 +1,70 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import * as Highcharts from 'highcharts';
-
 @Component({
   selector: 'pie-chart',
   templateUrl: './piechart.component.html',
 })
 export class PieChartComponent implements OnInit {
-  ngOnInit(): void {}
-  Highcharts: typeof Highcharts = Highcharts;
+  public chartOptions: Highcharts.Options = {};
+  @Input() data: any = [];
+  @Input() name: any = '';
+  @Input() dropDownData: any = [];
+  @Input() db_name: any = [];
 
-  chartOptions: Highcharts.Options = {
-    chart: {
-      plotShadow: false,
-      type: 'pie',
-    },
-    title: {
-      text: 'Browser market shares in January, 2018',
-    },
-    tooltip: {
-      pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>',
-    },
-    accessibility: {
-      point: {
-        valueSuffix: '%',
+  findValue(id: any) {
+    return this.dropDownData.find((val: any) => val.id === id)[
+      this.name.findName
+    ];
+  }
+  ngOnInit(): void {
+    const data: any = [];
+    const totalNoOfEmployee = this.data
+      .map((item: any) => item.no_of_employees)
+      .reduce((prev: any, curr: any) => prev + curr, 0);
+
+    this.data.forEach((val: any) => {
+      data.push({
+        name: this.findValue(val[this.name.db_name]),
+        y: val.no_of_employees / totalNoOfEmployee,
+      });
+    });
+
+    this.chartOptions = {
+      chart: {
+        plotShadow: false,
+        type: 'pie',
       },
-    },
-    plotOptions: {
-      pie: {
-        allowPointSelect: true,
-        cursor: 'pointer',
-        dataLabels: {
-          enabled: true,
-          format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+      title: {
+        text: this.name.name,
+      },
+      tooltip: {
+        pointFormat: '{series.name}: {point.percentage:.1f}% of total',
+      },
+      accessibility: {
+        point: {
+          valueSuffix: '%',
         },
       },
-    },
-    series: [
-      {
-        name: 'Brands',
-        type: 'pie',
-        colorByPoint: true,
-        data: [
-          {
-            name: 'Chrome',
-            y: 61.41,
-            selected: true,
+      plotOptions: {
+        pie: {
+          allowPointSelect: true,
+          cursor: 'pointer',
+          dataLabels: {
+            enabled: true,
+            format: '{point.name}: {point.percentage:.1f} %',
           },
-          {
-            name: 'Internet Explorer',
-            y: 11.84,
-          },
-          {
-            name: 'Firefox',
-            y: 10.85,
-          },
-          {
-            name: 'Edge',
-            y: 4.67,
-          },
-          {
-            name: 'Safari',
-            y: 4.18,
-          },
-          {
-            name: 'Sogou Explorer',
-            y: 1.64,
-          },
-          {
-            name: 'Opera',
-            y: 1.6,
-          },
-          {
-            name: 'QQ',
-            y: 1.2,
-          },
-          {
-            name: 'Other',
-            y: 2.61,
-          },
-        ],
+        },
       },
-    ],
-  };
+      series: [
+        {
+          type: 'pie',
+          name: 'Age',
+          colorByPoint: true,
+          data: data,
+        },
+      ],
+    };
+  }
+
+  Highcharts: typeof Highcharts = Highcharts;
 }

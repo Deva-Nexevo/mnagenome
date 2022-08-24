@@ -23,6 +23,7 @@ import { LoginComponent } from './login/login.component';
 import { PieChartComponent } from './piechart/piechart.component';
 import { RadarchartComponent } from './radarchart/radarchart.component';
 import { WordcloudComponent } from './wordcloud/wordcloud.component';
+import { SafeHtmlPipe } from './_helpers/safeHtml.pipe';
 
 import {
   ErrorInterceptor,
@@ -43,6 +44,7 @@ import {
     RadarchartComponent,
     HeatmapComponent,
     WordcloudComponent,
+    SafeHtmlPipe,
   ],
   imports: [
     ReactiveFormsModule,

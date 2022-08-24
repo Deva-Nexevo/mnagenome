@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import * as Highcharts from 'highcharts';
 import HC_heatmap from 'highcharts/modules/heatmap';
 HC_heatmap(Highcharts);
@@ -9,6 +9,11 @@ HC_heatmap(Highcharts);
   styleUrls: ['./heatmap.component.css'],
 })
 export class HeatmapComponent {
+  @Input() data: any = [];
+  @Input() name: any = '';
+  @Input() xData: any = [];
+  @Input() yData: any = [];
+
   getPointCategoryName(point: any, dimension: any) {
     var series = point.series,
       isY = dimension === 'y',
@@ -23,7 +28,7 @@ export class HeatmapComponent {
       width: 1000,
     },
     title: {
-      text: 'Sales per employee per weekday',
+      text: 'Heat-Map for' + this.name,
     },
 
     xAxis: {
@@ -53,7 +58,7 @@ export class HeatmapComponent {
 
     series: [
       {
-        name: 'Sales per employee',
+        name: this.name,
         borderWidth: 1,
         type: 'heatmap',
         data: [

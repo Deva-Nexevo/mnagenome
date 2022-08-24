@@ -209,3 +209,16 @@ button.close span {
   padding: 3px 0px 0px 0px;
   font-style: italic;
 }
+
+.box-overflow {
+  overflow-x: scroll;
+}
+.hide {
+  display: none;
+}
+.show{
+  display: block;
+}
+.mb-50 {
+  margin-bottom: 50px;
+}
