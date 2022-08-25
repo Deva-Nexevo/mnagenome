@@ -1,6 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { ChartConfiguration, ChartData, ChartType } from 'chart.js';
 import { BsDropdownConfig } from 'ngx-bootstrap/dropdown';
 import {
   BsModalRef,
@@ -21,24 +20,39 @@ import { AuthenticationService, UserService } from '../_services';
   ],
 })
 export class Frame1Component implements OnInit {
-  constructor(
-    private modalService: BsModalService,
-    private router: Router,
-    private authenticationService: AuthenticationService,
-    private userService: UserService
-  ) {}
-
   data: any;
   loading: boolean = true;
   error: boolean = false;
   currentEnabled: string = '';
   currentSelectedValue: string = '';
+  currentSelectedGraphVal: number = -1;
+  currentSelectedDbName: string = '';
+  currentSelectedId: number = 0;
+  currentSelectedGraphName: string = '';
   totNoOfEmp: any = '';
   totNoOfRes: any = '';
   totNoOfPer: any = '';
   wellBeingQuet: any = '';
   modalRef: BsModalRef | undefined;
-
+  aboutModalcontent: any = '';
+  statementModalcontent: any = '';
+  insightModalcontent: any = '';
+  actionModalcontent: any = '';
+  @ViewChild('childModal', { static: false }) childModal?: ModalDirective;
+  @ViewChild('childInsightModal', { static: false })
+  childInsightModal?: ModalDirective;
+  @ViewChild('childActionModal', { static: false })
+  childActionModal?: ModalDirective;
+  @ViewChild('openTextModal', { static: false }) openTextModal?: ModalDirective;
+  customOptions: OwlOptions = {
+    items: 7,
+    loop: false,
+    dots: false,
+    nav: false,
+  };
+  logo = 'assets/images/beats-logo.png';
+  imageSrc = 'assets/images/beats.gif';
+  height: number = 150;
   filterBy = [
     {
       db_name: 'age_id',
@@ -175,7 +189,40 @@ export class Frame1Component implements OnInit {
       tactive: 'financial_trade_active',
     },
   ];
+  sumOfAllData: any = {
+    no_of_employees: 0,
+    no_of_responses: 0,
+    veryhappy: 0,
+    happy: 0,
+    neitherhappy: 0,
+    sad: 0,
+    verysad: 0,
+    easy: 0,
+    engaged: 0,
+    fun: 0,
+    managable: 0,
+    anger: 0,
+    anxiety: 0,
+    depression: 0,
+    fear: 0,
+    frustation: 0,
+    feeling_happy: 0,
+  };
   wellBeingTot: any = [];
+  employeeFeeling: any = [];
+  employeeMood: any = [];
+  wordCloudData: string = '';
+  category: any = [];
+  opentextvalues: any = [];
+  selectedOpentext: number = 0;
+  openVal: any = [];
+
+  constructor(
+    private modalService: BsModalService,
+    private router: Router,
+    private authenticationService: AuthenticationService,
+    private userService: UserService
+  ) {}
 
   ngOnInit(): void {
     this.getAllData();
@@ -219,38 +266,23 @@ export class Frame1Component implements OnInit {
                 bottom: arr.slice(-3).reverse(),
               });
             });
-            this.filterValue = Object.assign(this.graphValue);
-            this.totNoOfEmp = this.data.alldetailValues
-              .map((item: any) => item.no_of_employees)
-              .reduce((prev: any, curr: any) => Number(prev) + Number(curr), 0);
-            this.totNoOfRes = this.data.alldetailValues
-              .map((item: any) => item.no_of_responses)
-              .reduce((prev: any, curr: any) => Number(prev) + Number(curr), 0);
-            this.totNoOfPer = (
-              (this.totNoOfRes / this.totNoOfEmp) *
-              100
-            ).toFixed(2);
-            this.wellBeingQuet = (
-              this.data.alldetailValues
-                .map((item: any) => item.well_being_quotient)
-                .reduce(
-                  (prev: any, curr: any) => Number(prev) + Number(curr),
-                  0
-                ) / this.data.alldetailValues.length
-            ).toFixed(2);
-            this.wellBeing.forEach((val: any) => {
-              this.wellBeingTot.push(
-                (
-                  this.data.alldetailValues
-                    .map((item: any) => item[val.value])
-                    .reduce(
-                      (prev: any, curr: any) => Number(prev) + Number(curr),
-                      0
-                    ) / this.data.alldetailValues.length
-                ).toFixed(2)
-              );
+            this.calculateAllValues();
+            this.category = this.data.category;
+            this.data.opentextvalues.forEach((value: any) => {
+              value['category_name'] = this.category.find((val: any) => {
+                return Number(val.id) === Number(value.category);
+              })?.category_name;
+              var a = value.category_list;
+              a.push(value.wordname);
+              var b = value.category_count;
+              b.push(value.wordvalue);
+              value['word_cloud'] = [a, b];
             });
+            this.opentextvalues = this.data.opentextvalues;
+            this.openVal =
+              this.opentextvalues[this.selectedOpentext].word_cloud;
           }
+          //this.loading = false;
         },
         (err) => {
           this.loading = false;
@@ -271,77 +303,213 @@ export class Frame1Component implements OnInit {
     ];
   }
 
-  aboutModalcontent: any = '';
-  statementModalcontent: any = '';
-  insightModalcontent: any = '';
-  actionModalcontent: any = '';
-
-  @ViewChild('childModal', { static: false }) childModal?: ModalDirective;
-  @ViewChild('childInsightModal', { static: false })
-  childInsightModal?: ModalDirective;
-  @ViewChild('childActionModal', { static: false })
-  childActionModal?: ModalDirective;
-
   showChildModal(i: any, forModal = ''): void {
-    this.aboutModalcontent =
-      this.data.alldetailValues[0][this.wellBeing[i]['about']];
-    this.statementModalcontent =
-      this.data.alldetailValues[0][this.wellBeing[i]['state']];
-    this.insightModalcontent =
-      this.data.alldetailValues[0][this.wellBeing[i]['insight']];
-    this.actionModalcontent =
-      this.data.alldetailValues[0][this.wellBeing[i]['action']];
+    if (forModal !== 'openText') {
+      this.aboutModalcontent =
+        this.data.alldetailValues[0][this.wellBeing[i]['about']];
+      this.statementModalcontent =
+        this.data.alldetailValues[0][this.wellBeing[i]['state']];
+      this.insightModalcontent =
+        this.data.alldetailValues[0][this.wellBeing[i]['insight']];
+      this.actionModalcontent =
+        this.data.alldetailValues[0][this.wellBeing[i]['action']];
+    }
 
     if (forModal === 'about') this.childModal?.show();
-    if (forModal === 'insight') {
-      this.childInsightModal?.show();
-    }
+    if (forModal === 'insight') this.childInsightModal?.show();
     if (forModal === 'action') this.childActionModal?.show();
+    if (forModal === 'openText') this.openTextModal?.show();
   }
-  hideChildModal(forModal = ''): void {
+
+  hideChildModal(forModal = '', clickedText = -1): void {
     if (forModal === 'about') this.childModal?.hide();
     if (forModal === 'insight') this.childInsightModal?.hide();
     if (forModal === 'action') this.childActionModal?.hide();
-  }
-
-  customOptions: OwlOptions = {
-    items: 7,
-    loop: false,
-    dots: false,
-    nav: false,
-  };
-  logo = 'assets/images/beats-logo.png';
-  imageSrc = 'assets/images/beats.gif';
-  height: number = 150;
-
-  public doughnutChartType: ChartType = 'doughnut';
-  public doughnutChartOptions: ChartConfiguration<any>['options'] = {
-    responsive: true,
-    cutout: '70%',
-    maintainAspectRatio: false,
-  };
-  public doughnutChartData: ChartData<any> = {
-    labels: [],
-    datasets: [
-      {
-        data: [4.32, 1],
-        label: 'My First Dataset',
-        backgroundColor: ['rgb(255, 99, 132)', 'rgb(255, 99, 100)'],
-      },
-    ],
-  };
-
-  logout() {
-    this.authenticationService.logout();
-    this.router.navigate(['/login']);
+    if (forModal === 'openText') {
+      this.openTextModal?.hide();
+      if (clickedText > -1) this.selectedOpentext = clickedText;
+      this.loading = true;
+      setTimeout(() => {
+        this.openVal = this.opentextvalues[this.selectedOpentext].word_cloud;
+        this.loading = false;
+      });
+    }
   }
 
   dropdownChange(value: string) {
     this.currentEnabled = value;
     this.currentSelectedValue = '';
+    this.currentSelectedId = 0;
+    this.currentSelectedDbName = '';
+    this.currentSelectedGraphVal = -1;
+    this.currentSelectedGraphName = '';
+    this.calculateAllValues();
   }
 
-  dropdownMenuCliked(value: string) {
+  dropdownMenuCliked(
+    graphValue: number,
+    value: string,
+    db_name: string = '',
+    db_id: number = 0,
+    graphName: string
+  ) {
     this.currentSelectedValue = value;
+    this.currentSelectedId = db_id;
+    this.currentSelectedDbName = db_name;
+    this.currentSelectedGraphVal = graphValue;
+    this.currentSelectedGraphName = graphName;
+    this.calculateAllValues();
+  }
+
+  isPresentInData(value: any, name: any, colName: any, id: any) {
+    return this.graphValue[value].values[name].some(
+      (val: any) => val[colName] === id
+    );
+  }
+
+  calculateAllValues() {
+    if (this.currentEnabled === '') {
+      this.loading = true;
+      setTimeout(() => {
+        this.data.alldetailValues.forEach((item: any) => {
+          this.sumOfAllData['no_of_employees'] =
+            Number(this.sumOfAllData['no_of_employees']) +
+            Number(item['no_of_employees']);
+          this.sumOfAllData['no_of_responses'] =
+            Number(this.sumOfAllData['no_of_responses']) +
+            Number(item['no_of_responses']);
+          this.sumOfAllData['veryhappy'] =
+            this.sumOfAllData['veryhappy'] + item['veryhappy'];
+          this.sumOfAllData['happy'] =
+            this.sumOfAllData['happy'] + item['happy'];
+          this.sumOfAllData['neitherhappy'] =
+            this.sumOfAllData['neitherhappy'] + item['neitherhappy'];
+          this.sumOfAllData['sad'] = this.sumOfAllData['sad'] + item['sad'];
+          this.sumOfAllData['verysad'] =
+            this.sumOfAllData['verysad'] + item['verysad'];
+          this.sumOfAllData['easy'] = this.sumOfAllData['easy'] + item['easy'];
+          this.sumOfAllData['engaged'] =
+            this.sumOfAllData['engaged'] + item['engaged'];
+          this.sumOfAllData['fun'] = this.sumOfAllData['fun'] + item['fun'];
+          this.sumOfAllData['managable'] =
+            this.sumOfAllData['managable'] + item['managable'];
+          this.sumOfAllData['anger'] =
+            this.sumOfAllData['anger'] + item['anger'];
+          this.sumOfAllData['anxiety'] =
+            this.sumOfAllData['anxiety'] + item['anxiety'];
+          this.sumOfAllData['depression'] =
+            this.sumOfAllData['depression'] + item['depression'];
+          this.sumOfAllData['fear'] = this.sumOfAllData['fear'] + item['fear'];
+          this.sumOfAllData['frustation'] =
+            this.sumOfAllData['frustation'] + item['frustation'];
+          this.sumOfAllData['feeling_happy'] =
+            this.sumOfAllData['feeling_happy'] + item['feeling_happy'];
+        });
+        this.totNoOfEmp = this.sumOfAllData['no_of_employees'];
+        this.totNoOfRes = this.sumOfAllData['no_of_responses'];
+        this.totNoOfPer = ((this.totNoOfRes / this.totNoOfEmp) * 100).toFixed(
+          2
+        );
+        this.wellBeingQuet = (
+          this.data.alldetailValues
+            .map((item: any) => item.well_being_quotient)
+            .reduce((prev: any, curr: any) => Number(prev) + Number(curr), 0) /
+          this.data.alldetailValues.length
+        ).toFixed(2);
+        this.wellBeing.forEach((val: any) => {
+          this.wellBeingTot.push(
+            (
+              this.data.alldetailValues
+                .map((item: any) => item[val.value])
+                .reduce(
+                  (prev: any, curr: any) => Number(prev) + Number(curr),
+                  0
+                ) / this.data.alldetailValues.length
+            ).toFixed(2)
+          );
+        });
+        this.employeeMood = [
+          this.sumOfAllData['veryhappy'],
+          this.sumOfAllData['happy'],
+          this.sumOfAllData['neitherhappy'],
+          this.sumOfAllData['sad'],
+          this.sumOfAllData['verysad'],
+        ];
+        this.employeeFeeling = [
+          this.sumOfAllData['easy'],
+          this.sumOfAllData['engaged'],
+          this.sumOfAllData['fun'],
+          this.sumOfAllData['feeling_happy'],
+          this.sumOfAllData['managable'],
+          this.sumOfAllData['anger'],
+          this.sumOfAllData['anxiety'],
+          this.sumOfAllData['depression'],
+          this.sumOfAllData['fear'],
+          this.sumOfAllData['frustation'],
+        ];
+        this.loading = false;
+      });
+    } else {
+      let item = this.graphValue[this.currentSelectedGraphVal].values[
+        this.currentSelectedGraphName
+      ].find(
+        (val: any) => val[this.currentSelectedDbName] === this.currentSelectedId
+      );
+
+      this.loading = true;
+      setTimeout(() => {
+        this.sumOfAllData['no_of_employees'] = Number(item['no_of_employees']);
+        this.sumOfAllData['no_of_responses'] = Number(item['no_of_responses']);
+        this.sumOfAllData['veryhappy'] = item['veryhappy'];
+        this.sumOfAllData['happy'] = item['happy'];
+        this.sumOfAllData['neitherhappy'] = item['neitherhappy'];
+        this.sumOfAllData['sad'] = item['sad'];
+        this.sumOfAllData['verysad'] = item['verysad'];
+        this.sumOfAllData['easy'] = item['easy'];
+        this.sumOfAllData['engaged'] = item['engaged'];
+        this.sumOfAllData['fun'] = item['fun'];
+        this.sumOfAllData['managable'] = item['managable'];
+        this.sumOfAllData['anger'] = item['anger'];
+        this.sumOfAllData['anxiety'] = item['anxiety'];
+        this.sumOfAllData['depression'] = item['depression'];
+        this.sumOfAllData['fear'] = item['fear'];
+        this.sumOfAllData['frustation'] = item['frustation'];
+        this.sumOfAllData['feeling_happy'] = item['feeling_happy'];
+        this.totNoOfEmp = Number(item['no_of_employees']);
+        this.totNoOfRes = Number(item['no_of_responses']);
+        this.totNoOfPer = ((this.totNoOfRes / this.totNoOfEmp) * 100).toFixed(
+          2
+        );
+        this.wellBeingQuet = item['well_being_quotient'].toFixed(2);
+        this.wellBeing.forEach((val: any) => {
+          this.wellBeingTot.push(item[val.value].toFixed(2));
+        });
+        this.employeeMood = [
+          this.sumOfAllData['veryhappy'],
+          this.sumOfAllData['happy'],
+          this.sumOfAllData['neitherhappy'],
+          this.sumOfAllData['sad'],
+          this.sumOfAllData['verysad'],
+        ];
+        this.employeeFeeling = [
+          this.sumOfAllData['easy'],
+          this.sumOfAllData['engaged'],
+          this.sumOfAllData['fun'],
+          this.sumOfAllData['feeling_happy'],
+          this.sumOfAllData['managable'],
+          this.sumOfAllData['anger'],
+          this.sumOfAllData['anxiety'],
+          this.sumOfAllData['depression'],
+          this.sumOfAllData['fear'],
+          this.sumOfAllData['frustation'],
+        ];
+        this.loading = false;
+      });
+    }
+  }
+
+  logout() {
+    this.authenticationService.logout();
+    this.router.navigate(['/login']);
   }
 }

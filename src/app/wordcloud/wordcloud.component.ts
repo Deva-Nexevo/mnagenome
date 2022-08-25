@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import * as Highcharts from 'highcharts';
 import HC_wordcloud from 'highcharts/modules/wordcloud';
 HC_wordcloud(Highcharts);
@@ -13,31 +13,25 @@ export class WordcloudComponent {
   public xData: any;
   public label: any;
   options: any;
+  @Input() data: any = '';
 
-  constructor() {
-    var text =
-      'Education For betterment As all we know that, in front of GOD we are equal. GOD gave us similar power  in front of GOD we are equal. GOD gave us similar power to all. He is not did any partiality for creating all of us. Instead all those we create this Reservation Education For betterment system which force us to create discrimination among us. Because of this discrimination there are many social hazards taking place. Education For betterment As all we are in front of GOD we are equal. GOD gave us similar power Human, so we maintain it also. Not accepting any Reservation Education For betterment system. Education For betterment It hampering our mentality. It also create many social violence. Today I like to create many social violence. Today I like to Education For betterment convey all of you about this harmful and Education For betterment violent system that already playing it’s game among us.';
-    var obj: any = { name: '', weight: 0 };
-    var lines = text.split(/[,\. ]+/g),
-      data = Highcharts.reduce(
-        lines,
-        function (arr: any, word: any) {
-          obj = Highcharts.find(arr, function (obj1: any) {
-            return obj1.name === word;
-          });
-          if (obj) {
-            obj.weight += 1;
-          } else {
-            obj = {
-              name: word,
-              weight: 1,
-            };
-            arr.push(obj);
-          }
-          return arr;
-        },
-        []
-      );
+  constructor() {}
+
+  ngOnInit() {
+    var data1: any = [];
+    this.data[0].forEach((val: any, index: any) => {
+      data1.push({ name: val, weight: this.data[1][index] });
+    });
+    var arr1 = [];
+    for (let i = 0; i < data1.length; i++) {
+      arr1.push(data1[i]);
+    }
+    for (let i = 0; i < data1.length; i++) {
+      for (let j = 1; j < 5; j++) {
+        arr1.push(data1[i]);
+      }
+    }
+    var data = arr1;
 
     this.options = {
       accessibility: {
@@ -60,9 +54,6 @@ export class WordcloudComponent {
         text: '',
       },
     };
-  }
-
-  ngOnInit() {
     Highcharts.chart('container', this.options);
   }
 }

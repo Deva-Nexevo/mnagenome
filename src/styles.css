@@ -222,3 +222,6 @@ button.close span {
 .mb-50 {
   margin-bottom: 50px;
 }
+.flex-container {
+  display: flex;
+}

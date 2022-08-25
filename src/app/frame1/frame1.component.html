@@ -4,9 +4,9 @@
       <div class="d-flex justify-content-between align-items-center">
         <img src="{{ logo }}" alt="" class="logo-img" />
         <h1 class="fs-25 mb-0 cl-purple">EMPLOYEE WELL-BEING DASHBOARD</h1>
-        <a class="d-flex" href="javascript:void(0);" (click)="logout()"
-          ><mat-icon>power_settings_new</mat-icon></a
-        >
+        <a class="d-flex" href="javascript:void(0);" (click)="logout()">
+          <mat-icon>power_settings_new</mat-icon>
+        </a>
       </div>
     </div>
   </section>
@@ -19,43 +19,33 @@
         <button class="filter-btn btn filter-modal" (click)="overview.show()">
           RESPONSE OVERVIEW
         </button>
-        <button
-          class="filter-btn btn filters-btn d-flex"
-          (click)="dropdownChange('')"
-        >
+        <button class="filter-btn btn filters-btn d-flex" (click)="dropdownChange('')">
           <mat-icon class="text-white">refresh</mat-icon>
         </button>
         <button class="filter-btn btn filters-btn">
           View by |
           <span class="text-white">
-            {{ currentEnabled === "" ? "All" : currentEnabled }}</span
-          >
+            {{ currentEnabled === "" ? "All" : currentEnabled }}</span>
           <span class="text-white" *ngIf="currentSelectedValue">
-            | {{ currentSelectedValue }}</span
-          >
+            | {{ currentSelectedValue }}</span>
         </button>
         <ng-container>
           <div class="btn-group">
-            <button
-              class="filter-btn"
-              mat-button
-              (click)="dropdownChange('Tenure')"
-              [disabled]="
+            <button class="filter-btn" mat-button (click)="dropdownChange('Tenure')" [disabled]="
                 currentEnabled === '' || currentEnabled === 'Tenure'
                   ? false
                   : true
-              "
-              [matMenuTriggerFor]="tenure"
-            >
+              " [matMenuTriggerFor]="tenure">
               TENURE
             </button>
             <mat-menu #tenure="matMenu">
               <ng-container *ngIf="!loading && !error">
                 <ng-container *ngFor="let tenure of data.dropDownList.tenures">
-                  <button
-                    mat-menu-item
-                    (click)="dropdownMenuCliked(tenure.tenure)"
-                  >
+                  <button mat-menu-item (click)="
+                      dropdownMenuCliked(2, tenure.tenure, 'tenure_id', tenure.id, 'tenures')
+                    " *ngIf="
+                      isPresentInData(2, 'tenures', 'tenure_id', tenure.id)
+                    ">
                     {{ tenure.tenure }}
                   </button>
                 </ng-container>
@@ -63,21 +53,16 @@
             </mat-menu>
           </div>
           <div class="btn-group">
-            <button
-              class="filter-btn"
-              mat-button
-              [matMenuTriggerFor]="age"
-              (click)="dropdownChange('Age')"
-              [disabled]="
+            <button class="filter-btn" mat-button [matMenuTriggerFor]="age" (click)="dropdownChange('Age')" [disabled]="
                 currentEnabled === '' || currentEnabled === 'Age' ? false : true
-              "
-            >
+              ">
               AGE
             </button>
             <mat-menu #age="matMenu">
               <ng-container *ngIf="!loading && !error">
                 <ng-container *ngFor="let age of data.dropDownList.ages">
-                  <button mat-menu-item (click)="dropdownMenuCliked(age.age)">
+                  <button mat-menu-item (click)="dropdownMenuCliked(0, age.age, 'age_id', age.id, 'ages')"
+                    *ngIf="isPresentInData(0, 'ages', 'age_id', age.id)">
                     {{ age.age }}
                   </button>
                 </ng-container>
@@ -85,26 +70,20 @@
             </mat-menu>
           </div>
           <div class="btn-group">
-            <button
-              class="filter-btn"
-              mat-button
-              [matMenuTriggerFor]="level"
-              (click)="dropdownChange('Level')"
+            <button class="filter-btn" mat-button [matMenuTriggerFor]="level" (click)="dropdownChange('Level')"
               [disabled]="
                 currentEnabled === '' || currentEnabled === 'Level'
                   ? false
                   : true
-              "
-            >
+              ">
               LEVEL
             </button>
             <mat-menu #level="matMenu">
               <ng-container *ngIf="!loading && !error">
                 <ng-container *ngFor="let level of data.dropDownList.levels">
-                  <button
-                    mat-menu-item
-                    (click)="dropdownMenuCliked(level.level)"
-                  >
+                  <button mat-menu-item (click)="
+                      dropdownMenuCliked(4, level.level, 'level_id', level.id, 'levels')
+                    " *ngIf="isPresentInData(4, 'levels', 'level_id', level.id)">
                     {{ level.level }}
                   </button>
                 </ng-container>
@@ -112,26 +91,22 @@
             </mat-menu>
           </div>
           <div class="btn-group">
-            <button
-              class="filter-btn"
-              mat-button
-              [matMenuTriggerFor]="gender"
-              (click)="dropdownChange('Gender')"
+            <button class="filter-btn" mat-button [matMenuTriggerFor]="gender" (click)="dropdownChange('Gender')"
               [disabled]="
                 currentEnabled === '' || currentEnabled === 'Gender'
                   ? false
                   : true
-              "
-            >
+              ">
               GENDER
             </button>
             <mat-menu #gender="matMenu">
               <ng-container *ngIf="!loading && !error">
                 <ng-container *ngFor="let gender of data.dropDownList.genders">
-                  <button
-                    mat-menu-item
-                    (click)="dropdownMenuCliked(gender.gender)"
-                  >
+                  <button mat-menu-item (click)="
+                      dropdownMenuCliked(1, gender.gender, 'gender_id', gender.id, 'genders')
+                    " *ngIf="
+                      isPresentInData(1, 'genders', 'gender_id', gender.id)
+                    ">
                     {{ gender.gender }}
                   </button>
                 </ng-container>
@@ -139,25 +114,27 @@
             </mat-menu>
           </div>
           <div class="btn-group">
-            <button
-              class="filter-btn"
-              mat-button
-              [matMenuTriggerFor]="businessUnit"
-              (click)="dropdownChange('Business Unit')"
-              [disabled]="
+            <button class="filter-btn" mat-button [matMenuTriggerFor]="businessUnit"
+              (click)="dropdownChange('Business Unit')" [disabled]="
                 currentEnabled === '' || currentEnabled === 'Business Unit'
                   ? false
                   : true
-              "
-            >
+              ">
               BUSINESS UNIT
             </button>
             <mat-menu #businessUnit="matMenu">
               <ng-container *ngIf="!loading && !error">
-                <ng-container
-                  *ngFor="let unit of data.dropDownList.business_units"
-                >
-                  <button mat-menu-item (click)="dropdownMenuCliked(unit.unit)">
+                <ng-container *ngFor="let unit of data.dropDownList.business_units">
+                  <button mat-menu-item (click)="
+                      dropdownMenuCliked(3, unit.unit, 'business_id', unit.id, 'business_units')
+                    " *ngIf="
+                      isPresentInData(
+                        3,
+                        'business_units',
+                        'business_id',
+                        unit.id
+                      )
+                    ">
                     {{ unit.unit }}
                   </button>
                 </ng-container>
@@ -165,33 +142,35 @@
             </mat-menu>
           </div>
           <div class="btn-group">
-            <button
-              class="filter-btn"
-              mat-button
-              [matMenuTriggerFor]="overallExperience"
-              (click)="dropdownChange('Overall Experience')"
-              [disabled]="
+            <button class="filter-btn" mat-button [matMenuTriggerFor]="overallExperience"
+              (click)="dropdownChange('Overall Experience')" [disabled]="
                 currentEnabled === '' || currentEnabled === 'Overall Experience'
                   ? false
                   : true
-              "
-            >
+              ">
               OVERALL EXPERIENCE
             </button>
             <mat-menu #overallExperience="matMenu">
               <ng-container *ngIf="!loading && !error">
-                <ng-container
-                  *ngFor="
+                <ng-container *ngFor="
                     let overall_experience of data.dropDownList
                       .overall_experiences
-                  "
-                >
-                  <button
-                    mat-menu-item
-                    (click)="
-                      dropdownMenuCliked(overall_experience.overall_experience)
-                    "
-                  >
+                  ">
+                  <button mat-menu-item (click)="
+                      dropdownMenuCliked(
+                      5,
+                        overall_experience.overall_experience,
+                        'overall_experience_id',
+                        overall_experience.id, 'overall_experiences'
+                      )
+                    " *ngIf="
+                      isPresentInData(
+                        5,
+                        'overall_experiences',
+                        'overall_experience_id',
+                        overall_experience.id
+                      )
+                    ">
                     {{ overall_experience.overall_experience }}
                   </button>
                 </ng-container>
@@ -205,105 +184,70 @@
 </section>
 
 <!-- INSIGHTS POPUP -->
-<ng-container *ngIf="!loading && !error">
+<ng-container>
   <section class="section_frame1-intro py-5">
     <div class="container">
       <div class="row justify-content-center">
         <div class="col-lg-4">
-          <div
-            class="frame1-intro box-shadow br-15 px-1 py-4 text-center h-100"
-          >
+          <div class="frame1-intro box-shadow br-15 px-1 py-4 text-center h-100">
             <p class="cl-purple fs-22 mb-1">
               <mat-icon class="mr-2 align-middle">people</mat-icon>Number Of
               employees
             </p>
-            <h4 class="fs-25">{{ totNoOfEmp }}</h4>
+            <h4 class="fs-25" *ngIf="loading && !error">Loading...</h4>
+            <h4 class="fs-25" *ngIf="!loading && !error">{{ totNoOfEmp }}</h4>
             <hr />
             <p class="cl-purple fs-22 mb-1">
-              <mat-icon class="mr-2 align-middle">compare_arrows</mat-icon
-              >Number Of responses
+              <mat-icon class="mr-2 align-middle">compare_arrows</mat-icon>Number Of responses
             </p>
-            <h4 class="fs-25">{{ totNoOfRes }} ({{ totNoOfPer }})%</h4>
+            <h4 class="fs-25" *ngIf="loading && !error">Loading...</h4>
+            <h4 class="fs-25" *ngIf="!loading && !error">
+              {{ totNoOfRes }} ({{ totNoOfPer }})%
+            </h4>
           </div>
         </div>
         <div class="col-lg-4">
-          <div
-            class="frame1-intro box-shadow br-15 px-1 py-4 text-center h-100"
-          >
-            <doughnut-chart
-              [title]="'Well Being Quotient'"
-              [value]="wellBeingQuet"
-            ></doughnut-chart>
+          <div class="frame1-intro box-shadow br-15 px-1 py-4 text-center h-100" *ngIf="loading && !error">
+            Loading...
+          </div>
+          <div class="frame1-intro box-shadow br-15 px-1 py-4 text-center h-100" *ngIf="!loading && !error">
+            <doughnut-chart [title]="'Well Being Quotient'" [value]="wellBeingQuet"></doughnut-chart>
             <p class="pt-4 fs-30">{{ wellBeingQuet }}</p>
           </div>
         </div>
         <div class="col-12 text-center pt-4 mt-3">
-          <button
-            class="filter-btn btn filter-modal fs-16 bgc-orange text-white br-30 mr-2"
-            (click)="insights.show()"
-          >
+          <button class="filter-btn btn filter-modal fs-16 bgc-orange text-white br-30 mr-2" (click)="insights.show()">
             INSIGHTS
           </button>
-          <button
-            class="filter-btn btn filter-modal fs-16 bgc-orange text-white br-30"
-            (click)="action.show()"
-          >
+          <button class="filter-btn btn filter-modal fs-16 bgc-orange text-white br-30" (click)="action.show()">
             ACTIONS
           </button>
           <!-- INSIGHTS POPUP -->
-          <div
-            bsModal
-            #insights="bs-modal"
-            class="modal fade"
-            tabindex="-1"
-            role="dialog"
-            aria-labelledby="dialog-sizes-name1"
-          >
+          <div bsModal #insights="bs-modal" class="modal fade" tabindex="-1" role="dialog"
+            aria-labelledby="dialog-sizes-name1">
             <div class="modal-dialog modal-lg modal-dialog-centered">
               <div class="modal-content p-4">
                 <div class="">
-                  <button
-                    type="button"
-                    class="close pull-right"
-                    (click)="insights.hide()"
-                    aria-label="Close"
-                  >
+                  <button type="button" class="close pull-right" (click)="insights.hide()" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                   </button>
                 </div>
-                <div
-                  class="modal-body"
-                  [innerHTML]="data.insight.insight | safeHtml"
-                ></div>
+                <div class="modal-body" *ngIf="!loading && !error" [innerHTML]="data.insight.insight | safeHtml"></div>
               </div>
             </div>
           </div>
 
           <!-- ACTIONS POPUP -->
-          <div
-            bsModal
-            #action="bs-modal"
-            class="modal fade"
-            tabindex="-1"
-            role="dialog"
-            aria-labelledby="dialog-sizes-name1"
-          >
+          <div bsModal #action="bs-modal" class="modal fade" tabindex="-1" role="dialog"
+            aria-labelledby="dialog-sizes-name1">
             <div class="modal-dialog modal-lg modal-dialog-centered">
               <div class="modal-content p-4">
                 <div class="">
-                  <button
-                    type="button"
-                    class="close pull-right"
-                    (click)="action.hide()"
-                    aria-label="Close"
-                  >
+                  <button type="button" class="close pull-right" (click)="action.hide()" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                   </button>
                 </div>
-                <div
-                  class="modal-body"
-                  [innerHTML]="data.insight.insight | safeHtml"
-                ></div>
+                <div class="modal-body" *ngIf="!loading && !error" [innerHTML]="data.insight.action | safeHtml"></div>
               </div>
             </div>
           </div>
@@ -315,33 +259,24 @@
           <div class="row">
             <ng-container *ngFor="let well of wellBeing; let i = index">
               <div class="col-lg-3 pb-4">
-                <div
-                  class="frame1-intro box-shadow br-15 p-4 text-center h-100"
-                >
-                  <doughnut-chart
-                    [title]="well.name"
-                    [value]="wellBeingTot[i]"
-                  ></doughnut-chart>
+                <div class="frame1-intro box-shadow br-15 p-4 text-center h-100">
+                  <ng-container *ngIf="loading && !error">
+                    Loading...
+                  </ng-container>
+                  <ng-container *ngIf="!loading && !error">
+                    <doughnut-chart [title]="well.name" [value]="wellBeingTot[i]"></doughnut-chart>
+                  </ng-container>
                   <p class="pt-4 fs-30 mb-3">
                     {{ wellBeingTot[i] }}
                   </p>
                   <div class="d-flex flex-wrap justify-content-center">
-                    <button
-                      class="btn bgc-blue"
-                      (click)="showChildModal(i, 'about')"
-                    >
+                    <button class="btn bgc-blue" (click)="showChildModal(i, 'about')">
                       ABOUT
                     </button>
-                    <button
-                      class="btn bgc-orange"
-                      (click)="showChildModal(i, 'insight')"
-                    >
+                    <button class="btn bgc-orange" (click)="showChildModal(i, 'insight')">
                       INSIGHTS
                     </button>
-                    <button
-                      class="btn bgc-orange"
-                      (click)="showChildModal(i, 'action')"
-                    >
+                    <button class="btn bgc-orange" (click)="showChildModal(i, 'action')">
                       ACTIONS
                     </button>
                   </div>
@@ -350,23 +285,12 @@
             </ng-container>
           </div>
           <!-- ABOUT POPUP -->
-          <div
-            bsModal
-            #childModal="bs-modal"
-            class="modal fade"
-            tabindex="-1"
-            role="dialog"
-            aria-labelledby="dialog-sizes-name1"
-          >
+          <div bsModal #childModal="bs-modal" class="modal fade" tabindex="-1" role="dialog"
+            aria-labelledby="dialog-sizes-name1">
             <div class="modal-dialog modal-dialog-centered">
               <div class="modal-content p-4">
                 <div class="">
-                  <button
-                    type="button"
-                    class="close pull-right"
-                    (click)="hideChildModal('about')"
-                    aria-label="Close"
-                  >
+                  <button type="button" class="close pull-right" (click)="hideChildModal('about')" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                   </button>
                 </div>
@@ -383,23 +307,12 @@
           </div>
 
           <!-- INSIGHTS POPUP -->
-          <div
-            bsModal
-            #childInsightModal="bs-modal"
-            class="modal fade"
-            tabindex="-1"
-            role="dialog"
-            aria-labelledby="dialog-sizes-name1"
-          >
+          <div bsModal #childInsightModal="bs-modal" class="modal fade" tabindex="-1" role="dialog"
+            aria-labelledby="dialog-sizes-name1">
             <div class="modal-dialog modal-dialog-centered">
               <div class="modal-content p-4">
                 <div class="">
-                  <button
-                    type="button"
-                    class="close pull-right"
-                    (click)="hideChildModal('insight')"
-                    aria-label="Close"
-                  >
+                  <button type="button" class="close pull-right" (click)="hideChildModal('insight')" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                   </button>
                 </div>
@@ -411,23 +324,12 @@
           </div>
 
           <!-- ACTIONS POPUP -->
-          <div
-            bsModal
-            #childActionModal="bs-modal"
-            class="modal fade"
-            tabindex="-1"
-            role="dialog"
-            aria-labelledby="dialog-sizes-name1"
-          >
+          <div bsModal #childActionModal="bs-modal" class="modal fade" tabindex="-1" role="dialog"
+            aria-labelledby="dialog-sizes-name1">
             <div class="modal-dialog modal-dialog-centered">
               <div class="modal-content p-4">
                 <div class="">
-                  <button
-                    type="button"
-                    class="close pull-right"
-                    (click)="hideChildModal('action')"
-                    aria-label="Close"
-                  >
+                  <button type="button" class="close pull-right" (click)="hideChildModal('action')" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                   </button>
                 </div>
@@ -440,17 +342,29 @@
         </div>
         <div class="col-12 pt-5">
           <h2 class="fs-25 mb-5 cl-purple text-center">WELL-BEING HEAT MAP</h2>
-          <ng-container *ngFor="let heat of filterBy" class="">
-            <div
-              class="box-shadow box-overflow p-5 br-15 mb-50"
-              [ngClass]="
-                currentEnabled === '' || currentEnabled === heat.name
-                  ? 'show'
-                  : 'hide'
-              "
-            >
-              <app-heatmap></app-heatmap>
-            </div>
+          <ng-container *ngIf="loading && !error">
+            <ng-container *ngFor="let heat of filterBy" class="">
+              <div class="box-shadow box-overflow p-5 br-15 mb-50" [ngClass]="
+                  currentEnabled === '' || currentEnabled === heat.name
+                    ? 'show'
+                    : 'hide'
+                ">
+                Loading...
+              </div>
+            </ng-container>
+          </ng-container>
+          <ng-container *ngIf="!loading && !error">
+            <ng-container *ngFor="let heat of filterBy; let i = index" class="">
+              <div class="box-shadow box-overflow p-5 br-15 mb-50" [ngClass]="
+                  currentEnabled === '' || currentEnabled === heat.name
+                    ? 'show'
+                    : 'hide'
+                ">
+                <app-heatmap [name]="heat.name" [data]="graphValue[i].values[heat.responseName]" [xData]="wellBeing"
+                  [yData]="data.dropDownList[heat.responseName]" [searchName]="heat.findName" [dbName]="heat.db_name">
+                </app-heatmap>
+              </div>
+            </ng-container>
           </ng-container>
         </div>
         <div class="col-12 pt-5">
@@ -458,13 +372,20 @@
             EMPLOYEE MOOD ANALYSIS
           </h2>
           <div class="box-shadow p-5 br-15">
-            <bar-chart></bar-chart>
+            <bar-chart *ngIf="!loading && !error" [data]="employeeMood"></bar-chart>
+            <!-- <div *ngIf="loading && !error">
+              Loading...
+            </div> -->
           </div>
         </div>
         <div class="col-12 pt-5">
           <h2 class="fs-25 mb-5 cl-purple text-center">EMPLOYEE FEELINGS</h2>
+
           <div class="box-shadow p-5 br-15">
-            <radar-chart></radar-chart>
+            <radar-chart *ngIf="!loading && !error" [data]="employeeFeeling"></radar-chart>
+            <!-- <div *ngIf="loading && !error">
+              Loading...
+            </div> -->
           </div>
         </div>
         <div class="col-12 pt-5">
@@ -474,98 +395,51 @@
           </p>
           <div class="d-flex justify-content-center align-items-center">
             <p class="cl-purple text-center mb-0 mr-4">Choose question :</p>
-            <button
-              type="button"
-              class="filter-btn btn br-30"
-              (click)="select.show()"
-            >
+            <button type="button" class="filter-btn btn br-30" (click)="showChildModal(0, 'openText')">
               Click to select<span class="caret"></span>
             </button>
           </div>
+
           <div class="row pt-5">
-            <div class="col-lg-6">
-              <app-wordcloud></app-wordcloud>
+            <div class="col-lg-12">
+              <div *ngIf="!loading && !error">
+                <span class="font-bold cl-orange pr-1">{{ opentextvalues[selectedOpentext].category_name }} : </span>{{
+                opentextvalues[selectedOpentext].question }}
+              </div>
             </div>
             <div class="col-lg-6">
-              <div class="box-shadow br-15 pl-5 pr-4 py-4">
-                <ul class="mb-0">
-                  <li class="py-1">
-                    <b>Yes:</b> 2719 (79.99%),<b> No:</b> 289 (8.4%)
-                  </li>
-                  <li class="py-1">
-                    Yes, Our organization provided us the best
-                    <b>facilities</b> for <b>physical</b> well being.
-                  </li>
-                  <li class="py-1">
-                    Yes My organization facilitates many activities for physical
-                    well being. i.e <b>yoga</b> class , <b>Gym</b>, Jumbo
-                    classes different clubs.
-                  </li>
-                  <li class="py-1">
-                    Our organization provides and encourages physical
-                    <b>fitness</b> for every employee. Good infrastructure such
-                    as modern and open gyms, <b>yoga</b> centers, physiotherapy
-                    and so on are available
-                  </li>
-                  <li class="py-1">
-                    My organization has developed several<b> health</b> and
-                    physical well – being maintaining facilities within the
-                    plant. They also encourage employees and their families to
-                    utilize these facilities
-                  </li>
-                </ul>
+              <div *ngIf="loading && !error">Loading...</div>
+              <app-wordcloud *ngIf="!loading && !error" [data]="openVal"></app-wordcloud>
+            </div>
+            <div class="col-lg-6">
+              <div *ngIf="!loading && !error" class="box-shadow br-15 pl-5 pr-4 py-4 flex-container" [innerHTML]="
+                  opentextvalues[selectedOpentext].statement | safeHtml
+                "></div>
+              <div *ngIf="loading && !error" class="box-shadow br-15 pl-5 pr-4 py-4 flex-container">
+                Loading...
               </div>
             </div>
           </div>
           <!-- SELECT POPUP -->
-          <div
-            bsModal
-            #select="bs-modal"
-            class="modal fade select"
-            tabindex="-1"
-            role="dialog"
-            aria-labelledby="dialog-sizes-name1"
-          >
+          <div bsModal #openTextModal="bs-modal" class="modal fade select" tabindex="-1" role="dialog"
+            aria-labelledby="dialog-sizes-name1">
             <div class="modal-dialog modal-lg modal-dialog-centered">
               <div class="modal-content p-4">
                 <div class="">
-                  <button
-                    type="button"
-                    class="close pull-right"
-                    (click)="select.hide()"
-                    aria-label="Close"
-                  >
+                  <button type="button" class="close pull-right" (click)="hideChildModal('openText')"
+                    aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                   </button>
                 </div>
                 <div class="modal-body">
                   <ul class="mb-0">
-                    <li>
-                      <a href=""
-                        ><span class="font-bold cl-orange pr-1"
-                          >Physical Well-being : </span
-                        >Does your organization help you manage your physical
-                        well being?</a
-                      >
-                    </li>
-                    <li>
-                      <a href=""
-                        ><span class="font-bold cl-orange pr-1"
-                          >Environmental Well-being : </span
-                        >What do you do individually to contribute to the
-                        community?</a
-                      >
-                    </li>
-                    <li>
-                      <a href=""
-                        ><span class="font-bold cl-orange pr-1"
-                          >Financial Well-being :
-                        </span>
-                        What steps have you taken to secure your financial
-                        stability? have you taken to secure your financial
-                        stability?</a
-                      >
-                    </li>
+                    <ng-container *ngFor="let text of opentextvalues; let i = index">
+                      <li (click)="hideChildModal('openText', i)">
+                        <div>
+                          <span class="font-bold cl-orange pr-1">{{ text.category_name }} : </span>{{ text.question }}
+                        </div>
+                      </li>
+                    </ng-container>
                   </ul>
                 </div>
               </div>
@@ -587,53 +461,25 @@
   </section>
 </ng-container>
 
-<div
-  bsModal
-  #mandate="bs-modal"
-  class="modal fade"
-  tabindex="-1"
-  role="dialog"
-  aria-labelledby="dialog-sizes-name1"
->
+<div bsModal #mandate="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="dialog-sizes-name1">
   <div class="modal-dialog modal-lg modal-dialog-centered">
     <div class="modal-content p-4">
       <div class="">
-        <button
-          type="button"
-          class="close pull-right"
-          (click)="mandate.hide()"
-          aria-label="Close"
-        >
+        <button type="button" class="close pull-right" (click)="mandate.hide()" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div
-        *ngIf="!loading && !error"
-        class="modal-body"
-        [innerHTML]="data.insight.mandate | safeHtml"
-      ></div>
+      <div *ngIf="!loading && !error" class="modal-body" [innerHTML]="data.insight.mandate | safeHtml"></div>
     </div>
   </div>
 </div>
 
 <!-- ACTIONS POPUP -->
-<div
-  bsModal
-  #overview="bs-modal"
-  class="modal fade"
-  tabindex="-1"
-  role="dialog"
-  aria-labelledby="dialog-sizes-name1"
->
+<div bsModal #overview="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="dialog-sizes-name1">
   <div class="modal-dialog modal-lg modal-dialog-centered">
     <div class="modal-content p-4">
       <div class="">
-        <button
-          type="button"
-          class="close pull-right"
-          (click)="overview.hide()"
-          aria-label="Close"
-        >
+        <button type="button" class="close pull-right" (click)="overview.hide()" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -642,11 +488,8 @@
         <ng-container *ngFor="let pie of graphValue; let i = index">
           <div class="col-lg-12">
             <div class="col-lg-6">
-              <pie-chart
-                [data]="pie.values[pie.name.responseName]"
-                [name]="pie.name"
-                [dropDownData]="data.dropDownList[pie.name.responseName]"
-              ></pie-chart>
+              <pie-chart [data]="pie.values[pie.name.responseName]" [name]="pie.name"
+                [dropDownData]="data.dropDownList[pie.name.responseName]"></pie-chart>
             </div>
             <div class="col-lg-6">
               <h2>{{ pie.name.name }}</h2>
@@ -656,11 +499,11 @@
                   <ng-container *ngFor="let pie1 of pie.top">
                     <p>
                       {{
-                        getValues(
-                          pie.name.responseName,
-                          pie1[pie.name.db_name],
-                          pie.name.findName
-                        )
+                      getValues(
+                      pie.name.responseName,
+                      pie1[pie.name.db_name],
+                      pie.name.findName
+                      )
                       }}
                       <b>[{{ pie1.no_of_responses }}] </b>
                     </p>
@@ -671,11 +514,11 @@
                   <ng-container *ngFor="let pie1 of pie.bottom">
                     <p>
                       {{
-                        getValues(
-                          pie.name.responseName,
-                          pie1[pie.name.db_name],
-                          pie.name.findName
-                        )
+                      getValues(
+                      pie.name.responseName,
+                      pie1[pie.name.db_name],
+                      pie.name.findName
+                      )
                       }}
                       <b>[{{ pie1.no_of_responses }}]</b>
                     </p>
