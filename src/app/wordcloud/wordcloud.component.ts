@@ -27,27 +27,17 @@ export class WordcloudComponent {
       arr1.push(data1[i]);
     }
     for (let i = 0; i < data1.length; i++) {
-      for (let j = 1; j < 5; j++) {
+      for (let j = 1; j < data1[i].weight; j++) {
         arr1.push(data1[i]);
       }
     }
     var data = arr1;
 
     this.options = {
-      accessibility: {
-        screenReaderSection: {
-          beforeChartFormat:
-            '<h5>{chartTitle}</h5>' +
-            '<div>{chartSubtitle}</div>' +
-            '<div>{chartLongdesc}</div>' +
-            '<div>{viewTableButton}</div>',
-        },
-      },
       series: [
         {
           type: 'wordcloud',
           data: data,
-          name: 'Occurrences',
         },
       ],
       title: {

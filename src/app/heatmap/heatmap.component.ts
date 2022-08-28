@@ -44,9 +44,6 @@ export class HeatmapComponent implements OnInit {
     });
 
     this.chartOptions = {
-      chart: {
-        width: 1000,
-      },
       title: {
         text: 'Heat-Map for' + this.name,
       },

@@ -6,7 +6,6 @@ import {
   BsModalService,
   ModalDirective,
 } from 'ngx-bootstrap/modal';
-import { OwlOptions } from 'ngx-owl-carousel-o';
 import { AuthenticationService, UserService } from '../_services';
 
 @Component({
@@ -20,12 +19,17 @@ import { AuthenticationService, UserService } from '../_services';
   ],
 })
 export class Frame1Component implements OnInit {
+  @ViewChild('childModal', { static: false }) childModal?: ModalDirective;
+  @ViewChild('childInsightModal', { static: false })
+  childInsightModal?: ModalDirective;
+  @ViewChild('childActionModal', { static: false })
+  childActionModal?: ModalDirective;
+  @ViewChild('openTextModal', { static: false }) openTextModal?: ModalDirective;
   data: any;
   loading: boolean = true;
   error: boolean = false;
   currentEnabled: string = '';
   currentSelectedValue: string = '';
-  currentSelectedGraphVal: number = -1;
   currentSelectedDbName: string = '';
   currentSelectedId: number = 0;
   currentSelectedGraphName: string = '';
@@ -38,21 +42,21 @@ export class Frame1Component implements OnInit {
   statementModalcontent: any = '';
   insightModalcontent: any = '';
   actionModalcontent: any = '';
-  @ViewChild('childModal', { static: false }) childModal?: ModalDirective;
-  @ViewChild('childInsightModal', { static: false })
-  childInsightModal?: ModalDirective;
-  @ViewChild('childActionModal', { static: false })
-  childActionModal?: ModalDirective;
-  @ViewChild('openTextModal', { static: false }) openTextModal?: ModalDirective;
-  customOptions: OwlOptions = {
-    items: 7,
-    loop: false,
-    dots: false,
-    nav: false,
-  };
   logo = 'assets/images/beats-logo.png';
   imageSrc = 'assets/images/beats.gif';
   height: number = 150;
+  graphValue: any = [];
+  filterValue: any = [];
+  wellBeingTot: any = [];
+  employeeFeeling: any = [];
+  employeeMood: any = [];
+  wordCloudData: string = '';
+  category: any = [];
+  opentextvalues: any = [];
+  selectedOpentext: number = 0;
+  openVal: any = [];
+  overviewResponse: any = [];
+  dropDownList: any = [];
   filterBy = [
     {
       db_name: 'age_id',
@@ -97,8 +101,6 @@ export class Frame1Component implements OnInit {
       findName: 'overall_experience',
     },
   ];
-  graphValue: any = [];
-  filterValue: any = [];
   wellBeing = [
     {
       name: 'Physical well-being',
@@ -208,14 +210,6 @@ export class Frame1Component implements OnInit {
     frustation: 0,
     feeling_happy: 0,
   };
-  wellBeingTot: any = [];
-  employeeFeeling: any = [];
-  employeeMood: any = [];
-  wordCloudData: string = '';
-  category: any = [];
-  opentextvalues: any = [];
-  selectedOpentext: number = 0;
-  openVal: any = [];
 
   constructor(
     private modalService: BsModalService,
@@ -244,28 +238,37 @@ export class Frame1Component implements OnInit {
           } else {
             this.loading = false;
             this.data = data.data;
-            let graphVal: any = [];
             this.filterBy.forEach((value: any) => {
               let key = value.responseName;
-              graphVal[key] = this.data.alldetailValues.filter(
+              this.graphValue[key] = this.data.alldetailValues.filter(
                 (filterValue: any) => {
                   return filterValue[value.db_name] !== null;
                 }
               );
             });
-            Object.entries(graphVal).forEach((value: any) => {
+
+            Object.entries(this.graphValue).forEach((value: any) => {
               const [key, val] = value;
               let arr: any = this.sortAnArray(val, 'no_of_employees');
               let keys = this.filterBy.find(
                 (val: any) => val.responseName === key
               );
-              this.graphValue.push({
+              this.overviewResponse.push({
                 name: keys,
-                values: graphVal,
+                values: val,
                 top: arr.slice(0, 3),
                 bottom: arr.slice(-3).reverse(),
               });
+              this.dropDownList[key] = this.data.dropDownList[key].filter(
+                (filterValue: any) => {
+                  return val.find(
+                    (val: any) => val[keys?.db_name!] === filterValue.id
+                  );
+                }
+              );
+              console.log(this.dropDownList);
             });
+
             this.calculateAllValues();
             this.category = this.data.category;
             this.data.opentextvalues.forEach((value: any) => {
@@ -282,7 +285,6 @@ export class Frame1Component implements OnInit {
             this.openVal =
               this.opentextvalues[this.selectedOpentext].word_cloud;
           }
-          //this.loading = false;
         },
         (err) => {
           this.loading = false;
@@ -341,13 +343,11 @@ export class Frame1Component implements OnInit {
     this.currentSelectedValue = '';
     this.currentSelectedId = 0;
     this.currentSelectedDbName = '';
-    this.currentSelectedGraphVal = -1;
     this.currentSelectedGraphName = '';
     this.calculateAllValues();
   }
 
   dropdownMenuCliked(
-    graphValue: number,
     value: string,
     db_name: string = '',
     db_id: number = 0,
@@ -356,21 +356,39 @@ export class Frame1Component implements OnInit {
     this.currentSelectedValue = value;
     this.currentSelectedId = db_id;
     this.currentSelectedDbName = db_name;
-    this.currentSelectedGraphVal = graphValue;
     this.currentSelectedGraphName = graphName;
     this.calculateAllValues();
   }
 
-  isPresentInData(value: any, name: any, colName: any, id: any) {
-    return this.graphValue[value].values[name].some(
-      (val: any) => val[colName] === id
-    );
+  isPresentInData(name: any, colName: any, id: any) {
+    return this.graphValue[name].some((val: any) => val[colName] === id);
+  }
+
+  initializeValue() {
+    this.sumOfAllData['no_of_employees'] = 0;
+    this.sumOfAllData['no_of_responses'] = 0;
+    this.sumOfAllData['veryhappy'] = 0;
+    this.sumOfAllData['happy'] = 0;
+    this.sumOfAllData['neitherhappy'] = 0;
+    this.sumOfAllData['sad'] = 0;
+    this.sumOfAllData['verysad'] = 0;
+    this.sumOfAllData['easy'] = 0;
+    this.sumOfAllData['engaged'] = 0;
+    this.sumOfAllData['fun'] = 0;
+    this.sumOfAllData['managable'] = 0;
+    this.sumOfAllData['anger'] = 0;
+    this.sumOfAllData['anxiety'] = 0;
+    this.sumOfAllData['depression'] = 0;
+    this.sumOfAllData['fear'] = 0;
+    this.sumOfAllData['frustation'] = 0;
+    this.sumOfAllData['feeling_happy'] = 0;
   }
 
   calculateAllValues() {
     if (this.currentEnabled === '') {
       this.loading = true;
       setTimeout(() => {
+        this.initializeValue();
         this.data.alldetailValues.forEach((item: any) => {
           this.sumOfAllData['no_of_employees'] =
             Number(this.sumOfAllData['no_of_employees']) +
@@ -450,61 +468,66 @@ export class Frame1Component implements OnInit {
         this.loading = false;
       });
     } else {
-      let item = this.graphValue[this.currentSelectedGraphVal].values[
-        this.currentSelectedGraphName
-      ].find(
-        (val: any) => val[this.currentSelectedDbName] === this.currentSelectedId
-      );
-
-      this.loading = true;
-      setTimeout(() => {
-        this.sumOfAllData['no_of_employees'] = Number(item['no_of_employees']);
-        this.sumOfAllData['no_of_responses'] = Number(item['no_of_responses']);
-        this.sumOfAllData['veryhappy'] = item['veryhappy'];
-        this.sumOfAllData['happy'] = item['happy'];
-        this.sumOfAllData['neitherhappy'] = item['neitherhappy'];
-        this.sumOfAllData['sad'] = item['sad'];
-        this.sumOfAllData['verysad'] = item['verysad'];
-        this.sumOfAllData['easy'] = item['easy'];
-        this.sumOfAllData['engaged'] = item['engaged'];
-        this.sumOfAllData['fun'] = item['fun'];
-        this.sumOfAllData['managable'] = item['managable'];
-        this.sumOfAllData['anger'] = item['anger'];
-        this.sumOfAllData['anxiety'] = item['anxiety'];
-        this.sumOfAllData['depression'] = item['depression'];
-        this.sumOfAllData['fear'] = item['fear'];
-        this.sumOfAllData['frustation'] = item['frustation'];
-        this.sumOfAllData['feeling_happy'] = item['feeling_happy'];
-        this.totNoOfEmp = Number(item['no_of_employees']);
-        this.totNoOfRes = Number(item['no_of_responses']);
-        this.totNoOfPer = ((this.totNoOfRes / this.totNoOfEmp) * 100).toFixed(
-          2
+      if (this.currentSelectedGraphName) {
+        let item = this.graphValue[this.currentSelectedGraphName].find(
+          (val: any) =>
+            val[this.currentSelectedDbName] === this.currentSelectedId
         );
-        this.wellBeingQuet = item['well_being_quotient'].toFixed(2);
-        this.wellBeing.forEach((val: any) => {
-          this.wellBeingTot.push(item[val.value].toFixed(2));
+        this.loading = true;
+        console.log(item);
+        setTimeout(() => {
+          this.sumOfAllData['no_of_employees'] = Number(
+            item['no_of_employees']
+          );
+          this.sumOfAllData['no_of_responses'] = Number(
+            item['no_of_responses']
+          );
+          this.sumOfAllData['veryhappy'] = item['veryhappy'];
+          this.sumOfAllData['happy'] = item['happy'];
+          this.sumOfAllData['neitherhappy'] = item['neitherhappy'];
+          this.sumOfAllData['sad'] = item['sad'];
+          this.sumOfAllData['verysad'] = item['verysad'];
+          this.sumOfAllData['easy'] = item['easy'];
+          this.sumOfAllData['engaged'] = item['engaged'];
+          this.sumOfAllData['fun'] = item['fun'];
+          this.sumOfAllData['managable'] = item['managable'];
+          this.sumOfAllData['anger'] = item['anger'];
+          this.sumOfAllData['anxiety'] = item['anxiety'];
+          this.sumOfAllData['depression'] = item['depression'];
+          this.sumOfAllData['fear'] = item['fear'];
+          this.sumOfAllData['frustation'] = item['frustation'];
+          this.sumOfAllData['feeling_happy'] = item['feeling_happy'];
+          this.totNoOfEmp = Number(item['no_of_employees']);
+          this.totNoOfRes = Number(item['no_of_responses']);
+          this.totNoOfPer = ((this.totNoOfRes / this.totNoOfEmp) * 100).toFixed(
+            2
+          );
+          this.wellBeingQuet = item['well_being_quotient'].toFixed(2);
+          this.wellBeing.forEach((val: any) => {
+            this.wellBeingTot.push(Number(item[val.value]).toFixed(2));
+          });
+          this.employeeMood = [
+            this.sumOfAllData['veryhappy'],
+            this.sumOfAllData['happy'],
+            this.sumOfAllData['neitherhappy'],
+            this.sumOfAllData['sad'],
+            this.sumOfAllData['verysad'],
+          ];
+          this.employeeFeeling = [
+            this.sumOfAllData['easy'],
+            this.sumOfAllData['engaged'],
+            this.sumOfAllData['fun'],
+            this.sumOfAllData['feeling_happy'],
+            this.sumOfAllData['managable'],
+            this.sumOfAllData['anger'],
+            this.sumOfAllData['anxiety'],
+            this.sumOfAllData['depression'],
+            this.sumOfAllData['fear'],
+            this.sumOfAllData['frustation'],
+          ];
+          this.loading = false;
         });
-        this.employeeMood = [
-          this.sumOfAllData['veryhappy'],
-          this.sumOfAllData['happy'],
-          this.sumOfAllData['neitherhappy'],
-          this.sumOfAllData['sad'],
-          this.sumOfAllData['verysad'],
-        ];
-        this.employeeFeeling = [
-          this.sumOfAllData['easy'],
-          this.sumOfAllData['engaged'],
-          this.sumOfAllData['fun'],
-          this.sumOfAllData['feeling_happy'],
-          this.sumOfAllData['managable'],
-          this.sumOfAllData['anger'],
-          this.sumOfAllData['anxiety'],
-          this.sumOfAllData['depression'],
-          this.sumOfAllData['fear'],
-          this.sumOfAllData['frustation'],
-        ];
-        this.loading = false;
-      });
+      }
     }
   }
 

@@ -33,9 +33,11 @@ export class PieChartComponent implements OnInit {
       chart: {
         plotShadow: false,
         type: 'pie',
+        height: 300,
+        width: 300,
       },
       title: {
-        text: this.name.name,
+        text: '',
       },
       tooltip: {
         pointFormat: '{series.name}: {point.percentage:.1f}% of total',
@@ -51,14 +53,14 @@ export class PieChartComponent implements OnInit {
           cursor: 'pointer',
           dataLabels: {
             enabled: true,
-            format: '{point.name}: {point.percentage:.1f} %',
+            format: '{point.percentage:.1f} %',
           },
         },
       },
       series: [
         {
           type: 'pie',
-          name: 'Age',
+          name: this.name.name,
           colorByPoint: true,
           data: data,
         },

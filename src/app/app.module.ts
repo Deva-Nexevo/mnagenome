@@ -25,6 +25,7 @@ import { RadarchartComponent } from './radarchart/radarchart.component';
 import { WordcloudComponent } from './wordcloud/wordcloud.component';
 import { SafeHtmlPipe } from './_helpers/safeHtml.pipe';
 
+import { DashboardComponent } from './dashboard/dashboard.component';
 import {
   ErrorInterceptor,
   fakeBackendProvider,
@@ -45,6 +46,7 @@ import {
     HeatmapComponent,
     WordcloudComponent,
     SafeHtmlPipe,
+    DashboardComponent,
   ],
   imports: [
     ReactiveFormsModule,

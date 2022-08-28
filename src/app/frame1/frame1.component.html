@@ -30,153 +30,29 @@
             | {{ currentSelectedValue }}</span>
         </button>
         <ng-container>
-          <div class="btn-group">
-            <button class="filter-btn" mat-button (click)="dropdownChange('Tenure')" [disabled]="
-                currentEnabled === '' || currentEnabled === 'Tenure'
-                  ? false
-                  : true
-              " [matMenuTriggerFor]="tenure">
-              TENURE
-            </button>
-            <mat-menu #tenure="matMenu">
-              <ng-container *ngIf="!loading && !error">
-                <ng-container *ngFor="let tenure of data.dropDownList.tenures">
-                  <button mat-menu-item (click)="
-                      dropdownMenuCliked(2, tenure.tenure, 'tenure_id', tenure.id, 'tenures')
-                    " *ngIf="
-                      isPresentInData(2, 'tenures', 'tenure_id', tenure.id)
+          <ng-container *ngFor="let filterValue of filterBy">
+            <div class="btn-group">
+              <button class="filter-btn" mat-button (click)="dropdownChange(filterValue.name)" [disabled]="
+                  currentEnabled === '' || currentEnabled === filterValue.name
+                    ? false
+                    : true
+                " [matMenuTriggerFor]="dropDown">
+                {{ filterValue.name }}
+              </button>
+              <mat-menu #dropDown="matMenu">
+                <ng-container *ngIf="!loading && !error">
+                  <ng-container *ngFor="let list of dropDownList[filterValue.responseName]">
+                    <button mat-menu-item (click)="
+                      dropdownMenuCliked(list[filterValue.findName], filterValue.db_name, list.id, filterValue.responseName)
                     ">
-                    {{ tenure.tenure }}
-                  </button>
+                      {{ list[filterValue.findName] }}
+                    </button>
+                  </ng-container>
                 </ng-container>
-              </ng-container>
-            </mat-menu>
-          </div>
-          <div class="btn-group">
-            <button class="filter-btn" mat-button [matMenuTriggerFor]="age" (click)="dropdownChange('Age')" [disabled]="
-                currentEnabled === '' || currentEnabled === 'Age' ? false : true
-              ">
-              AGE
-            </button>
-            <mat-menu #age="matMenu">
-              <ng-container *ngIf="!loading && !error">
-                <ng-container *ngFor="let age of data.dropDownList.ages">
-                  <button mat-menu-item (click)="dropdownMenuCliked(0, age.age, 'age_id', age.id, 'ages')"
-                    *ngIf="isPresentInData(0, 'ages', 'age_id', age.id)">
-                    {{ age.age }}
-                  </button>
-                </ng-container>
-              </ng-container>
-            </mat-menu>
-          </div>
-          <div class="btn-group">
-            <button class="filter-btn" mat-button [matMenuTriggerFor]="level" (click)="dropdownChange('Level')"
-              [disabled]="
-                currentEnabled === '' || currentEnabled === 'Level'
-                  ? false
-                  : true
-              ">
-              LEVEL
-            </button>
-            <mat-menu #level="matMenu">
-              <ng-container *ngIf="!loading && !error">
-                <ng-container *ngFor="let level of data.dropDownList.levels">
-                  <button mat-menu-item (click)="
-                      dropdownMenuCliked(4, level.level, 'level_id', level.id, 'levels')
-                    " *ngIf="isPresentInData(4, 'levels', 'level_id', level.id)">
-                    {{ level.level }}
-                  </button>
-                </ng-container>
-              </ng-container>
-            </mat-menu>
-          </div>
-          <div class="btn-group">
-            <button class="filter-btn" mat-button [matMenuTriggerFor]="gender" (click)="dropdownChange('Gender')"
-              [disabled]="
-                currentEnabled === '' || currentEnabled === 'Gender'
-                  ? false
-                  : true
-              ">
-              GENDER
-            </button>
-            <mat-menu #gender="matMenu">
-              <ng-container *ngIf="!loading && !error">
-                <ng-container *ngFor="let gender of data.dropDownList.genders">
-                  <button mat-menu-item (click)="
-                      dropdownMenuCliked(1, gender.gender, 'gender_id', gender.id, 'genders')
-                    " *ngIf="
-                      isPresentInData(1, 'genders', 'gender_id', gender.id)
-                    ">
-                    {{ gender.gender }}
-                  </button>
-                </ng-container>
-              </ng-container>
-            </mat-menu>
-          </div>
-          <div class="btn-group">
-            <button class="filter-btn" mat-button [matMenuTriggerFor]="businessUnit"
-              (click)="dropdownChange('Business Unit')" [disabled]="
-                currentEnabled === '' || currentEnabled === 'Business Unit'
-                  ? false
-                  : true
-              ">
-              BUSINESS UNIT
-            </button>
-            <mat-menu #businessUnit="matMenu">
-              <ng-container *ngIf="!loading && !error">
-                <ng-container *ngFor="let unit of data.dropDownList.business_units">
-                  <button mat-menu-item (click)="
-                      dropdownMenuCliked(3, unit.unit, 'business_id', unit.id, 'business_units')
-                    " *ngIf="
-                      isPresentInData(
-                        3,
-                        'business_units',
-                        'business_id',
-                        unit.id
-                      )
-                    ">
-                    {{ unit.unit }}
-                  </button>
-                </ng-container>
-              </ng-container>
-            </mat-menu>
-          </div>
-          <div class="btn-group">
-            <button class="filter-btn" mat-button [matMenuTriggerFor]="overallExperience"
-              (click)="dropdownChange('Overall Experience')" [disabled]="
-                currentEnabled === '' || currentEnabled === 'Overall Experience'
-                  ? false
-                  : true
-              ">
-              OVERALL EXPERIENCE
-            </button>
-            <mat-menu #overallExperience="matMenu">
-              <ng-container *ngIf="!loading && !error">
-                <ng-container *ngFor="
-                    let overall_experience of data.dropDownList
-                      .overall_experiences
-                  ">
-                  <button mat-menu-item (click)="
-                      dropdownMenuCliked(
-                      5,
-                        overall_experience.overall_experience,
-                        'overall_experience_id',
-                        overall_experience.id, 'overall_experiences'
-                      )
-                    " *ngIf="
-                      isPresentInData(
-                        5,
-                        'overall_experiences',
-                        'overall_experience_id',
-                        overall_experience.id
-                      )
-                    ">
-                    {{ overall_experience.overall_experience }}
-                  </button>
-                </ng-container>
-              </ng-container>
-            </mat-menu>
-          </div>
+              </mat-menu>
+            </div>
+
+          </ng-container>
         </ng-container>
       </div>
     </div>
@@ -360,7 +236,7 @@
                     ? 'show'
                     : 'hide'
                 ">
-                <app-heatmap [name]="heat.name" [data]="graphValue[i].values[heat.responseName]" [xData]="wellBeing"
+                <app-heatmap [name]="heat.name" [data]="graphValue[heat.responseName]" [xData]="wellBeing"
                   [yData]="data.dropDownList[heat.responseName]" [searchName]="heat.findName" [dbName]="heat.db_name">
                 </app-heatmap>
               </div>
@@ -461,6 +337,7 @@
   </section>
 </ng-container>
 
+<!-- Mandate -->
 <div bsModal #mandate="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="dialog-sizes-name1">
   <div class="modal-dialog modal-lg modal-dialog-centered">
     <div class="modal-content p-4">
@@ -474,7 +351,7 @@
   </div>
 </div>
 
-<!-- ACTIONS POPUP -->
+<!-- RESPONSE OVERVIEW POPUP -->
 <div bsModal #overview="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="dialog-sizes-name1">
   <div class="modal-dialog modal-lg modal-dialog-centered">
     <div class="modal-content p-4">
@@ -485,44 +362,48 @@
       </div>
       <div class="modal-body">
         <h1>Response Overview</h1>
-        <ng-container *ngFor="let pie of graphValue; let i = index">
-          <div class="col-lg-12">
-            <div class="col-lg-6">
-              <pie-chart [data]="pie.values[pie.name.responseName]" [name]="pie.name"
-                [dropDownData]="data.dropDownList[pie.name.responseName]"></pie-chart>
-            </div>
-            <div class="col-lg-6">
-              <h2>{{ pie.name.name }}</h2>
-              <div class="col-lg-12">
-                <div class="col-lg-6">
-                  <h1>Top 3</h1>
-                  <ng-container *ngFor="let pie1 of pie.top">
-                    <p>
-                      {{
-                      getValues(
-                      pie.name.responseName,
-                      pie1[pie.name.db_name],
-                      pie.name.findName
-                      )
-                      }}
-                      <b>[{{ pie1.no_of_responses }}] </b>
-                    </p>
-                  </ng-container>
-                </div>
-                <div class="col-lg-6">
-                  <h1>Bottom 3</h1>
-                  <ng-container *ngFor="let pie1 of pie.bottom">
-                    <p>
-                      {{
-                      getValues(
-                      pie.name.responseName,
-                      pie1[pie.name.db_name],
-                      pie.name.findName
-                      )
-                      }}
-                      <b>[{{ pie1.no_of_responses }}]</b>
-                    </p>
-                  </ng-container>
+        <ng-container *ngFor="let pie of overviewResponse; let i = index">
+          <div class="col-md-12">
+            <div class="row">
+              <div class="col-md-6">
+                <pie-chart [data]="pie.values" [name]="pie.name"
+                  [dropDownData]="data.dropDownList[pie.name.responseName]"></pie-chart>
+              </div>
+              <div class="col-md-6">
+                <h2>{{ pie.name.name }}</h2>
+                <div class="col-md-12">
+                  <div class="row">
+                    <div class="col-sm-6">
+                      <h1>Top 3</h1>
+                      <ng-container *ngFor="let topBottom of pie.top">
+                        <p>
+                          {{
+                          getValues(
+                          pie.name.responseName,
+                          topBottom[pie.name.db_name],
+                          pie.name.findName
+                          )
+                          }}
+                          <b>[{{ topBottom.no_of_responses }}] </b>
+                        </p>
+                      </ng-container>
+                    </div>
+                    <div class="col-sm-6">
+                      <h1>Bottom 3</h1>
+                      <ng-container *ngFor="let topBottom of pie.bottom">
+                        <p>
+                          {{
+                          getValues(
+                          pie.name.responseName,
+                          topBottom[pie.name.db_name],
+                          pie.name.findName
+                          )
+                          }}
+                          <b>[{{ topBottom.no_of_responses }}]</b>
+                        </p>
+                      </ng-container>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
