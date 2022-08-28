@@ -1,1 +1,33 @@
-<app-frame1></app-frame1>
+<section class="section_frame">
+  <section class="section_frame1 py-1">
+    <div class="container">
+      <div class="d-flex justify-content-between align-items-center">
+        <img src="{{ logo }}" alt="" class="logo-img" />
+        <h1 class="fs-25 mb-0 cl-purple">{{ text }}</h1>
+        <a class="d-flex" href="javascript:void(0);" (click)="logout()">
+          <mat-icon>power_settings_new</mat-icon>
+        </a>
+      </div>
+    </div>
+  </section>
+</section>
+<ng-container *ngIf="currentUser.frame_id == 1">
+  <app-frame1></app-frame1>
+</ng-container>
+<ng-container *ngIf="currentUser.frame_id == 2">
+  <app-frame2></app-frame2>
+</ng-container>
+<ng-container *ngIf="currentUser.frame_id == 3">
+  <app-frame3></app-frame3>
+</ng-container>
+
+<section class="section_footer py-1">
+  <div class="container">
+    <div class="row justify-content-between align-items-center">
+      <div class="col-12 text-center">
+        <img src="{{imageSrc}}" alt="" class="footer-img">
+        <p>&#169; Culturelytics All Rights Reserved</p>
+      </div>
+    </div>
+  </div>
+</section>

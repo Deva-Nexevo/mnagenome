@@ -1,248 +1,226 @@
-<section class="section_frame">
-    <section class="section_frame1 py-1">
-        <div class="container">
-            <div class="d-flex justify-content-between align-items-center">
-                <img src="{{logo}}" alt="" class="logo-img">
-                <h1 class="fs-25 mb-0 cl-purple">DEI Dashboard</h1>
-                <a class="d-flex" routerLink="/login"><mat-icon>power_settings_new</mat-icon></a>
-            </div>
+<section class="section_frame1-filters frame3 py-3">
+  <div class="container">
+    <div class="row justify-content-center align-items-center">
+      <button class="filter-btn btn filters-btn">
+        View by |
+        <span class="text-white">
+          {{ currentEnabled === "" ? "All" : currentEnabled }}</span>
+        <span class="text-white" *ngIf="currentSelectedValue">
+          | {{ currentSelectedValue }}</span>
+      </button>
+      <button class="filter-btn btn filters-btn d-flex" (click)="dropdownChange('')">
+        <mat-icon class="text-white">refresh</mat-icon>
+      </button>
+      <ng-container>
+        <ng-container *ngFor="let filterValue of filterBy">
+          <div class="btn-group">
+            <button class="filter-btn" mat-button (click)="dropdownChange(filterValue.name)" [disabled]="
+                  currentEnabled === '' || currentEnabled === filterValue.name
+                    ? false
+                    : true
+                " [matMenuTriggerFor]="dropDown">
+              {{ filterValue.name }}
+            </button>
+            <mat-menu #dropDown="matMenu">
+              <ng-container *ngIf="!loading && !error">
+                <ng-container *ngFor="let list of dropDownList[filterValue.responseName]">
+                  <button mat-menu-item (click)="
+                      dropdownMenuCliked(list[filterValue.findName], filterValue.db_name, list.id, filterValue.responseName)
+                    ">
+                    {{ list[filterValue.findName] }}
+                  </button>
+                </ng-container>
+              </ng-container>
+            </mat-menu>
+          </div>
 
-        </div>
-    </section>
-    <section class="section_frame1-filters frame3 py-3">
-        <div class="container">
-            <div class="row justify-content-center align-items-center"> 
-                <!-- <button class="filter-btn btn filter-modal" (click)="mandate.show()">MANDATE</button>
-                <button class="filter-btn btn filter-modal" (click)="overview.show()">RESPONSE OVERVIEW</button> -->
-                <button class="filter-btn btn filters-btn">View by | <span class="text-white"> All</span></button>
-                <button class="filter-btn btn filters-btn d-flex"><mat-icon class="text-white">refresh</mat-icon></button>
-                <div class="btn-group">
-                    <button class="filter-btn" mat-button [matMenuTriggerFor]="menu">AGE</button>
-                    <mat-menu #menu="matMenu">
-                    <button mat-menu-item>Item 1</button>
-                    <button mat-menu-item>Item 2</button>
-                    </mat-menu>
-                </div>
-                <div class="btn-group">
-                    <button class="filter-btn" mat-button [matMenuTriggerFor]="menu">GENDER</button>
-                    <mat-menu #menu="matMenu">
-                    <button mat-menu-item>Item 1</button>
-                    <button mat-menu-item>Item 2</button>
-                    </mat-menu>
-                </div>
-                <div class="btn-group">
-                    <button class="filter-btn" mat-button [matMenuTriggerFor]="menu">Sexual Orientation</button>
-                    <mat-menu #menu="matMenu">
-                    <button mat-menu-item>Item 1</button>
-                    <button mat-menu-item>Item 2</button>
-                    </mat-menu>
-                </div>
-                <div class="btn-group">
-                    <button class="filter-btn" mat-button [matMenuTriggerFor]="menu">Work Location</button>
-                    <mat-menu #menu="matMenu">
-                    <button mat-menu-item>Item 1</button>
-                    <button mat-menu-item>Item 2</button>
-                    </mat-menu>
-                </div>
-                <div class="btn-group">
-                    <button class="filter-btn" mat-button [matMenuTriggerFor]="menu">Language</button>
-                    <mat-menu #menu="matMenu">
-                    <button mat-menu-item>Item 1</button>
-                    <button mat-menu-item>Item 2</button>
-                    </mat-menu>
-                </div>
-                <div class="btn-group">
-                    <button class="filter-btn" mat-button [matMenuTriggerFor]="menu">Association</button>
-                    <mat-menu #menu="matMenu">
-                    <button mat-menu-item>Item 1</button>
-                    <button mat-menu-item>Item 2</button>
-                    </mat-menu>
-                </div>
-                <div class="btn-group">
-                    <button class="filter-btn" mat-button [matMenuTriggerFor]="menu">Organisation Ownership</button>
-                    <mat-menu #menu="matMenu">
-                    <button mat-menu-item>Item 1</button>
-                    <button mat-menu-item>Item 2</button>
-                    </mat-menu>
-                </div>
-                <div class="btn-group">
-                    <button class="filter-btn" mat-button [matMenuTriggerFor]="menu">Organisation Type</button>
-                    <mat-menu #menu="matMenu">
-                    <button mat-menu-item>Item 1</button>
-                    <button mat-menu-item>Item 2</button>
-                    </mat-menu>
-                </div>
-                <div class="btn-group">
-                    <button class="filter-btn" mat-button [matMenuTriggerFor]="menu">Organisation Size</button>
-                    <mat-menu #menu="matMenu">
-                    <button mat-menu-item>Item 1</button>
-                    <button mat-menu-item>Item 2</button>
-                    </mat-menu>
-                </div>
-                <div class="btn-group">
-                    <button class="filter-btn" mat-button [matMenuTriggerFor]="menu">Industry Sector</button>
-                    <mat-menu #menu="matMenu">
-                    <button mat-menu-item>Item 1</button>
-                    <button mat-menu-item>Item 2</button>
-                    </mat-menu>
-                </div>
-                <div class="btn-group">
-                    <button class="filter-btn" mat-button [matMenuTriggerFor]="menu">Grade in company</button>
-                    <mat-menu #menu="matMenu">
-                    <button mat-menu-item>Item 1</button>
-                    <button mat-menu-item>Item 2</button>
-                    </mat-menu>
-                </div>
-                <div class="btn-group">
-                    <button class="filter-btn" mat-button [matMenuTriggerFor]="menu">Ethnicity</button>
-                    <mat-menu #menu="matMenu">
-                    <button mat-menu-item>Item 1</button>
-                    <button mat-menu-item>Item 2</button>
-                    </mat-menu>
-                </div>
-                <div class="btn-group">
-                    <button class="filter-btn" mat-button [matMenuTriggerFor]="menu">Education</button>
-                    <mat-menu #menu="matMenu">
-                    <button mat-menu-item>Item 1</button>
-                    <button mat-menu-item>Item 2</button>
-                    </mat-menu>
-                </div>
-                <div class="btn-group">
-                    <button class="filter-btn" mat-button [matMenuTriggerFor]="menu">Employment Status</button>
-                    <mat-menu #menu="matMenu">
-                    <button mat-menu-item>Item 1</button>
-                    <button mat-menu-item>Item 2</button>
-                    </mat-menu>
-                </div>
-            </div> 
-        </div>
-    </section>
+        </ng-container>
+      </ng-container>
+    </div>
+  </div>
 </section>
+
 <section class="section_frame1-intro py-5">
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-lg-4">
-                <div class="frame1-intro box-shadow br-15 px-1 py-4 text-center h-100">
-                    <p class="cl-purple fs-25 mb-1"><mat-icon class="mr-2 align-middle">compare_arrows</mat-icon>Total no. of responses</p>
-                    <hr class="my-4">
-                    <h4 class="fs-25 mb-4 cl-orange">4092</h4>
-                    <button class="filter-btn btn filter-modal fs-16 bgc-orange px-5 text-white br-30" (click)="sample.show()">Sample</button>
-                </div>
-            </div>
-            <div class="col-12 text-center pt-4">
-                <button class="filter-btn btn filter-modal fs-16 bgc-blue text-white br-30 px-5">Report</button>
-                <!-- SAMPLE POPUP -->
-                <div bsModal #sample="bs-modal" class="modal fade" tabindex="-1"
-                role="dialog" aria-labelledby="dialog-sizes-name1">
-                    <div class="modal-dialog modal-lg modal-dialog-centered">
-                        <div class="modal-content p-4">
-                        <div class="">
-                            <button type="button" class="close pull-right" (click)="sample.hide()" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            ...
-                        </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12 pt-4 mt-3 overall-dimensions">
-                <h2 class="fs-25 mb-4 pb-3 cl-purple text-center">DIVERSITY, EQUITY & INCLUSION DIMENSIONS</h2>
-                <div class="row">
-                    <div class="col-lg-3 pb-4">
-                        <div class="frame1-intro box-shadow br-15 p-4 text-center h-100">
-                            <h4 class="fs-22">Sustaining Change</h4>
-                            <p class="fs-16">How impactful are the changes/interventions around DEI?</p>
-                            <p class="pt-4 fs-30 mb-3">4.32</p>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 pb-4">
-                        <div class="frame1-intro box-shadow br-15 p-4 text-center h-100">
-                            <h4 class="fs-22">Delivering Change</h4>
-                            <p class="fs-16">What key areas in DEI need change?</p>
-                            <p class="pt-4 fs-30 mb-3">3.57</p>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 pb-4">
-                        <div class="frame1-intro box-shadow br-15 p-4 text-center h-100">
-                            <h4 class="fs-22">Accountability & Power of Influence</h4>
-                            <p class="fs-16">Is my Leadership/Organization enhancing DEI?</p>
-                            <p class="pt-4 fs-30 mb-3">3.98</p>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 pb-4">
-                        <div class="frame1-intro box-shadow br-15 p-4 text-center h-100">
-                            <h4 class="fs-22">Ownership</h4>
-                            <p class="fs-16">Do I understand the nuances of DEI & act accordingly?</p>
-                            <p class="pt-4 fs-30 mb-3">3.96</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12 pt-5">
-                <h2 class="fs-25 mb-5 cl-purple text-center">HEAT MAP</h2>
-                <div class="box-shadow p-5 br-15"></div>
-            </div>
-            <div class="col-12 pt-5">
-                <h2 class="fs-25 mb-3 cl-purple text-center">OPEN TEXT ANALYSIS</h2>
-                <p class="cl-orange text-center mb-4">Natural Language Processing (NLP)</p>
-                <div class="d-flex justify-content-center align-items-center pb-4">
-                    <p class="cl-purple text-center mb-0 mr-4">Choose question : </p>
-                    <button type="button" class="filter-btn btn br-30" (click)="select.show()">
-                            Click to select<span class="caret"></span>
-                    </button>
-                </div>
-                <p class="text-center fs-25 mb-3"><span class="font-bold cl-orange pr-1 fs-25 ">Sustaining Change : </span>Does your immediate manager encourage people with different ideas and opinions to speak up?</p>
-                <p class="text-center fs-25 mb-0">% of disagreement : <span class="font-bold cl-orange pr-1 fs-25 ">8.65 %</span></p>
-                <div class="row pt-5">
-                    <div class="col-lg-6"></div>
-                    <div class="col-lg-6">
-                        <div class="box-shadow br-15 pl-5 pr-4 py-4">
-                            <h4 class="fs-22 cl-orange mb-3 text-center">COMMENTS</h4>
-                            <hr class="my-2">
-                            <ol class="mb-0">
-                                <li class="py-1"><b>Yes:</b> 2719 (79.99%),<b>  No:</b>  289 (8.4%)</li>
-                                <li class="py-1">Yes, Our organization provided us the best <b>facilities</b> for <b>physical</b> well being.</li>
-                                <li class="py-1">Yes My organization facilitates many activities for physical well being. i.e <b>yoga</b> class , <b>Gym</b>, Jumbo classes different clubs.</li>
-                                <li class="py-1">Our organization provides and encourages  physical <b>fitness</b> for every employee. Good infrastructure such as modern and open gyms, <b>yoga</b> centers, physiotherapy and so on are available</li>
-                                <li class="py-1">My organization has developed several<b> health</b> and physical well – being maintaining facilities within the plant. They also encourage employees and their families to utilize these facilities</li>
-                              </ol>
-                        </div>
-                    </div>
-                </div>
-                 <!-- SELECT POPUP -->
-                    <div bsModal #select="bs-modal" class="modal fade select" tabindex="-1"
-                    role="dialog" aria-labelledby="dialog-sizes-name1">
-                    <div class="modal-dialog modal-lg modal-dialog-centered">
-                        <div class="modal-content p-4">
-                            <div class="">
-                                <button type="button" class="close pull-right" (click)="select.hide()" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                <ul class="mb-0">
-                                    <li><a href=""><span class="font-bold cl-orange pr-1">Physical Well-being : </span>Does your organization help you manage your physical well being?</a></li>
-                                    <li><a href=""><span class="font-bold cl-orange pr-1">Environmental Well-being : </span>What do you do individually to contribute to the community?</a></li>
-                                    <li><a href=""><span class="font-bold cl-orange pr-1">Financial Well-being : </span> What steps have you taken to secure your financial stability?  have you taken to secure your financial stability?</a></li>
-                                </ul> 
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-4">
+        <div class="frame1-intro box-shadow br-15 px-1 py-4 text-center h-100" *ngIf="loading && !error">
+          Loading...
         </div>
-    </div>
-</section>
-<section class="section_footer py-1">
-    <div class="container">
-        <div class="row justify-content-between align-items-center">
-            <div class="col-12 text-center">
-                <img src="{{imageSrc}}" alt="" class="footer-img">
-                <p>&#169; Culturelytics All Rights Reserved</p>
-            </div>
+        <div class="frame1-intro box-shadow br-15 px-1 py-4 text-center h-100" *ngIf="!loading && !error">
+          <doughnut-chart [title]="'Well Being Quotient'" [value]="totNoOfRes"></doughnut-chart>
+          <p class="pt-4 fs-30">{{ totNoOfRes }}</p>
+          <button class="filter-btn btn filter-modal fs-16 bgc-orange px-5 text-white br-30"
+            (click)="overview.show()">Sample</button>
         </div>
+      </div>
+
+      <div class="col-12 text-center pt-4">
+        <button class="filter-btn btn filter-modal fs-16 bgc-blue text-white br-30 px-5">Report</button>
+      </div>
+
+      <div class="col-12 pt-4 mt-3 overall-dimensions">
+        <h2 class="fs-25 mb-4 pb-3 cl-purple text-center">DIVERSITY, EQUITY & INCLUSION DIMENSIONS</h2>
+        <div class="row">
+          <ng-container *ngFor="let well of wellBeing; let i = index">
+            <div class="col-lg-3 pb-4">
+              <div class="frame1-intro box-shadow br-15 p-4 text-center h-100">
+                <ng-container *ngIf="loading && !error">
+                  Loading...
+                </ng-container>
+                <ng-container *ngIf="!loading && !error">
+                  <doughnut-chart [title]="well.name" [value]="wellBeingTot[i]"></doughnut-chart>
+                </ng-container>
+                <p class="pt-4 fs-30 mb-3">
+                  {{ wellBeingTot[i] }}
+                </p>
+              </div>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+      <div class="col-12 pt-5">
+        <h2 class="fs-25 mb-5 cl-purple text-center">WELL-BEING HEAT MAP</h2>
+        <ng-container *ngIf="loading && !error">
+          <ng-container *ngFor="let heat of filterBy" class="">
+            <div class="box-shadow box-overflow p-5 br-15 mb-50" [ngClass]="
+                currentEnabled === '' || currentEnabled === heat.name
+                  ? 'show'
+                  : 'hide'
+              ">
+              Loading...
+            </div>
+          </ng-container>
+        </ng-container>
+        <ng-container *ngIf="!loading && !error">
+          <div class="box-shadow box-overflow p-5 br-15 mb-50">
+            <app-heatmap [name]="filterBy[0].name" [data]="graphValue[filterBy[0].responseName]" [xData]="wellBeing"
+              [yData]="data.dropDownList[filterBy[0].responseName]" [searchName]="filterBy[0].findName"
+              [dbName]="filterBy[0].db_name">
+            </app-heatmap>
+          </div>
+        </ng-container>
+      </div>
+      <div class="col-12 pt-5">
+        <h2 class="fs-25 mb-3 cl-purple text-center">OPEN TEXT ANALYSIS</h2>
+        <p class="cl-orange text-center mb-4">
+          Natural Language Processing (NLP)
+        </p>
+        <div class="d-flex justify-content-center align-items-center">
+          <p class="cl-purple text-center mb-0 mr-4">Choose question :</p>
+          <button type="button" class="filter-btn btn br-30" (click)="showChildModal(0, 'openText')">
+            Click to select<span class="caret"></span>
+          </button>
+        </div>
+
+        <div class="row pt-5">
+          <div class="col-lg-12">
+            <div *ngIf="!loading && !error">
+              <span class="font-bold cl-orange pr-1">{{ opentextvalues[selectedOpentext].category_name }} : </span>{{
+              opentextvalues[selectedOpentext].question }}
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <div *ngIf="loading && !error">Loading...</div>
+            <app-wordcloud *ngIf="!loading && !error" [data]="openVal"></app-wordcloud>
+          </div>
+          <div class="col-lg-6">
+            <div *ngIf="!loading && !error" class="box-shadow br-15 pl-5 pr-4 py-4 flex-container" [innerHTML]="
+                opentextvalues[selectedOpentext].statement | safeHtml
+              "></div>
+            <div *ngIf="loading && !error" class="box-shadow br-15 pl-5 pr-4 py-4 flex-container">
+              Loading...
+            </div>
+          </div>
+        </div>
+        <!-- SELECT POPUP -->
+        <div bsModal #openTextModal="bs-modal" class="modal fade select" tabindex="-1" role="dialog"
+          aria-labelledby="dialog-sizes-name1">
+          <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content p-4">
+              <div class="">
+                <button type="button" class="close pull-right" (click)="hideChildModal('openText')" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <ul class="mb-0">
+                  <ng-container *ngFor="let text of opentextvalues; let i = index">
+                    <li (click)="hideChildModal('openText', i)">
+                      <div>
+                        <span class="font-bold cl-orange pr-1">{{ text.category_name }} : </span>{{ text.question }}
+                      </div>
+                    </li>
+                  </ng-container>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
 </section>
+
+<!-- RESPONSE OVERVIEW POPUP -->
+<div bsModal #overview="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="dialog-sizes-name1">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content p-4">
+      <div class="">
+        <button type="button" class="close pull-right" (click)="overview.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <h1>Response Overview</h1>
+        <ng-container *ngFor="let pie of overviewResponse; let i = index">
+          <div class="col-md-12">
+            <div class="row">
+              <div class="col-md-6">
+                <pie-chart [data]="pie.values" [name]="pie.name"
+                  [dropDownData]="data.dropDownList[pie.name.responseName]"></pie-chart>
+              </div>
+              <div class="col-md-6">
+                <h2>{{ pie.name.name }}</h2>
+                <div class="col-md-12">
+                  <div class="row">
+                    <div class="col-sm-6">
+                      <h1>Top 3</h1>
+                      <ng-container *ngFor="let topBottom of pie.top">
+                        <p>
+                          {{
+                          getValues(
+                          pie.name.responseName,
+                          topBottom[pie.name.db_name],
+                          pie.name.findName
+                          )
+                          }}
+                          <b>[{{ topBottom.no_of_responses }}] </b>
+                        </p>
+                      </ng-container>
+                    </div>
+                    <div class="col-sm-6">
+                      <h1>Bottom 3</h1>
+                      <ng-container *ngFor="let topBottom of pie.bottom">
+                        <p>
+                          {{
+                          getValues(
+                          pie.name.responseName,
+                          topBottom[pie.name.db_name],
+                          pie.name.findName
+                          )
+                          }}
+                          <b>[{{ topBottom.no_of_responses }}]</b>
+                        </p>
+                      </ng-container>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</div>

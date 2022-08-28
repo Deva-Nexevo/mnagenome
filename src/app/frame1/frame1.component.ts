@@ -42,8 +42,6 @@ export class Frame1Component implements OnInit {
   statementModalcontent: any = '';
   insightModalcontent: any = '';
   actionModalcontent: any = '';
-  logo = 'assets/images/beats-logo.png';
-  imageSrc = 'assets/images/beats.gif';
   height: number = 150;
   graphValue: any = [];
   filterValue: any = [];
@@ -266,7 +264,6 @@ export class Frame1Component implements OnInit {
                   );
                 }
               );
-              console.log(this.dropDownList);
             });
 
             this.calculateAllValues();
@@ -306,7 +303,7 @@ export class Frame1Component implements OnInit {
   }
 
   showChildModal(i: any, forModal = ''): void {
-    if (forModal !== 'openText') {
+    if (forModal !== 'openText' && this.currentSelectedGraphName === '') {
       this.aboutModalcontent =
         this.data.alldetailValues[0][this.wellBeing[i]['about']];
       this.statementModalcontent =
@@ -315,6 +312,16 @@ export class Frame1Component implements OnInit {
         this.data.alldetailValues[0][this.wellBeing[i]['insight']];
       this.actionModalcontent =
         this.data.alldetailValues[0][this.wellBeing[i]['action']];
+    }
+
+    if (forModal !== 'openText' && this.currentSelectedGraphName) {
+      let item = this.graphValue[this.currentSelectedGraphName].find(
+        (val: any) => val[this.currentSelectedDbName] === this.currentSelectedId
+      );
+      this.aboutModalcontent = item[this.wellBeing[i]['about']];
+      this.statementModalcontent = item[this.wellBeing[i]['state']];
+      this.insightModalcontent = item[this.wellBeing[i]['insight']];
+      this.actionModalcontent = item[this.wellBeing[i]['action']];
     }
 
     if (forModal === 'about') this.childModal?.show();
@@ -425,18 +432,18 @@ export class Frame1Component implements OnInit {
         });
         this.totNoOfEmp = this.sumOfAllData['no_of_employees'];
         this.totNoOfRes = this.sumOfAllData['no_of_responses'];
-        this.totNoOfPer = ((this.totNoOfRes / this.totNoOfEmp) * 100).toFixed(
-          2
-        );
-        this.wellBeingQuet = (
+        this.totNoOfPer = Number(
+          (this.totNoOfRes / this.totNoOfEmp) * 100
+        ).toFixed(2);
+        this.wellBeingQuet = Number(
           this.data.alldetailValues
             .map((item: any) => item.well_being_quotient)
             .reduce((prev: any, curr: any) => Number(prev) + Number(curr), 0) /
-          this.data.alldetailValues.length
+            this.data.alldetailValues.length
         ).toFixed(2);
         this.wellBeing.forEach((val: any) => {
           this.wellBeingTot.push(
-            (
+            Number(
               this.data.alldetailValues
                 .map((item: any) => item[val.value])
                 .reduce(
@@ -474,7 +481,6 @@ export class Frame1Component implements OnInit {
             val[this.currentSelectedDbName] === this.currentSelectedId
         );
         this.loading = true;
-        console.log(item);
         setTimeout(() => {
           this.sumOfAllData['no_of_employees'] = Number(
             item['no_of_employees']
@@ -499,12 +505,12 @@ export class Frame1Component implements OnInit {
           this.sumOfAllData['feeling_happy'] = item['feeling_happy'];
           this.totNoOfEmp = Number(item['no_of_employees']);
           this.totNoOfRes = Number(item['no_of_responses']);
-          this.totNoOfPer = ((this.totNoOfRes / this.totNoOfEmp) * 100).toFixed(
-            2
-          );
-          this.wellBeingQuet = item['well_being_quotient'].toFixed(2);
+          this.totNoOfPer = Number(
+            (this.totNoOfRes / this.totNoOfEmp) * 100
+          ).toFixed(2);
+          this.wellBeingQuet = Number(item['well_being_quotient']).toFixed(2);
           this.wellBeing.forEach((val: any) => {
-            this.wellBeingTot.push(Number(item[val.value]).toFixed(2));
+            Number(this.wellBeingTot.push(Number(item[val.value]).toFixed(2)));
           });
           this.employeeMood = [
             this.sumOfAllData['veryhappy'],
