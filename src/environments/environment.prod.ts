@@ -1,11 +1,10 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://re-mote.io/admin/public/index.php/api',
-  siteUrl: '/',
+  apiUrl: 'https://mnagenome.demo-nexevo.in/api',
+  siteUrl: 'https://demo-nexevo.in/mnagenome/',
   encKey: 'mnageencriptionmodeforpass',
   encVa: '0123456789123456',
-  assestUrl: 'https://re-mote.io',
-  userService: 'https://re-mote.io',
+  assestUrl: 'https://demo-nexevo.in/mnagenome/',
 };
 
 // export const environment = {
