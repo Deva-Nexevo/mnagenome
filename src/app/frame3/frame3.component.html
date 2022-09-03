@@ -101,6 +101,27 @@
           </div>
         </ng-container>
       </div>
+      <div class="col-12 pt-5" *ngIf="sumOfAllData['employee_mood'] == 1">
+        <h2 class="fs-25 mb-5 cl-purple text-center">
+          EMPLOYEE MOOD ANALYSIS
+        </h2>
+        <div class="box-shadow p-5 br-15">
+          <bar-chart *ngIf="!loading && !error" [data]="employeeMood"></bar-chart>
+          <!-- <div *ngIf="loading && !error">
+            Loading...
+          </div> -->
+        </div>
+      </div>
+      <div class="col-12 pt-5" *ngIf="sumOfAllData['employee_feeling'] == 1">
+        <h2 class="fs-25 mb-5 cl-purple text-center">EMPLOYEE FEELINGS</h2>
+
+        <div class="box-shadow p-5 br-15">
+          <radar-chart *ngIf="!loading && !error" [data]="employeeFeeling"></radar-chart>
+          <!-- <div *ngIf="loading && !error">
+            Loading...
+          </div> -->
+        </div>
+      </div>
       <div class="col-12 pt-5">
         <h2 class="fs-25 mb-3 cl-purple text-center">OPEN TEXT ANALYSIS</h2>
         <p class="cl-orange text-center mb-4">
@@ -144,7 +165,7 @@
                 </button>
               </div>
               <div class="modal-body">
-                <ul class="mb-0">
+                <ul class="mb-0 open-text">
                   <ng-container *ngFor="let text of opentextvalues; let i = index">
                     <li (click)="hideChildModal('openText', i)">
                       <div>
@@ -175,7 +196,10 @@
         <h1>Response Overview</h1>
         <ng-container *ngFor="let pie of overviewResponse; let i = index">
           <div class="col-md-12">
-            <div class="row">
+            <h2>{{ pie.name.name }}</h2>
+            <pie-chart [data]="pie.values" [name]="pie.name" [dropDownData]="data.dropDownList[pie.name.responseName]">
+            </pie-chart>
+            <!-- <div class="row">
               <div class="col-md-6">
                 <pie-chart [data]="pie.values" [name]="pie.name"
                   [dropDownData]="data.dropDownList[pie.name.responseName]"></pie-chart>
@@ -217,7 +241,7 @@
                   </div>
                 </div>
               </div>
-            </div>
+            </div> -->
           </div>
         </ng-container>
       </div>

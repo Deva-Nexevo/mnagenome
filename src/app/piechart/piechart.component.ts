@@ -18,14 +18,14 @@ export class PieChartComponent implements OnInit {
   }
   ngOnInit(): void {
     const data: any = [];
-    const totalNoOfEmployee = this.data
-      .map((item: any) => item.no_of_employees)
+    const totalNoOfResponse = this.data
+      .map((item: any) => item.no_of_responses)
       .reduce((prev: any, curr: any) => prev + curr, 0);
 
     this.data.forEach((val: any) => {
       data.push({
         name: this.findValue(val[this.name.db_name]),
-        y: val.no_of_employees / totalNoOfEmployee,
+        y: val.no_of_responses / totalNoOfResponse,
       });
     });
 

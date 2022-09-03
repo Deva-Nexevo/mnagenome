@@ -47,6 +47,7 @@ export class Frame2Component implements OnInit {
   graphValue: any = [];
   filterValue: any = [];
   wellBeingTot: any = [];
+  wellBeingTrade: any = [];
   employeeFeeling: any = [];
   employeeMood: any = [];
   wordCloudData: string = '';
@@ -97,19 +98,31 @@ export class Frame2Component implements OnInit {
       action: 'physical_action',
       active: 'physical_active',
       tactive: 'physical_trade_active',
-      display: 1,
+      key: 'physical',
     },
     {
-      name: 'occupational well-being',
-      value: 'occupational_value',
-      trade: 'occupational_trade',
-      about: 'occupational_about',
-      state: 'occupational_statements',
-      insight: 'occupational_insight',
-      action: 'occupational_action',
-      active: 'occupational_active',
-      tactive: 'occupational_trade_active',
-      display: 1,
+      name: 'environmental well-being',
+      value: 'environmental_value',
+      trade: 'environmental_trade',
+      about: 'environmental_about',
+      state: 'environmental_statements',
+      insight: 'environmental_insight',
+      action: 'environmental_action',
+      active: 'environmental_active',
+      tactive: 'environmental_trade_active',
+      key: 'environmental',
+    },
+    {
+      name: 'intellectual well-being',
+      value: 'intellectual_value',
+      trade: 'intellectual_trade',
+      about: 'intellectual_about',
+      state: 'intellectual_statements',
+      insight: 'intellectual_insight',
+      action: 'intellectual_action',
+      active: 'intellectual_active',
+      tactive: 'intellectual_trade_active',
+      key: 'intellectual',
     },
     {
       name: 'spiritual well-being',
@@ -121,7 +134,55 @@ export class Frame2Component implements OnInit {
       action: 'spiritual_action',
       active: 'spiritual_active',
       tactive: 'spiritual_trade_active',
-      display: 1,
+      key: 'spiritual',
+    },
+    {
+      name: 'emotional well-being',
+      value: 'emotional_value',
+      trade: 'emotional_trade',
+      about: 'emotional_about',
+      state: 'emotional_statements',
+      insight: 'emotional_insight',
+      action: 'emotional_action',
+      active: 'emotional_active',
+      tactive: 'emotional_trade_active',
+      key: 'emotional',
+    },
+    {
+      name: 'social well-being',
+      value: 'social_value',
+      trade: 'social_trade',
+      about: 'social_about',
+      state: 'social_statements',
+      insight: 'social_insight',
+      action: 'social_action',
+      active: 'social_active',
+      tactive: 'social_trade_active',
+      key: 'social',
+    },
+    {
+      name: 'occupational well-being',
+      value: 'occupational_value',
+      trade: 'occupational_trade',
+      about: 'occupational_about',
+      state: 'occupational_statements',
+      insight: 'occupational_insight',
+      action: 'occupational_action',
+      active: 'occupational_active',
+      tactive: 'occupational_trade_active',
+      key: 'occupational',
+    },
+    {
+      name: 'financial well-being',
+      value: 'financial_value',
+      trade: 'financial_trade',
+      about: 'financial_about',
+      state: 'financial_statements',
+      insight: 'financial_insight',
+      action: 'financial_action',
+      active: 'financial_active',
+      tactive: 'financial_trade_active',
+      key: 'financial',
     },
   ];
 
@@ -129,26 +190,32 @@ export class Frame2Component implements OnInit {
     {
       name: 'Organization',
       value: 'organization',
+      key: 'organization',
     },
     {
       name: 'Leadership',
       value: 'leadership',
+      key: 'leadership',
     },
     {
       name: 'Team',
       value: 'team',
+      key: 'team',
     },
     {
       name: 'Physical well-being',
       value: 'physical_value',
+      key: 'physical',
     },
     {
       name: 'occupational well-being',
       value: 'occupational_value',
+      key: 'occupational',
     },
     {
       name: 'spiritual well-being',
       value: 'spiritual_value',
+      key: 'spiritual',
     },
   ];
 
@@ -358,8 +425,14 @@ export class Frame2Component implements OnInit {
       );
       if (org_item) {
         this.oltjContent = {
-          insight: org_item[data.db_col_name],
-          action: org_item[data.db_col_name1],
+          insight:
+            org_item[data.db_col_name] === null
+              ? ''
+              : org_item[data.db_col_name],
+          action:
+            org_item[data.db_col_name1] === null
+              ? ''
+              : org_item[data.db_col_name1],
         };
       }
     }
@@ -368,8 +441,14 @@ export class Frame2Component implements OnInit {
       let org_item = this.data.oltj_data[0];
       if (org_item) {
         this.oltjContent = {
-          insight: org_item[data.db_col_name],
-          action: org_item[data.db_col_name1],
+          insight:
+            org_item[data.db_col_name] === null
+              ? ''
+              : org_item[data.db_col_name],
+          action:
+            org_item[data.db_col_name1] === null
+              ? ''
+              : org_item[data.db_col_name1],
         };
       }
     }
@@ -445,6 +524,9 @@ export class Frame2Component implements OnInit {
       setTimeout(() => {
         this.initializeValue();
         this.data.alldetailValues.forEach((item: any) => {
+          let org_item = this.data.oltj_data.find(
+            (val: any) => val.row_id === item['id']
+          );
           this.sumOfAllData['no_of_employees'] =
             Number(this.sumOfAllData['no_of_employees']) +
             Number(item['no_of_employees']);
@@ -476,15 +558,28 @@ export class Frame2Component implements OnInit {
           this.sumOfAllData['frustation'] =
             this.sumOfAllData['frustation'] + item['frustation'];
           this.sumOfAllData['feeling_happy'] =
-            this.sumOfAllData['feeling_happy'] + item['feeling_happy'];
+            this.sumOfAllData['feeling_happy'] + item['feelinghappy'];
           this.sumOfAllData['beats_quotient'] =
             this.sumOfAllData['beats_quotient'] + item['beats_quotient'];
-          this.sumOfAllData['organization'] =
-            this.sumOfAllData['organization'] + item['organization'];
-          this.sumOfAllData['leadership'] =
-            this.sumOfAllData['leadership'] + item['leadership'];
-          this.sumOfAllData['team'] = this.sumOfAllData['team'] + item['team'];
-          this.sumOfAllData['job'] = this.sumOfAllData['job'] + item['job'];
+          if (org_item) {
+            this.sumOfAllData['organization'] =
+              this.sumOfAllData['organization'] +
+              Number(org_item['organization_value']);
+            this.sumOfAllData['leadership'] =
+              this.sumOfAllData['leadership'] +
+              Number(org_item['leadership_value']);
+            this.sumOfAllData['team'] =
+              this.sumOfAllData['team'] + Number(org_item['team_value']);
+            this.sumOfAllData['job'] =
+              this.sumOfAllData['job'] + Number(org_item['job_value']);
+          } else {
+            this.sumOfAllData['organization'] =
+              this.sumOfAllData['organization'] + 0;
+            this.sumOfAllData['leadership'] =
+              this.sumOfAllData['leadership'] + 0;
+            this.sumOfAllData['team'] = this.sumOfAllData['team'] + 0;
+            this.sumOfAllData['job'] = this.sumOfAllData['job'] + 0;
+          }
         });
         this.sumOfAllData['beats_quotient'] = Number(
           this.sumOfAllData['beats_quotient'] /
@@ -501,6 +596,8 @@ export class Frame2Component implements OnInit {
             .reduce((prev: any, curr: any) => Number(prev) + Number(curr), 0) /
             this.data.alldetailValues.length
         ).toFixed(2);
+        this.wellBeingTot = [];
+        this.wellBeingTrade = [];
         this.wellBeing.forEach((val: any) => {
           this.wellBeingTot.push(
             (
@@ -510,6 +607,17 @@ export class Frame2Component implements OnInit {
                   (prev: any, curr: any) => Number(prev) + Number(curr),
                   0
                 ) / this.data.alldetailValues.length
+            ).toFixed(2)
+          );
+          this.wellBeingTrade.push(
+            (
+              this.data.alldetailValues
+                .map((item: any) =>
+                  item[val.tactive] == 1 ? item[val.trade] : 0
+                )
+                .reduce((prev: any, curr: any) => {
+                  return Number(prev) + Number(curr);
+                }, 0) / this.data.alldetailValues.length
             ).toFixed(2)
           );
         });
@@ -548,6 +656,9 @@ export class Frame2Component implements OnInit {
         );
         this.loading = true;
         setTimeout(() => {
+          let org_item = this.data.oltj_data.find(
+            (val: any) => val.row_id === item['id']
+          );
           this.sumOfAllData['no_of_employees'] = Number(
             item['no_of_employees']
           );
@@ -568,11 +679,22 @@ export class Frame2Component implements OnInit {
           this.sumOfAllData['depression'] = item['depression'];
           this.sumOfAllData['fear'] = item['fear'];
           this.sumOfAllData['frustation'] = item['frustation'];
-          this.sumOfAllData['feeling_happy'] = item['feeling_happy'];
-          this.sumOfAllData['organization'] = item['organization'];
-          this.sumOfAllData['leadership'] = item['leadership'];
-          this.sumOfAllData['team'] = item['team'];
-          this.sumOfAllData['job'] = item['job'];
+          this.sumOfAllData['feeling_happy'] = item['feelinghappy'];
+          if (org_item) {
+            this.sumOfAllData['organization'] = Number(
+              org_item['organization_value']
+            );
+            this.sumOfAllData['leadership'] = Number(
+              org_item['leadership_value']
+            );
+            this.sumOfAllData['team'] = Number(org_item['team_value']);
+            this.sumOfAllData['job'] = Number(org_item['job_value']);
+          } else {
+            this.sumOfAllData['organization'] = 0;
+            this.sumOfAllData['leadership'] = 0;
+            this.sumOfAllData['team'] = 0;
+            this.sumOfAllData['job'] = 0;
+          }
 
           this.totNoOfEmp = Number(item['no_of_employees']);
           this.totNoOfRes = Number(item['no_of_responses']);
@@ -581,8 +703,17 @@ export class Frame2Component implements OnInit {
           ).toFixed(2);
           this.sumOfAllData['beats_quotient'] = item['beats_quotient'];
           this.wellBeingQuet = Number(item['well_being_quotient']).toFixed(2);
+          this.wellBeingTot = [];
+          this.wellBeingTrade = [];
           this.wellBeing.forEach((val: any) => {
             Number(this.wellBeingTot.push(Number(item[val.value]).toFixed(2)));
+          });
+          this.wellBeing.forEach((val: any) => {
+            Number(
+              this.wellBeingTrade.push(
+                item[val.tactive] == 1 ? Number(item[val.trade]).toFixed(2) : 0
+              )
+            );
           });
           this.employeeMood = [
             this.sumOfAllData['veryhappy'],

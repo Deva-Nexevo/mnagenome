@@ -26,11 +26,11 @@ export class WordcloudComponent {
     for (let i = 0; i < data1.length; i++) {
       arr1.push(data1[i]);
     }
-    for (let i = 0; i < data1.length; i++) {
+    /* for (let i = 0; i < data1.length; i++) {
       for (let j = 1; j < data1[i].weight; j++) {
         arr1.push(data1[i]);
       }
-    }
+    } */
     var data = arr1;
 
     this.options = {

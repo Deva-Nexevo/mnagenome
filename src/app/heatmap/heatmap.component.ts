@@ -20,7 +20,7 @@ export class HeatmapComponent implements OnInit {
   chartOptions: Highcharts.Options = {};
 
   isPresentInData(id: any) {
-    return this.data.some((val: any) => val[this.dbName] === id);
+    return this.data.findIndex((val: any) => val[this.dbName] === id);
   }
 
   ngOnInit() {
@@ -28,19 +28,27 @@ export class HeatmapComponent implements OnInit {
     let yData: any = [];
     let data: any = [];
 
-    this.xData.forEach((val: any) => {
-      const str = val.name.split(' ')[0];
-      xData.push(str.charAt(0).toUpperCase() + str.slice(1));
-    });
-
-    this.yData.forEach((val: any) => {
-      if (this.isPresentInData(val.id)) yData.push(val[this.searchName]);
-    });
-
-    this.data.forEach((val: any, index: any) => {
-      this.xData.forEach((val1: any, index1: any) => {
-        data.push([index1, index, val[this.xData[index1]['value']]]);
+    this.xData
+      .sort(function (a: any, b: any) {
+        return a.id - b.id;
+      })
+      .forEach((val: any) => {
+        const str = val.name.split(' ')[0];
+        xData.push(str.charAt(0).toUpperCase() + str.slice(1));
       });
+
+    this.yData.forEach((val: any, index: number) => {
+      const currentIndex = this.isPresentInData(val.id);
+      if (currentIndex > -1) {
+        yData.push(val[this.searchName]);
+        this.xData.forEach((val1: any, index1: any) => {
+          data.push([
+            index1,
+            index,
+            this.data[currentIndex][this.xData[index1]['key']],
+          ]);
+        });
+      }
     });
 
     this.chartOptions = {

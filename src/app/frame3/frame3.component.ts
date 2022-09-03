@@ -46,6 +46,7 @@ export class Frame3Component implements OnInit {
   graphValue: any = [];
   filterValue: any = [];
   wellBeingTot: any = [];
+  wellBeingTrade: any = [];
   employeeFeeling: any = [];
   employeeMood: any = [];
   wordCloudData: string = '';
@@ -164,21 +165,25 @@ export class Frame3Component implements OnInit {
       name: 'Sustaining Change',
       value: 'sustainingchange_value',
       desc: 'sustainingchange_title',
+      key: 'sustainingchange',
     },
     {
       name: 'Delivering Change',
       value: 'deliverychange_value',
       desc: 'deliverychange_title',
+      key: 'deliverychange',
     },
     {
       name: 'Accountability & Power of Influence',
       value: 'accountability_value',
       desc: 'accountability_title',
+      key: 'accountability',
     },
     {
       name: 'Ownership',
       value: 'ownership_value',
       desc: 'ownership_title',
+      key: 'ownership',
     },
   ];
   sumOfAllData: any = {
@@ -249,6 +254,7 @@ export class Frame3Component implements OnInit {
                 top: arr.slice(0, 3),
                 bottom: arr.slice(-3).reverse(),
               });
+
               this.dropDownList[key] = this.data.dropDownList[key].filter(
                 (filterValue: any) => {
                   return val.find(
@@ -339,6 +345,23 @@ export class Frame3Component implements OnInit {
   initializeValue() {
     this.sumOfAllData['no_of_employees'] = 0;
     this.sumOfAllData['no_of_responses'] = 0;
+    this.sumOfAllData['veryhappy'] = 0;
+    this.sumOfAllData['happy'] = 0;
+    this.sumOfAllData['neitherhappy'] = 0;
+    this.sumOfAllData['sad'] = 0;
+    this.sumOfAllData['verysad'] = 0;
+    this.sumOfAllData['easy'] = 0;
+    this.sumOfAllData['engaged'] = 0;
+    this.sumOfAllData['fun'] = 0;
+    this.sumOfAllData['managable'] = 0;
+    this.sumOfAllData['anger'] = 0;
+    this.sumOfAllData['anxiety'] = 0;
+    this.sumOfAllData['depression'] = 0;
+    this.sumOfAllData['fear'] = 0;
+    this.sumOfAllData['frustation'] = 0;
+    this.sumOfAllData['feeling_happy'] = 0;
+    this.sumOfAllData['employee_mood'] = 2;
+    this.sumOfAllData['employee_feeling'] = 2;
   }
 
   calculateAllValues() {
@@ -353,6 +376,32 @@ export class Frame3Component implements OnInit {
           this.sumOfAllData['no_of_responses'] =
             Number(this.sumOfAllData['no_of_responses']) +
             Number(item['no_of_responses']);
+          this.sumOfAllData['veryhappy'] =
+            this.sumOfAllData['veryhappy'] + item['veryhappy'];
+          this.sumOfAllData['happy'] =
+            this.sumOfAllData['happy'] + item['happy'];
+          this.sumOfAllData['neitherhappy'] =
+            this.sumOfAllData['neitherhappy'] + item['neitherhappy'];
+          this.sumOfAllData['sad'] = this.sumOfAllData['sad'] + item['sad'];
+          this.sumOfAllData['verysad'] =
+            this.sumOfAllData['verysad'] + item['verysad'];
+          this.sumOfAllData['easy'] = this.sumOfAllData['easy'] + item['easy'];
+          this.sumOfAllData['engaged'] =
+            this.sumOfAllData['engaged'] + item['engaged'];
+          this.sumOfAllData['fun'] = this.sumOfAllData['fun'] + item['fun'];
+          this.sumOfAllData['managable'] =
+            this.sumOfAllData['managable'] + item['managable'];
+          this.sumOfAllData['anger'] =
+            this.sumOfAllData['anger'] + item['anger'];
+          this.sumOfAllData['anxiety'] =
+            this.sumOfAllData['anxiety'] + item['anxiety'];
+          this.sumOfAllData['depression'] =
+            this.sumOfAllData['depression'] + item['depression'];
+          this.sumOfAllData['fear'] = this.sumOfAllData['fear'] + item['fear'];
+          this.sumOfAllData['frustation'] =
+            this.sumOfAllData['frustation'] + item['frustation'];
+          this.sumOfAllData['feeling_happy'] =
+            this.sumOfAllData['feeling_happy'] + item['feelinghappy'];
         });
         this.totNoOfEmp = this.sumOfAllData['no_of_employees'];
         this.totNoOfRes = this.sumOfAllData['no_of_responses'];
@@ -365,6 +414,8 @@ export class Frame3Component implements OnInit {
             .reduce((prev: any, curr: any) => Number(prev) + Number(curr), 0) /
             this.data.alldetailValues.length
         ).toFixed(2);
+        this.wellBeingTot = [];
+        this.wellBeingTrade = [];
         this.wellBeing.forEach((val: any) => {
           this.wellBeingTot.push(
             Number(
@@ -376,7 +427,37 @@ export class Frame3Component implements OnInit {
                 ) / this.data.alldetailValues.length
             ).toFixed(2)
           );
+          this.wellBeingTrade.push(
+            (
+              this.data.alldetailValues
+                .map((item: any) =>
+                  item[val.tactive] == 1 ? item[val.trade] : 0
+                )
+                .reduce((prev: any, curr: any) => {
+                  return Number(prev) + Number(curr);
+                }, 0) / this.data.alldetailValues.length
+            ).toFixed(2)
+          );
         });
+        this.employeeMood = [
+          this.sumOfAllData['veryhappy'],
+          this.sumOfAllData['happy'],
+          this.sumOfAllData['neitherhappy'],
+          this.sumOfAllData['sad'],
+          this.sumOfAllData['verysad'],
+        ];
+        this.employeeFeeling = [
+          this.sumOfAllData['easy'],
+          this.sumOfAllData['engaged'],
+          this.sumOfAllData['fun'],
+          this.sumOfAllData['feeling_happy'],
+          this.sumOfAllData['managable'],
+          this.sumOfAllData['anger'],
+          this.sumOfAllData['anxiety'],
+          this.sumOfAllData['depression'],
+          this.sumOfAllData['fear'],
+          this.sumOfAllData['frustation'],
+        ];
         this.loading = false;
       });
     } else {
@@ -393,15 +474,59 @@ export class Frame3Component implements OnInit {
           this.sumOfAllData['no_of_responses'] = Number(
             item['no_of_responses']
           );
+          this.sumOfAllData['veryhappy'] = item['veryhappy'];
+          this.sumOfAllData['happy'] = item['happy'];
+          this.sumOfAllData['neitherhappy'] = item['neitherhappy'];
+          this.sumOfAllData['sad'] = item['sad'];
+          this.sumOfAllData['verysad'] = item['verysad'];
+          this.sumOfAllData['easy'] = item['easy'];
+          this.sumOfAllData['engaged'] = item['engaged'];
+          this.sumOfAllData['fun'] = item['fun'];
+          this.sumOfAllData['managable'] = item['managable'];
+          this.sumOfAllData['anger'] = item['anger'];
+          this.sumOfAllData['anxiety'] = item['anxiety'];
+          this.sumOfAllData['depression'] = item['depression'];
+          this.sumOfAllData['fear'] = item['fear'];
+          this.sumOfAllData['frustation'] = item['frustation'];
+          this.sumOfAllData['feeling_happy'] = item['feelinghappy'];
+
           this.totNoOfEmp = Number(item['no_of_employees']);
           this.totNoOfRes = Number(item['no_of_responses']);
+          this.sumOfAllData['employee_mood'] = item['employeemoodstatus'];
+          this.sumOfAllData['employee_feeling'] = item['employeefeelingstatus'];
+
           this.totNoOfPer = Number(
             (this.totNoOfRes / this.totNoOfEmp) * 100
           ).toFixed(2);
           this.wellBeingQuet = Number(item['well_being_quotient']).toFixed(2);
+          this.wellBeingTot = [];
           this.wellBeing.forEach((val: any) => {
             Number(this.wellBeingTot.push(Number(item[val.value]).toFixed(2)));
+            Number(
+              this.wellBeingTrade.push(
+                item[val.tactive] == 1 ? Number(item[val.trade]).toFixed(2) : 0
+              )
+            );
           });
+          this.employeeMood = [
+            this.sumOfAllData['veryhappy'],
+            this.sumOfAllData['happy'],
+            this.sumOfAllData['neitherhappy'],
+            this.sumOfAllData['sad'],
+            this.sumOfAllData['verysad'],
+          ];
+          this.employeeFeeling = [
+            this.sumOfAllData['easy'],
+            this.sumOfAllData['engaged'],
+            this.sumOfAllData['fun'],
+            this.sumOfAllData['feeling_happy'],
+            this.sumOfAllData['managable'],
+            this.sumOfAllData['anger'],
+            this.sumOfAllData['anxiety'],
+            this.sumOfAllData['depression'],
+            this.sumOfAllData['fear'],
+            this.sumOfAllData['frustation'],
+          ];
           this.loading = false;
         });
       }

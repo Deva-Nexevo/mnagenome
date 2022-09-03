@@ -46,6 +46,7 @@ export class Frame1Component implements OnInit {
   graphValue: any = [];
   filterValue: any = [];
   wellBeingTot: any = [];
+  wellBeingTrade: any = [];
   employeeFeeling: any = [];
   employeeMood: any = [];
   wordCloudData: string = '';
@@ -110,6 +111,7 @@ export class Frame1Component implements OnInit {
       action: 'physical_action',
       active: 'physical_active',
       tactive: 'physical_trade_active',
+      key: 'physical',
     },
     {
       name: 'environmental well-being',
@@ -121,6 +123,7 @@ export class Frame1Component implements OnInit {
       action: 'environmental_action',
       active: 'environmental_active',
       tactive: 'environmental_trade_active',
+      key: 'environmental',
     },
     {
       name: 'intellectual well-being',
@@ -132,6 +135,7 @@ export class Frame1Component implements OnInit {
       action: 'intellectual_action',
       active: 'intellectual_active',
       tactive: 'intellectual_trade_active',
+      key: 'intellectual',
     },
     {
       name: 'spiritual well-being',
@@ -143,6 +147,7 @@ export class Frame1Component implements OnInit {
       action: 'spiritual_action',
       active: 'spiritual_active',
       tactive: 'spiritual_trade_active',
+      key: 'spiritual',
     },
     {
       name: 'emotional well-being',
@@ -154,6 +159,7 @@ export class Frame1Component implements OnInit {
       action: 'emotional_action',
       active: 'emotional_active',
       tactive: 'emotional_trade_active',
+      key: 'emotional',
     },
     {
       name: 'social well-being',
@@ -165,6 +171,7 @@ export class Frame1Component implements OnInit {
       action: 'social_action',
       active: 'social_active',
       tactive: 'social_trade_active',
+      key: 'social',
     },
     {
       name: 'occupational well-being',
@@ -176,6 +183,7 @@ export class Frame1Component implements OnInit {
       action: 'occupational_action',
       active: 'occupational_active',
       tactive: 'occupational_trade_active',
+      key: 'occupational',
     },
     {
       name: 'financial well-being',
@@ -187,6 +195,7 @@ export class Frame1Component implements OnInit {
       action: 'financial_action',
       active: 'financial_active',
       tactive: 'financial_trade_active',
+      key: 'financial',
     },
   ];
   sumOfAllData: any = {
@@ -265,7 +274,6 @@ export class Frame1Component implements OnInit {
                 }
               );
             });
-
             this.calculateAllValues();
             this.category = this.data.category;
             this.data.opentextvalues.forEach((value: any) => {
@@ -428,7 +436,7 @@ export class Frame1Component implements OnInit {
           this.sumOfAllData['frustation'] =
             this.sumOfAllData['frustation'] + item['frustation'];
           this.sumOfAllData['feeling_happy'] =
-            this.sumOfAllData['feeling_happy'] + item['feeling_happy'];
+            this.sumOfAllData['feeling_happy'] + item['feelinghappy'];
         });
         this.totNoOfEmp = this.sumOfAllData['no_of_employees'];
         this.totNoOfRes = this.sumOfAllData['no_of_responses'];
@@ -441,11 +449,27 @@ export class Frame1Component implements OnInit {
             .reduce((prev: any, curr: any) => Number(prev) + Number(curr), 0) /
             this.data.alldetailValues.length
         ).toFixed(2);
+        this.wellBeingTot = [];
+        this.wellBeingTrade = [];
         this.wellBeing.forEach((val: any) => {
           this.wellBeingTot.push(
             Number(
               this.data.alldetailValues
                 .map((item: any) => item[val.value])
+                .reduce(
+                  (prev: any, curr: any) => Number(prev) + Number(curr),
+                  0
+                ) / this.data.alldetailValues.length
+            ).toFixed(2)
+          );
+        });
+        this.wellBeing.forEach((val: any) => {
+          this.wellBeingTrade.push(
+            Number(
+              this.data.alldetailValues
+                .map((item: any) =>
+                  item[val.tactive] == 1 ? item[val.trade] : 0
+                )
                 .reduce(
                   (prev: any, curr: any) => Number(prev) + Number(curr),
                   0
@@ -502,15 +526,24 @@ export class Frame1Component implements OnInit {
           this.sumOfAllData['depression'] = item['depression'];
           this.sumOfAllData['fear'] = item['fear'];
           this.sumOfAllData['frustation'] = item['frustation'];
-          this.sumOfAllData['feeling_happy'] = item['feeling_happy'];
+          this.sumOfAllData['feeling_happy'] = item['feelinghappy'];
           this.totNoOfEmp = Number(item['no_of_employees']);
           this.totNoOfRes = Number(item['no_of_responses']);
           this.totNoOfPer = Number(
             (this.totNoOfRes / this.totNoOfEmp) * 100
           ).toFixed(2);
           this.wellBeingQuet = Number(item['well_being_quotient']).toFixed(2);
+          this.wellBeingTot = [];
+          this.wellBeingTrade = [];
           this.wellBeing.forEach((val: any) => {
             Number(this.wellBeingTot.push(Number(item[val.value]).toFixed(2)));
+          });
+          this.wellBeing.forEach((val: any) => {
+            Number(
+              this.wellBeingTrade.push(
+                item[val.tactive] == 1 ? Number(item[val.trade]).toFixed(2) : 0
+              )
+            );
           });
           this.employeeMood = [
             this.sumOfAllData['veryhappy'],

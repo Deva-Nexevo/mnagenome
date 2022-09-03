@@ -225,3 +225,6 @@ button.close span {
 .flex-container {
   display: flex;
 }
+.open-text {
+  cursor: pointer;
+}
