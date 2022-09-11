@@ -28,6 +28,7 @@ export class Frame2Component implements OnInit {
   @ViewChild('openTextModal', { static: false }) openTextModal?: ModalDirective;
   data: any;
   loading: boolean = true;
+  wordLoading: boolean = false;
   error: boolean = false;
   currentEnabled: string = '';
   currentSelectedValue: string = '';
@@ -453,6 +454,7 @@ export class Frame2Component implements OnInit {
       }
     }
 
+    if (forModal === 'openText') this.openTextModal?.show();
     if (forModal === 'about') this.childModal?.show();
     if (forModal === 'insight') this.childInsightModal?.show();
     if (forModal === 'action') this.childActionModal?.show();
@@ -464,6 +466,15 @@ export class Frame2Component implements OnInit {
     if (forModal === 'insight') this.childInsightModal?.hide();
     if (forModal === 'action') this.childActionModal?.hide();
     if (forModal === 'oltj') this.openTextModal?.hide();
+    if (forModal === 'openText') {
+      this.openTextModal?.hide();
+      if (clickedText > -1) this.selectedOpentext = clickedText;
+      this.wordLoading = true;
+      setTimeout(() => {
+        this.openVal = this.opentextvalues[this.selectedOpentext].word_cloud;
+        this.wordLoading = false;
+      });
+    }
   }
 
   dropdownChange(value: string) {
@@ -622,29 +633,29 @@ export class Frame2Component implements OnInit {
           );
         });
         this.employeeMood = [
-          this.sumOfAllData['veryhappy'],
-          this.sumOfAllData['happy'],
-          this.sumOfAllData['neitherhappy'],
-          this.sumOfAllData['sad'],
-          this.sumOfAllData['verysad'],
+          this.sumOfAllData['veryhappy'] / this.data.alldetailValues.length,
+          this.sumOfAllData['happy'] / this.data.alldetailValues.length,
+          this.sumOfAllData['neitherhappy'] / this.data.alldetailValues.length,
+          this.sumOfAllData['sad'] / this.data.alldetailValues.length,
+          this.sumOfAllData['verysad'] / this.data.alldetailValues.length,
         ];
         this.employeeFeeling = [
-          this.sumOfAllData['easy'],
-          this.sumOfAllData['engaged'],
-          this.sumOfAllData['fun'],
-          this.sumOfAllData['feeling_happy'],
-          this.sumOfAllData['managable'],
-          this.sumOfAllData['anger'],
-          this.sumOfAllData['anxiety'],
-          this.sumOfAllData['depression'],
-          this.sumOfAllData['fear'],
-          this.sumOfAllData['frustation'],
+          this.sumOfAllData['easy'] / this.data.alldetailValues.length,
+          this.sumOfAllData['engaged'] / this.data.alldetailValues.length,
+          this.sumOfAllData['fun'] / this.data.alldetailValues.length,
+          this.sumOfAllData['feeling_happy'] / this.data.alldetailValues.length,
+          this.sumOfAllData['managable'] / this.data.alldetailValues.length,
+          this.sumOfAllData['anger'] / this.data.alldetailValues.length,
+          this.sumOfAllData['anxiety'] / this.data.alldetailValues.length,
+          this.sumOfAllData['depression'] / this.data.alldetailValues.length,
+          this.sumOfAllData['fear'] / this.data.alldetailValues.length,
+          this.sumOfAllData['frustation'] / this.data.alldetailValues.length,
         ];
         this.oltj = [
-          this.sumOfAllData['organization'],
-          this.sumOfAllData['leadership'],
-          this.sumOfAllData['team'],
-          this.sumOfAllData['job'],
+          this.sumOfAllData['organization'] / this.data.alldetailValues.length,
+          this.sumOfAllData['leadership'] / this.data.alldetailValues.length,
+          this.sumOfAllData['team'] / this.data.alldetailValues.length,
+          this.sumOfAllData['job'] / this.data.alldetailValues.length,
         ];
         this.loading = false;
       });

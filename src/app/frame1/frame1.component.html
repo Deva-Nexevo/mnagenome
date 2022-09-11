@@ -130,7 +130,15 @@
                     <doughnut-chart [title]="well.name" [value]="wellBeingTot[i]"></doughnut-chart>
                   </ng-container>
                   <p class="pt-4 fs-30 mb-3">
-                    {{ wellBeingTot[i] }} <span *ngIf="wellBeingTrade[i]"> | {{wellBeingTrade[i]}}</span>
+                    {{ wellBeingTot[i] }} <span *ngIf="wellBeingTrade[i]"> | {{wellBeingTrade[i]}}
+                      <img *ngIf="wellBeingTrade[i] == 0" src="assets/images/normal.jpeg"
+                        [ngStyle]="{'width': '20px', 'height':'20px'}">
+                      <img *ngIf="wellBeingTrade[i] > 4" src="assets/images/infation.jpeg"
+                        [ngStyle]="{'width': '20px', 'height':'20px'}">
+                      <img *ngIf="wellBeingTrade[i] < 4" src="assets/images/deflation.png"
+                        [ngStyle]="{'width': '20px', 'height':'20px'}">
+                    </span>
+
                   </p>
                   <div class="d-flex flex-wrap justify-content-center">
                     <button class="btn bgc-blue" (click)="showChildModal(i, 'about')">
@@ -206,7 +214,8 @@
           <h2 class="fs-25 mb-5 cl-purple text-center">WELL-BEING HEAT MAP</h2>
           <ng-container *ngIf="loading && !error">
             <ng-container *ngFor="let heat of filterBy" class="">
-              <div class="box-shadow box-overflow p-5 br-15 mb-50" [ngClass]="
+              <div class="box-shadow box-overflow p-5 br-15 mb-50"
+                *ngIf="graphValue[heat.responseName] && graphValue[heat.responseName].length > 0" [ngClass]="
                   currentEnabled === '' || currentEnabled === heat.name
                     ? 'show'
                     : 'hide'
@@ -217,7 +226,7 @@
           </ng-container>
           <ng-container *ngIf="!loading && !error">
             <ng-container *ngFor="let heat of filterBy; let i = index" class="">
-              <div class="box-shadow box-overflow p-5 br-15 mb-50" [ngClass]="
+              <div class="box-shadow box-overflow padding-5 br-15 mb-50" [ngClass]="
                   currentEnabled === '' || currentEnabled === heat.name
                     ? 'show'
                     : 'hide'
@@ -264,20 +273,21 @@
 
           <div class="row pt-5">
             <div class="col-lg-12">
-              <div *ngIf="!loading && !error">
+              <div *ngIf="!loading && !wordLoading && !error">
                 <span class="font-bold cl-orange pr-1">{{ opentextvalues[selectedOpentext].category_name }} : </span>{{
                 opentextvalues[selectedOpentext].question }}
               </div>
             </div>
             <div class="col-lg-6">
-              <div *ngIf="loading && !error">Loading...</div>
-              <app-wordcloud *ngIf="!loading && !error" [data]="openVal"></app-wordcloud>
+              <div *ngIf="(loading || wordLoading) && !error">Loading...</div>
+              <app-wordcloud *ngIf="!loading && !wordLoading && !error" [data]="openVal"></app-wordcloud>
             </div>
             <div class="col-lg-6">
-              <div *ngIf="!loading && !error" class="box-shadow br-15 pl-5 pr-4 py-4 flex-container" [innerHTML]="
+              <div *ngIf="!loading && !wordLoading && !error" class="box-shadow br-15 pl-5 pr-4 py-4 flex-container"
+                [innerHTML]="
                   opentextvalues[selectedOpentext].statement | safeHtml
                 "></div>
-              <div *ngIf="loading && !error" class="box-shadow br-15 pl-5 pr-4 py-4 flex-container">
+              <div *ngIf="loading || wordLoading && !error" class="box-shadow br-15 pl-5 pr-4 py-4 flex-container">
                 Loading...
               </div>
             </div>
@@ -328,7 +338,8 @@
 </div>
 
 <!-- RESPONSE OVERVIEW POPUP -->
-<div bsModal #overview="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="dialog-sizes-name1">
+<div bsModal #overview="bs-modal" [config]="{ignoreBackdropClick : true}" class="modal fade" tabindex="-1" role="dialog"
+  aria-labelledby="dialog-sizes-name1">
   <div class="modal-dialog modal-lg modal-dialog-centered">
     <div class="modal-content p-4">
       <div class="">
@@ -338,12 +349,14 @@
       </div>
       <div class="modal-body">
         <h1>Response Overview</h1>
-        <ng-container *ngFor="let pie of overviewResponse; let i = index">
-          <div class="col-md-12">
-            <h2>{{ pie.name.name }}</h2>
-            <pie-chart [data]="pie.values" [name]="pie.name" [dropDownData]="data.dropDownList[pie.name.responseName]">
-            </pie-chart>
-            <!-- <div class="row">
+        <div class="row">
+          <ng-container *ngFor="let pie of overviewResponse; let i = index">
+            <div class="col-md-6 col-xs-12" [ngStyle]="{'padding': '20px 0'} ">
+              <h2>{{ pie.name.name }}</h2>
+              <pie-chart [data]="pie.values" [name]="pie.name"
+                [dropDownData]="data.dropDownList[pie.name.responseName]">
+              </pie-chart>
+              <!-- <div class="row">
               <div class="col-md-6">
                 <pie-chart [data]="pie.values" [name]="pie.name"
                   [dropDownData]="data.dropDownList[pie.name.responseName]"></pie-chart>
@@ -386,8 +399,9 @@
                 </div>
               </div>
             </div> -->
-          </div>
-        </ng-container>
+            </div>
+          </ng-container>
+        </div>
       </div>
     </div>
   </div>

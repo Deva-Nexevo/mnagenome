@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { environment } from '../../environments/environment';
 import { User } from '../_models';
 import { AuthenticationService, UserService } from '../_services';
 
@@ -12,6 +13,7 @@ export class DashboardComponent implements OnInit {
   logo = 'assets/images/beats-logo.png';
   imageSrc = 'assets/images/beats.gif';
   text = '';
+  environment: any = environment;
 
   constructor(
     public userService: UserService,

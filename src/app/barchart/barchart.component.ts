@@ -14,6 +14,12 @@ export class BarchartComponent implements OnInit {
   public barChartOptions: ChartConfiguration<any>['options'] = {
     responsive: true,
     maintainAspectRatio: false,
+
+    plugins: {
+      legend: {
+        display: false,
+      },
+    },
     indexAxis: 'x',
     scales: {
       y: {
@@ -31,6 +37,11 @@ export class BarchartComponent implements OnInit {
     this.barChartOptions = {
       responsive: true,
       maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          display: false,
+        },
+      },
       indexAxis: this.chartFor === '' ? 'x' : 'y',
       scales: {
         y: {
@@ -39,25 +50,18 @@ export class BarchartComponent implements OnInit {
       },
     };
 
-    const backgroundColor: any = [
-      'rgba(255, 99, 132, 0.2)',
-      'rgba(255, 159, 64, 0.2)',
-      'rgba(255, 205, 86, 0.2)',
-      'rgba(75, 192, 192, 0.2)',
-      'rgba(54, 162, 235, 0.2)',
-      'rgba(153, 102, 255, 0.2)',
-      'rgba(201, 203, 207, 0.2)',
-    ];
+    const backgroundColor: any = [];
 
-    const borderColor: any = [
-      'rgb(255, 99, 132)',
-      'rgb(255, 159, 64)',
-      'rgb(255, 205, 86)',
-      'rgb(75, 192, 192)',
-      'rgb(54, 162, 235)',
-      'rgb(153, 102, 255)',
-      'rgb(201, 203, 207)',
-    ];
+    this.data.forEach((val: any) => {
+      backgroundColor.push(
+        val > 4.5
+          ? 'rgb(0,100,0)'
+          : val > 3.5
+          ? 'rgb(255,140,0)'
+          : 'rgb(139, 0, 0)'
+      );
+    });
+
     const labels: any =
       this.chartFor === 'oltj'
         ? ['Organization', 'Leadership', 'Team', 'Job']
@@ -67,11 +71,8 @@ export class BarchartComponent implements OnInit {
       labels: labels,
       datasets: [
         {
-          label: '',
           data: this.data,
           backgroundColor: backgroundColor.splice(0, this.data.length),
-          borderColor: borderColor.splice(0, this.data.length),
-          borderWidth: 1,
         },
       ],
     };

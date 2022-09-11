@@ -11,4 +11,5 @@
   firstName?: string;
   lastName?: string;
   frame_id?: number;
+  logo?: number;
 }

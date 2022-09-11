@@ -34,10 +34,17 @@ export class WordcloudComponent {
     var data = arr1;
 
     this.options = {
+      chart: {
+        //borderRadius: '50%',
+        borderWidth: '1',
+        //backgroundColor: 'red',
+      },
       series: [
         {
           type: 'wordcloud',
           data: data,
+          // borderRadius: '50%',
+          // borderWidth: '10',
         },
       ],
       title: {

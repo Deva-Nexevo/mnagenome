@@ -12,6 +12,11 @@ export class RadarchartComponent implements OnInit {
   public radarChartOptions: ChartConfiguration<any>['options'] = {
     responsive: true,
     maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        display: false,
+      },
+    },
     elements: {
       line: {
         borderWidth: 3,
@@ -23,30 +28,37 @@ export class RadarchartComponent implements OnInit {
   };
 
   ngOnInit(): void {
+    const bgColor: any = [];
+    this.data.forEach((val: any) => {
+      bgColor.push(
+        val > 4.5
+          ? 'rgb(0,100,0)'
+          : val > 3.5
+          ? 'rgb(255,140,0)'
+          : 'rgb(139, 0, 0)'
+      );
+    });
     this.radarChartData = {
       labels: [
-        'EASY',
-        'ENGAGED',
-        'FUN',
-        'HAPPY',
-        'MANAGABLE',
-        'ANGER',
-        'ANEXITY',
-        'DEPPERSSION',
-        'FEAR',
-        'FRUSTATION',
+        'EASY 😇 ',
+        'ENGAGED 🧐 ',
+        'FUN 🤗 ',
+        'HAPPY 😀',
+        'MANAGABLE 🙂 ',
+        'ANGER 😡 ',
+        'ANXIETY 😓 ',
+        'DEPRESSION 😖',
+        'FEAR 😰 ',
+        'FRUSTRATION 😤 ',
       ],
       datasets: [
         {
           label: '',
           data: this.data,
           fill: true,
-          backgroundColor: 'rgba(255, 99, 132, 0.2)',
-          borderColor: 'rgb(255, 99, 132)',
-          pointBackgroundColor: 'rgb(255, 99, 132)',
-          pointBorderColor: '#fff',
-          pointHoverBackgroundColor: '#fff',
-          pointHoverBorderColor: 'rgb(255, 99, 132)',
+          backgroundColor: ['#074B6E'],
+          borderColor: 'transparent',
+          pointBackgroundColor: bgColor,
         },
       ],
     };

@@ -9,7 +9,7 @@ export class DoughchartComponent implements OnInit {
   ngOnInit(): void {
     this.doughnutChartOptions = {
       responsive: true,
-      cutout: '70%',
+      cutout: '60%',
       maintainAspectRatio: false,
       events: [],
       plugins: {
@@ -25,7 +25,14 @@ export class DoughchartComponent implements OnInit {
         {
           data: [this.value, 5 - this.value],
           label: 'My First Dataset',
-          backgroundColor: ['rgb(255, 99, 132)', 'rgb(255, 99, 100)'],
+          backgroundColor: [
+            this.value > 4.5
+              ? 'rgb(0,100,0)'
+              : this.value > 3.5
+              ? 'rgb(255,140,0)'
+              : 'rgb(139, 0, 0)',
+            'rgb(211,211,211)',
+          ],
         },
       ],
     };

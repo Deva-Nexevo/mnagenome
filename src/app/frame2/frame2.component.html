@@ -121,7 +121,8 @@
         <h2 class="fs-25 mb-5 cl-purple text-center">WELL-BEING HEAT MAP</h2>
         <ng-container *ngIf="loading && !error">
           <ng-container *ngFor="let heat of filterBy" class="">
-            <div class="box-shadow box-overflow p-5 br-15 mb-50" [ngClass]="
+            <div class="box-shadow box-overflow p-5 br-15 mb-50"
+              *ngIf="graphValue[heat.responseName] && graphValue[heat.responseName].length > 0" [ngClass]="
                 currentEnabled === '' || currentEnabled === heat.name
                   ? 'show'
                   : 'hide'
@@ -132,7 +133,7 @@
         </ng-container>
         <ng-container *ngIf="!loading && !error">
           <ng-container *ngFor="let heat of filterBy; let i = index" class="">
-            <div class="box-shadow box-overflow p-5 br-15 mb-50" [ngClass]="
+            <div class="box-shadow box-overflow padding-5 br-15 mb-50" [ngClass]="
                 currentEnabled === '' || currentEnabled === heat.name
                   ? 'show'
                   : 'hide'
@@ -165,7 +166,7 @@
           </div> -->
         </div>
       </div>
-      <div class="col-12 pt-5" id="word">
+      <!-- <div class="col-12 pt-5" id="word">
         <h2 class="fs-25 mb-3 cl-purple text-center">OPEN TEXT ANALYSIS</h2>
         <p class="cl-orange text-center mb-4">
           Natural Language Processing (NLP)
@@ -191,6 +192,64 @@
             </div>
           </div>
         </div>
+      </div> -->
+      <div class="col-12 pt-5" id="word">
+        <h2 class="fs-25 mb-3 cl-purple text-center">OPEN TEXT ANALYSIS</h2>
+        <p class="cl-orange text-center mb-4">
+          Natural Language Processing (NLP)
+        </p>
+        <div class="d-flex justify-content-center align-items-center">
+          <p class="cl-purple text-center mb-0 mr-4">Choose question :</p>
+          <button type="button" class="filter-btn btn br-30" (click)="showChildModal(0, 'openText')">
+            Click to select<span class="caret"></span>
+          </button>
+        </div>
+
+        <div class="row pt-5">
+          <div class="col-lg-12">
+            <div *ngIf="!loading && !wordLoading && !error">
+              <span class="font-bold cl-orange pr-1">{{ opentextvalues[selectedOpentext].category_name }} : </span>{{
+              opentextvalues[selectedOpentext].question }}
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <div *ngIf="(loading || wordLoading) && !error">Loading...</div>
+            <app-wordcloud *ngIf="!loading && !wordLoading && !error" [data]="openVal"></app-wordcloud>
+          </div>
+          <div class="col-lg-6">
+            <div *ngIf="!loading && !wordLoading && !error" class="box-shadow br-15 pl-5 pr-4 py-4 flex-container"
+              [innerHTML]="
+                opentextvalues[selectedOpentext].statement | safeHtml
+              "></div>
+            <div *ngIf="loading || wordLoading && !error" class="box-shadow br-15 pl-5 pr-4 py-4 flex-container">
+              Loading...
+            </div>
+          </div>
+        </div>
+        <!-- SELECT POPUP -->
+        <div bsModal #openTextModal="bs-modal" class="modal fade select" tabindex="-1" role="dialog"
+          aria-labelledby="dialog-sizes-name1">
+          <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content p-4">
+              <div class="">
+                <button type="button" class="close pull-right" (click)="hideChildModal('openText')" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <ul class="mb-0 open-text">
+                  <ng-container *ngFor="let text of opentextvalues; let i = index">
+                    <li (click)="hideChildModal('openText', i)">
+                      <div>
+                        <span class="font-bold cl-orange pr-1">{{ text.category_name }} : </span>{{ text.question }}
+                      </div>
+                    </li>
+                  </ng-container>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -213,7 +272,8 @@
 </div>
 
 <!-- RESPONSE OVERVIEW POPUP -->
-<div bsModal #overview="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="dialog-sizes-name1">
+<div bsModal #overview="bs-modal" [config]="{ignoreBackdropClick : true}" class="modal fade" tabindex="-1" role="dialog"
+  aria-labelledby="dialog-sizes-name1">
   <div class="modal-dialog modal-lg modal-dialog-centered">
     <div class="modal-content p-4">
       <div class="">
@@ -223,12 +283,14 @@
       </div>
       <div class="modal-body">
         <h1>Response Overview</h1>
-        <ng-container *ngFor="let pie of overviewResponse; let i = index">
-          <div class="col-md-12">
-            <h2>{{ pie.name.name }}</h2>
-            <pie-chart [data]="pie.values" [name]="pie.name" [dropDownData]="data.dropDownList[pie.name.responseName]">
-            </pie-chart>
-            <!-- <div class="row">
+        <div class="row">
+          <ng-container *ngFor="let pie of overviewResponse; let i = index">
+            <div class="col-md-6 col-xs-12" [ngStyle]="{'padding': '20px 0'} ">
+              <h2>{{ pie.name.name }}</h2>
+              <pie-chart [data]="pie.values" [name]="pie.name"
+                [dropDownData]="data.dropDownList[pie.name.responseName]">
+              </pie-chart>
+              <!-- <div class="row">
               <div class="col-md-6">
                 <pie-chart [data]="pie.values" [name]="pie.name"
                   [dropDownData]="data.dropDownList[pie.name.responseName]"></pie-chart>
@@ -271,8 +333,9 @@
                 </div>
               </div>
             </div> -->
-          </div>
-        </ng-container>
+            </div>
+          </ng-container>
+        </div>
       </div>
     </div>
   </div>

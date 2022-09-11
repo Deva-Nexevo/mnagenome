@@ -33,8 +33,8 @@ export class PieChartComponent implements OnInit {
       chart: {
         plotShadow: false,
         type: 'pie',
-        height: 300,
-        width: 300,
+        width: '500',
+        height: '300',
       },
       title: {
         text: '',
@@ -63,6 +63,7 @@ export class PieChartComponent implements OnInit {
           name: this.name.name,
           colorByPoint: true,
           data: data,
+          size: '100%',
         },
       ],
     };
