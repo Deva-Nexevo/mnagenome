@@ -20,11 +20,15 @@ export class WordcloudComponent {
   ngOnInit() {
     var data1: any = [];
     this.data[0].forEach((val: any, index: any) => {
-      data1.push({ name: val, weight: this.data[1][index] });
+      if (val) {
+        data1.push({ name: val, weight: this.data[1][index] });
+      }
     });
     var arr1 = [];
     for (let i = 0; i < data1.length; i++) {
-      arr1.push(data1[i]);
+      if (data1[i]) {
+        arr1.push(data1[i]);
+      }
     }
     /* for (let i = 0; i < data1.length; i++) {
       for (let j = 1; j < data1[i].weight; j++) {
@@ -32,7 +36,6 @@ export class WordcloudComponent {
       }
     } */
     var data = arr1;
-
     this.options = {
       chart: {
         //borderRadius: '50%',

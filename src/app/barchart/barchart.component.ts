@@ -35,6 +35,7 @@ export class BarchartComponent implements OnInit {
     this.height = this.chartFor === '' ? 500 : 200;
     this.barChartType = 'bar';
     this.barChartOptions = {
+      hover: { mode: null },
       responsive: true,
       maintainAspectRatio: false,
       plugins: {

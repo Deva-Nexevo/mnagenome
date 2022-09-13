@@ -6,6 +6,8 @@ import {
   BsModalService,
   ModalDirective,
 } from 'ngx-bootstrap/modal';
+import { environment } from 'src/environments/environment';
+import { User } from '../_models';
 import { AuthenticationService, UserService } from '../_services';
 
 @Component({
@@ -207,12 +209,18 @@ export class Frame3Component implements OnInit {
     feeling_happy: 0,
   };
 
+  environment: any = environment;
+  currentUser: User;
+  wellBeingDesc: any = [];
+
   constructor(
     private modalService: BsModalService,
     private router: Router,
     private authenticationService: AuthenticationService,
     private userService: UserService
-  ) {}
+  ) {
+    this.currentUser = this.authenticationService.currentUserValue;
+  }
 
   ngOnInit(): void {
     this.getAllData();
@@ -369,8 +377,9 @@ export class Frame3Component implements OnInit {
     if (this.currentEnabled === '') {
       this.loading = true;
       setTimeout(() => {
+        this.wellBeingDesc = [];
         this.initializeValue();
-        this.data.alldetailValues.forEach((item: any) => {
+        this.data.alldetailValues.forEach((item: any, index: any) => {
           this.sumOfAllData['no_of_employees'] =
             Number(this.sumOfAllData['no_of_employees']) +
             Number(item['no_of_employees']);
@@ -403,6 +412,8 @@ export class Frame3Component implements OnInit {
             this.sumOfAllData['frustation'] + item['frustation'];
           this.sumOfAllData['feeling_happy'] =
             this.sumOfAllData['feeling_happy'] + item['feelinghappy'];
+          if (index < 4)
+            this.wellBeingDesc.push(item[this.wellBeing[index]['desc']]);
         });
         this.totNoOfEmp = this.sumOfAllData['no_of_employees'];
         this.totNoOfRes = this.sumOfAllData['no_of_responses'];
@@ -418,6 +429,7 @@ export class Frame3Component implements OnInit {
         this.wellBeingTot = [];
         this.wellBeingTrade = [];
         this.wellBeing.forEach((val: any) => {
+          //this.wellBeingDesc.push(item[val.desc])
           this.wellBeingTot.push(
             Number(
               this.data.alldetailValues
@@ -501,6 +513,7 @@ export class Frame3Component implements OnInit {
           ).toFixed(2);
           this.wellBeingQuet = Number(item['well_being_quotient']).toFixed(2);
           this.wellBeingTot = [];
+          this.wellBeingDesc = [];
           this.wellBeing.forEach((val: any) => {
             Number(this.wellBeingTot.push(Number(item[val.value]).toFixed(2)));
             Number(
@@ -508,6 +521,7 @@ export class Frame3Component implements OnInit {
                 item[val.tactive] == 1 ? Number(item[val.trade]).toFixed(2) : 0
               )
             );
+            this.wellBeingDesc.push(item[val.desc]);
           });
           this.employeeMood = [
             this.sumOfAllData['veryhappy'],

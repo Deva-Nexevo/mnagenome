@@ -2,8 +2,10 @@
   <section class="section_frame1 py-1">
     <div class="container">
       <div class="d-flex justify-content-between align-items-center">
-        <img src="{{ logo }}" alt="" class="logo-img" />
-        <img src="{{ environment.assestUrl }}client_logos/{{currentUser.logo}}" alt="" class="logo-img" />
+        <a class="d-flex" href="javascript:void(0);">
+          <img src="{{ imageSrc }}" alt="" class="logo-img" />
+          <img src="{{ environment.assestUrl }}client_logos/{{currentUser.logo}}" alt="" class="logo-img" />
+        </a>
         <h1 class="fs-25 mb-0 cl-purple">{{ text }}</h1>
         <a class="d-flex" href="javascript:void(0);" (click)="logout()">
           <mat-icon>power_settings_new</mat-icon>

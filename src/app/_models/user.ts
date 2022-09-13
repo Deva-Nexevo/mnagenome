@@ -12,4 +12,7 @@
   lastName?: string;
   frame_id?: number;
   logo?: number;
+  color1?: string;
+  color2?: string;
+  report?: string;
 }

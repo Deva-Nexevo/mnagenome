@@ -1,6 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
 import * as Highcharts from 'highcharts';
 import HC_heatmap from 'highcharts/modules/heatmap';
+import { environment } from '../../environments/environment';
+import { User } from '../_models';
+import { AuthenticationService, UserService } from '../_services';
 HC_heatmap(Highcharts);
 
 @Component({
@@ -19,9 +22,18 @@ export class HeatmapComponent implements OnInit {
   height: any = '';
   Highcharts: typeof Highcharts = Highcharts;
   chartOptions: Highcharts.Options = {};
+  environment: any = environment;
+  currentUser: User;
 
   isPresentInData(id: any) {
     return this.data.findIndex((val: any) => val[this.dbName] === id);
+  }
+
+  constructor(
+    private authenticationService: AuthenticationService,
+    public userService: UserService
+  ) {
+    this.currentUser = this.authenticationService.currentUserValue;
   }
 
   ngOnInit() {
@@ -38,6 +50,7 @@ export class HeatmapComponent implements OnInit {
         xData.push(str.charAt(0).toUpperCase() + str.slice(1));
       });
 
+    let yDataIndex = 0;
     this.yData.forEach((val: any, index: number) => {
       const currentIndex = this.isPresentInData(val.id);
       if (currentIndex > -1) {
@@ -45,16 +58,17 @@ export class HeatmapComponent implements OnInit {
         this.xData.forEach((val1: any, index1: any) => {
           data.push({
             x: index1,
-            y: index,
+            y: yDataIndex,
             value: this.data[currentIndex][this.xData[index1]['key']],
-            color:
+            /* color:
               this.data[currentIndex][this.xData[index1]['key']] > 4.5
                 ? 'rgb(0,100,0)'
                 : this.data[currentIndex][this.xData[index1]['key']] > 3.5
                 ? 'rgb(255,140,0)'
-                : 'rgb(139, 0, 0)',
+                : 'rgb(139, 0, 0)', */
           });
         });
+        yDataIndex++;
       }
     });
 
@@ -63,7 +77,12 @@ export class HeatmapComponent implements OnInit {
         text: 'Heat-Map for ' + this.name,
       },
       chart: {
-        height: yData.length * 50 + 84,
+        height: yData.length * 25 + 142,
+      },
+      colorAxis: {
+        min: 0,
+        minColor: this.currentUser.color1 ? this.currentUser.color1 : '#FFFFFF',
+        maxColor: this.currentUser.color2 ? this.currentUser.color2 : '#FF0000',
       },
       xAxis: {
         categories: xData,

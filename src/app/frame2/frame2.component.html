@@ -65,6 +65,7 @@
           <h4 class="fs-22 mb-4">OLTJ</h4>
           <div *ngIf="loading && !error">Loading...</div>
           <bar-chart *ngIf="!loading && !error" [data]="oltj" [chartFor]="'oltj'"></bar-chart>
+          <h1 class="bar-chart-insight">INSIGHTS & ACTION</h1>
           <div class="d-flex flex-wrap justify-content-center">
             <ng-container *ngFor="let data of oltjData">
               <button class="btn bgc-orange br-30" (click)="showChildModal(0, 'oltj', data)">{{ data.name | uppercase
@@ -80,6 +81,41 @@
         <button class="filter-btn btn filter-modal fs-16 bgc-orange text-white br-30" (click)="action.show()">
           ACTIONS
         </button>
+        <!-- INSIGHTS POPUP -->
+        <div bsModal #insights="bs-modal" class="modal fade" tabindex="-1" role="dialog"
+          aria-labelledby="dialog-sizes-name1">
+          <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content p-4">
+              <div class="">
+                <button type="button" class="close pull-right" (click)="insights.hide()" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body insight-content">
+                <h1 class="insight-title">Overall Insights</h1>
+                <div *ngIf="!loading && !error" [innerHTML]="data.insight.insight | safeHtml"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ACTIONS POPUP -->
+        <div bsModal #action="bs-modal" class="modal fade" tabindex="-1" role="dialog"
+          aria-labelledby="dialog-sizes-name1">
+          <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content p-4">
+              <div class="">
+                <button type="button" class="close pull-right" (click)="action.hide()" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body insight-content">
+                <h1 class="insight-title">Overall Actions</h1>
+                <div *ngIf="!loading && !error" [innerHTML]="data.insight.action | safeHtml"></div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
       <div class="col-12 pt-5 overall-dimensions">
         <h2 class="fs-25 mb-5 cl-purple text-center">
@@ -90,7 +126,7 @@
         </ng-container>
         <div class="row" *ngIf="!loading && !error">
           <ng-container *ngFor="let well of wellBeing; let i = index">
-            <div class="col-lg-3 pb-4" *ngIf="wellBeingTot[i]">
+            <div class="col-lg-3 pb-4" *ngIf="wellBeingTot[i] > 0">
               <div class="frame1-intro box-shadow br-15 p-4 text-center h-100">
                 <ng-container *ngIf="loading && !error">
                   Loading...
@@ -99,7 +135,12 @@
                   <doughnut-chart [title]="well.name" [value]="wellBeingTot[i]"></doughnut-chart>
                 </ng-container>
                 <p class="pt-4 fs-30 mb-3">
-                  {{ wellBeingTot[i] }} <span *ngIf="wellBeingTrade[i]"> | {{wellBeingTrade[i]}}</span>
+                  {{ wellBeingTot[i] }} <span *ngIf="wellBeingTrade[i]"> | {{wellBeingTrade[i]}}
+                    <img *ngIf="wellBeingTrade[i] > 0" src="assets/images/increase.png"
+                      [ngStyle]="{'width': '20px', 'height':'20px'}">
+                    <img *ngIf="wellBeingTrade[i] < 0" src="assets/images/decrease.png"
+                      [ngStyle]="{'width': '20px', 'height':'20px'}">
+                  </span>
                 </p>
                 <div class="d-flex flex-wrap justify-content-center">
                   <button class="btn bgc-blue" (click)="showChildModal(i, 'about')">
@@ -120,29 +161,32 @@
       <div class="col-12 pt-5" id="heat">
         <h2 class="fs-25 mb-5 cl-purple text-center">WELL-BEING HEAT MAP</h2>
         <ng-container *ngIf="loading && !error">
-          <ng-container *ngFor="let heat of filterBy" class="">
-            <div class="box-shadow box-overflow p-5 br-15 mb-50"
-              *ngIf="graphValue[heat.responseName] && graphValue[heat.responseName].length > 0" [ngClass]="
+          <div class="box-shadow box-overflow p-5 br-15 mb-50">
+            <ng-container *ngFor="let heat of filterBy;let i = index" class="">
+              <div *ngIf="graphValue[heat.responseName] && graphValue[heat.responseName].length > 0" [ngClass]="
                 currentEnabled === '' || currentEnabled === heat.name
                   ? 'show'
                   : 'hide'
               ">
-              Loading...
-            </div>
-          </ng-container>
+                <span *ngIf="i==0">Loading...</span>
+              </div>
+            </ng-container>
+          </div>
         </ng-container>
         <ng-container *ngIf="!loading && !error">
-          <ng-container *ngFor="let heat of filterBy; let i = index" class="">
-            <div class="box-shadow box-overflow padding-5 br-15 mb-50" [ngClass]="
+          <div class="box-shadow box-overflow padding-5 br-15 mb-50">
+            <ng-container *ngFor="let heat of filterBy; let i = index" class="">
+              <div [ngClass]="
                 currentEnabled === '' || currentEnabled === heat.name
                   ? 'show'
                   : 'hide'
               ">
-              <app-heatmap [name]="heat.name" [data]="graphValue[heat.responseName]" [xData]="wellBeingHeatMap"
-                [yData]="data.dropDownList[heat.responseName]" [searchName]="heat.findName" [dbName]="heat.db_name">
-              </app-heatmap>
-            </div>
-          </ng-container>
+                <app-heatmap [name]="heat.name" [data]="graphValue[heat.responseName]" [xData]="wellBeing"
+                  [yData]="data.dropDownList[heat.responseName]" [searchName]="heat.findName" [dbName]="heat.db_name">
+                </app-heatmap>
+              </div>
+            </ng-container>
+          </div>
         </ng-container>
       </div>
       <div class="col-12 pt-5">
@@ -195,9 +239,6 @@
       </div> -->
       <div class="col-12 pt-5" id="word">
         <h2 class="fs-25 mb-3 cl-purple text-center">OPEN TEXT ANALYSIS</h2>
-        <p class="cl-orange text-center mb-4">
-          Natural Language Processing (NLP)
-        </p>
         <div class="d-flex justify-content-center align-items-center">
           <p class="cl-purple text-center mb-0 mr-4">Choose question :</p>
           <button type="button" class="filter-btn btn br-30" (click)="showChildModal(0, 'openText')">
@@ -266,7 +307,11 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div *ngIf="!loading && !error" class="modal-body" [innerHTML]="data.insight.mandate | safeHtml"></div>
+      <div *ngIf="!loading && !error" class="modal-body insight-content text-center">
+        <h1 class="insight-title">Mandate</h1>
+        <div [innerHTML]="data.insight.mandate | safeHtml"></div>
+      </div>
+      <!-- <div *ngIf="!loading && !error" class="modal-body" [innerHTML]="data.insight.mandate | safeHtml"></div> -->
     </div>
   </div>
 </div>
@@ -344,8 +389,7 @@
 
 <!-- organization -->
 
-<div bsModal #openTextModal="bs-modal" class="modal fade" tabindex="-1" role="dialog"
-  aria-labelledby="dialog-sizes-name1">
+<div bsModal #oltjModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="dialog-sizes-name1">
   <div class="modal-dialog modal-lg modal-dialog-centered">
     <div class="modal-content p-4">
       <div class="">
@@ -392,9 +436,13 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body text-center">
+      <div class="modal-body insight-content text-center">
+        <h1 class="insight-title">Insights</h1>
         <div [innerHTML]="insightModalcontent | safeHtml"></div>
       </div>
+      <!-- <div class="modal-body text-center">
+        <div [innerHTML]="insightModalcontent | safeHtml"></div>
+      </div> -->
     </div>
   </div>
 </div>
@@ -409,37 +457,13 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body text-center">
+      <div class="modal-body insight-content text-center">
+        <h1 class="insight-title">Actions</h1>
         <div [innerHTML]="actionModalcontent | safeHtml"></div>
       </div>
-    </div>
-  </div>
-</div>
-
-<!-- INSIGHTS POPUP -->
-<div bsModal #insights="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="dialog-sizes-name1">
-  <div class="modal-dialog modal-lg modal-dialog-centered">
-    <div class="modal-content p-4">
-      <div class="">
-        <button type="button" class="close pull-right" (click)="insights.hide()" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body" *ngIf="!loading && !error" [innerHTML]="data.insight.insight | safeHtml"></div>
-    </div>
-  </div>
-</div>
-
-<!-- ACTIONS POPUP -->
-<div bsModal #action="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="dialog-sizes-name1">
-  <div class="modal-dialog modal-lg modal-dialog-centered">
-    <div class="modal-content p-4">
-      <div class="">
-        <button type="button" class="close pull-right" (click)="action.hide()" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body" *ngIf="!loading && !error" [innerHTML]="data.insight.action | safeHtml"></div>
+      <!-- <div class="modal-body text-center">
+        <div [innerHTML]="actionModalcontent | safeHtml"></div>
+      </div> -->
     </div>
   </div>
 </div>

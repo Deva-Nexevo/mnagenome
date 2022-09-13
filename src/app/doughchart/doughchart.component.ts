@@ -14,7 +14,7 @@ export class DoughchartComponent implements OnInit {
       events: [],
       plugins: {
         title: {
-          display: true,
+          display: this.titleDisplay,
           text: this.title.toUpperCase(),
         },
       },
@@ -38,6 +38,7 @@ export class DoughchartComponent implements OnInit {
     };
   }
   @Input() title: any = '';
+  @Input() titleDisplay: any = true;
   @Input() value: any = '';
 
   public height: number = 150;

@@ -9,11 +9,11 @@ import { AuthenticationService, UserService } from '../_services';
   templateUrl: './dashboard.component.html',
 })
 export class DashboardComponent implements OnInit {
-  currentUser: User;
   logo = 'assets/images/beats-logo.png';
   imageSrc = 'assets/images/beats.gif';
   text = '';
   environment: any = environment;
+  currentUser: User;
 
   constructor(
     public userService: UserService,

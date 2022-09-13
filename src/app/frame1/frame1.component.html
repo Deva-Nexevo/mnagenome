@@ -95,7 +95,19 @@
                     <span aria-hidden="true">&times;</span>
                   </button>
                 </div>
-                <div class="modal-body" *ngIf="!loading && !error" [innerHTML]="data.insight.insight | safeHtml"></div>
+                <div class="modal-body insight-content">
+                  <h1 class="insight-title">Overall Insights</h1>
+                  <div *ngIf="!loading && !error && data.insight.insight!='' && data.insight.insight!=null"
+                    [innerHTML]="data.insight.insight | safeHtml"></div>
+                  <div *ngIf="!loading && !error && (data.insight.insight=='' || data.insight.insight==null)">
+                    <img src="assets/images/li-logo.png">
+                    <div class="row">
+                      <div class="col-md-6"><img src="assets/images/culture-logo.png"></div>
+                      <div class="col-md-6"><img src="{{ environment.assestUrl }}client_logos/{{currentUser.logo}}"
+                          alt="" class="logo-img" /> </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -110,7 +122,19 @@
                     <span aria-hidden="true">&times;</span>
                   </button>
                 </div>
-                <div class="modal-body" *ngIf="!loading && !error" [innerHTML]="data.insight.action | safeHtml"></div>
+                <div class="modal-body insight-content">
+                  <h1 class="insight-title">Overall Actions</h1>
+                  <div *ngIf="!loading && !error && data.insight.action!='' && data.insight.action!=null"
+                    [innerHTML]="data.insight.action | safeHtml"></div>
+                  <div *ngIf="!loading && !error && (data.insight.action=='' || data.insight.action==null)">
+                    <img src="assets/images/li-logo.png">
+                    <div class="row">
+                      <div class="col-md-6"><img src="assets/images/culture-logo.png"></div>
+                      <div class="col-md-6"><img src="{{ environment.assestUrl }}client_logos/{{currentUser.logo}}"
+                          alt="" class="logo-img" /> </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -131,14 +155,13 @@
                   </ng-container>
                   <p class="pt-4 fs-30 mb-3">
                     {{ wellBeingTot[i] }} <span *ngIf="wellBeingTrade[i]"> | {{wellBeingTrade[i]}}
-                      <img *ngIf="wellBeingTrade[i] == 0" src="assets/images/normal.jpeg"
+                      <!-- <img *ngIf="wellBeingTrade[i] == 0" src="assets/images/normal.jpeg"
+                        [ngStyle]="{'width': '20px', 'height':'20px'}"> -->
+                      <img *ngIf="wellBeingTrade[i] > 0" src="assets/images/increase.png"
                         [ngStyle]="{'width': '20px', 'height':'20px'}">
-                      <img *ngIf="wellBeingTrade[i] > 4" src="assets/images/infation.jpeg"
-                        [ngStyle]="{'width': '20px', 'height':'20px'}">
-                      <img *ngIf="wellBeingTrade[i] < 4" src="assets/images/deflation.png"
+                      <img *ngIf="wellBeingTrade[i] < 0" src="assets/images/decrease.png"
                         [ngStyle]="{'width': '20px', 'height':'20px'}">
                     </span>
-
                   </p>
                   <div class="d-flex flex-wrap justify-content-center">
                     <button class="btn bgc-blue" (click)="showChildModal(i, 'about')">
@@ -186,9 +209,14 @@
                     <span aria-hidden="true">&times;</span>
                   </button>
                 </div>
-                <div class="modal-body text-center">
+                <div class="modal-body insight-content text-center">
+                  <h1 class="insight-title">Insights</h1>
                   <div [innerHTML]="insightModalcontent | safeHtml"></div>
                 </div>
+
+                <!-- <div class="modal-body text-center">
+                  <div [innerHTML]="insightModalcontent | safeHtml"></div>
+                </div> -->
               </div>
             </div>
           </div>
@@ -203,9 +231,13 @@
                     <span aria-hidden="true">&times;</span>
                   </button>
                 </div>
-                <div class="modal-body text-center">
+                <div class="modal-body insight-content text-center">
+                  <h1 class="insight-title">Actions</h1>
                   <div [innerHTML]="actionModalcontent | safeHtml"></div>
                 </div>
+                <!-- <div class="modal-body text-center">
+                  <div [innerHTML]="actionModalcontent | safeHtml"></div>
+                </div> -->
               </div>
             </div>
           </div>
@@ -213,29 +245,32 @@
         <div class="col-12 pt-5">
           <h2 class="fs-25 mb-5 cl-purple text-center">WELL-BEING HEAT MAP</h2>
           <ng-container *ngIf="loading && !error">
-            <ng-container *ngFor="let heat of filterBy" class="">
-              <div class="box-shadow box-overflow p-5 br-15 mb-50"
-                *ngIf="graphValue[heat.responseName] && graphValue[heat.responseName].length > 0" [ngClass]="
+            <div class="box-shadow box-overflow p-5 br-15 mb-50">
+              <ng-container *ngFor="let heat of filterBy;let i = index" class="">
+                <div *ngIf="graphValue[heat.responseName] && graphValue[heat.responseName].length > 0" [ngClass]="
                   currentEnabled === '' || currentEnabled === heat.name
                     ? 'show'
                     : 'hide'
                 ">
-                Loading...
-              </div>
-            </ng-container>
+                  <span *ngIf="i==0">Loading...</span>
+                </div>
+              </ng-container>
+            </div>
           </ng-container>
           <ng-container *ngIf="!loading && !error">
-            <ng-container *ngFor="let heat of filterBy; let i = index" class="">
-              <div class="box-shadow box-overflow padding-5 br-15 mb-50" [ngClass]="
+            <div class="box-shadow box-overflow padding-5 br-15 mb-50">
+              <ng-container *ngFor="let heat of filterBy; let i = index" class="">
+                <div [ngClass]="
                   currentEnabled === '' || currentEnabled === heat.name
                     ? 'show'
                     : 'hide'
                 ">
-                <app-heatmap [name]="heat.name" [data]="graphValue[heat.responseName]" [xData]="wellBeing"
-                  [yData]="data.dropDownList[heat.responseName]" [searchName]="heat.findName" [dbName]="heat.db_name">
-                </app-heatmap>
-              </div>
-            </ng-container>
+                  <app-heatmap [name]="heat.name" [data]="graphValue[heat.responseName]" [xData]="wellBeing"
+                    [yData]="data.dropDownList[heat.responseName]" [searchName]="heat.findName" [dbName]="heat.db_name">
+                  </app-heatmap>
+                </div>
+              </ng-container>
+            </div>
           </ng-container>
         </div>
         <div class="col-12 pt-5">
@@ -261,9 +296,6 @@
         </div>
         <div class="col-12 pt-5">
           <h2 class="fs-25 mb-3 cl-purple text-center">OPEN TEXT ANALYSIS</h2>
-          <p class="cl-orange text-center mb-4">
-            Natural Language Processing (NLP)
-          </p>
           <div class="d-flex justify-content-center align-items-center">
             <p class="cl-purple text-center mb-0 mr-4">Choose question :</p>
             <button type="button" class="filter-btn btn br-30" (click)="showChildModal(0, 'openText')">
@@ -332,7 +364,11 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div *ngIf="!loading && !error" class="modal-body" [innerHTML]="data.insight.mandate | safeHtml"></div>
+      <div *ngIf="!loading && !error" class="modal-body insight-content text-center">
+        <h1 class="insight-title">Mandate</h1>
+        <div [innerHTML]="data.insight.mandate | safeHtml"></div>
+      </div>
+      <!-- <div *ngIf="!loading && !error" class="modal-body" [innerHTML]="data.insight.mandate | safeHtml"></div> -->
     </div>
   </div>
 </div>

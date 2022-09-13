@@ -4,7 +4,7 @@ export const environment = {
   siteUrl: 'https://demo-nexevo.in/mnagenome/',
   encKey: 'mnageencriptionmodeforpass',
   encVa: '0123456789123456',
-  assestUrl: 'https://demo-nexevo.in/mnagenome/',
+  assestUrl: 'https://mnagenome.demo-nexevo.in/',
 };
 
 // export const environment = {

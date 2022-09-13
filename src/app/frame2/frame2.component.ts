@@ -7,6 +7,8 @@ import {
   BsModalService,
   ModalDirective,
 } from 'ngx-bootstrap/modal';
+import { environment } from 'src/environments/environment';
+import { User } from '../_models';
 import { AuthenticationService, UserService } from '../_services';
 
 @Component({
@@ -26,6 +28,7 @@ export class Frame2Component implements OnInit {
   @ViewChild('childActionModal', { static: false })
   childActionModal?: ModalDirective;
   @ViewChild('openTextModal', { static: false }) openTextModal?: ModalDirective;
+  @ViewChild('oltjModal', { static: false }) oltjModal?: ModalDirective;
   data: any;
   loading: boolean = true;
   wordLoading: boolean = false;
@@ -58,6 +61,7 @@ export class Frame2Component implements OnInit {
   openVal: any = [];
   overviewResponse: any = [];
   dropDownList: any = [];
+  staticInsightData: any;
   filterBy = [
     {
       db_name: 'age_id',
@@ -100,6 +104,7 @@ export class Frame2Component implements OnInit {
       active: 'physical_active',
       tactive: 'physical_trade_active',
       key: 'physical',
+      insightactive: 'physical_insight_action_active',
     },
     {
       name: 'environmental well-being',
@@ -112,6 +117,7 @@ export class Frame2Component implements OnInit {
       active: 'environmental_active',
       tactive: 'environmental_trade_active',
       key: 'environmental',
+      insightactive: 'environmental_insight_action_active',
     },
     {
       name: 'intellectual well-being',
@@ -124,6 +130,7 @@ export class Frame2Component implements OnInit {
       active: 'intellectual_active',
       tactive: 'intellectual_trade_active',
       key: 'intellectual',
+      insightactive: 'intellectual_insight_action_active',
     },
     {
       name: 'spiritual well-being',
@@ -136,6 +143,7 @@ export class Frame2Component implements OnInit {
       active: 'spiritual_active',
       tactive: 'spiritual_trade_active',
       key: 'spiritual',
+      insightactive: 'spiritual_insight_action_active',
     },
     {
       name: 'emotional well-being',
@@ -148,6 +156,7 @@ export class Frame2Component implements OnInit {
       active: 'emotional_active',
       tactive: 'emotional_trade_active',
       key: 'emotional',
+      insightactive: 'emotional_insight_action_active',
     },
     {
       name: 'social well-being',
@@ -160,6 +169,7 @@ export class Frame2Component implements OnInit {
       active: 'social_active',
       tactive: 'social_trade_active',
       key: 'social',
+      insightactive: 'social_insight_action_active',
     },
     {
       name: 'occupational well-being',
@@ -172,6 +182,7 @@ export class Frame2Component implements OnInit {
       active: 'occupational_active',
       tactive: 'occupational_trade_active',
       key: 'occupational',
+      insightactive: 'occupational_insight_action_active',
     },
     {
       name: 'financial well-being',
@@ -184,6 +195,7 @@ export class Frame2Component implements OnInit {
       active: 'financial_active',
       tactive: 'financial_trade_active',
       key: 'financial',
+      insightactive: 'financial_insight_action_active',
     },
   ];
 
@@ -291,6 +303,8 @@ export class Frame2Component implements OnInit {
   ];
   oltj: any = [];
   oltjContent: any = {};
+  environment: any = environment;
+  currentUser: User;
 
   constructor(
     private modalService: BsModalService,
@@ -298,7 +312,9 @@ export class Frame2Component implements OnInit {
     private authenticationService: AuthenticationService,
     private userService: UserService,
     private scroller: ViewportScroller
-  ) {}
+  ) {
+    this.currentUser = this.authenticationService.currentUserValue;
+  }
 
   ngOnInit(): void {
     this.getAllData();
@@ -332,7 +348,7 @@ export class Frame2Component implements OnInit {
                 }
               );
             });
-
+            this.staticInsightData = this.data.staticInsight;
             Object.entries(this.graphValue).forEach((value: any) => {
               const [key, val] = value;
               let arr: any = this.sortAnArray(val, 'no_of_employees');
@@ -390,6 +406,29 @@ export class Frame2Component implements OnInit {
     ];
   }
 
+  getStaticInsight(
+    i: any = '',
+    dimension: string = '',
+    keyString: string = ''
+  ) {
+    let score =
+      this.wellBeingTot[i] > 4.5
+        ? 'high'
+        : this.wellBeingTot[i] > 3.5
+        ? 'medium'
+        : 'low';
+
+    let findVal =
+      this.staticInsightData.find((val: any) => {
+        return (
+          val.dimension.toLowerCase().trim() ==
+            dimension.toLowerCase().trim() &&
+          score.trim().toLowerCase() == val.score.trim().toLowerCase()
+        );
+      }) || [];
+    return findVal?.hasOwnProperty(keyString) ? findVal[keyString] : '';
+  }
+
   showChildModal(i: any, forModal = '', data: any = ''): void {
     this.oltjContent = {
       insight: '',
@@ -402,9 +441,15 @@ export class Frame2Component implements OnInit {
       this.statementModalcontent =
         this.data.alldetailValues[0][this.wellBeing[i]['state']];
       this.insightModalcontent =
-        this.data.alldetailValues[0][this.wellBeing[i]['insight']];
+        this.data.alldetailValues[0][this.wellBeing[i]['insightactive']] == 2 ||
+        this.data.alldetailValues[0][this.wellBeing[i]['insight']] == null
+          ? this.getStaticInsight(i, this.wellBeing[i].key, 'insight')
+          : this.data.alldetailValues[0][this.wellBeing[i]['insight']];
       this.actionModalcontent =
-        this.data.alldetailValues[0][this.wellBeing[i]['action']];
+        this.data.alldetailValues[0][this.wellBeing[i]['insightactive']] == 2 ||
+        this.data.alldetailValues[0][this.wellBeing[i]['action']] == null
+          ? this.getStaticInsight(i, this.wellBeing[i].key, 'action')
+          : this.data.alldetailValues[0][this.wellBeing[i]['action']];
     }
 
     if (forModal !== 'oltj' && this.currentSelectedGraphName) {
@@ -413,8 +458,16 @@ export class Frame2Component implements OnInit {
       );
       this.aboutModalcontent = item[this.wellBeing[i]['about']];
       this.statementModalcontent = item[this.wellBeing[i]['state']];
-      this.insightModalcontent = item[this.wellBeing[i]['insight']];
-      this.actionModalcontent = item[this.wellBeing[i]['action']];
+      this.insightModalcontent =
+        item[this.wellBeing[i]['insightactive']] == 2 ||
+        item[this.wellBeing[i]['insight']] == null
+          ? this.getStaticInsight(i, this.wellBeing[i].key, 'insight')
+          : item[this.wellBeing[i]['insight']];
+      this.actionModalcontent =
+        item[this.wellBeing[i]['insightactive']] == 2 ||
+        item[this.wellBeing[i]['action']] == null
+          ? this.getStaticInsight(i, this.wellBeing[i].key, 'action')
+          : item[this.wellBeing[i]['action']];
     }
 
     if (forModal === 'oltj' && this.currentSelectedGraphName) {
@@ -458,14 +511,14 @@ export class Frame2Component implements OnInit {
     if (forModal === 'about') this.childModal?.show();
     if (forModal === 'insight') this.childInsightModal?.show();
     if (forModal === 'action') this.childActionModal?.show();
-    if (forModal === 'oltj') this.openTextModal?.show();
+    if (forModal === 'oltj') this.oltjModal?.show();
   }
 
   hideChildModal(forModal = '', clickedText = -1): void {
     if (forModal === 'about') this.childModal?.hide();
     if (forModal === 'insight') this.childInsightModal?.hide();
     if (forModal === 'action') this.childActionModal?.hide();
-    if (forModal === 'oltj') this.openTextModal?.hide();
+    if (forModal === 'oltj') this.oltjModal?.hide();
     if (forModal === 'openText') {
       this.openTextModal?.hide();
       if (clickedText > -1) this.selectedOpentext = clickedText;

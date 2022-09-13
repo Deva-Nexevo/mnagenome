@@ -6,6 +6,8 @@ import {
   BsModalService,
   ModalDirective,
 } from 'ngx-bootstrap/modal';
+import { environment } from 'src/environments/environment';
+import { User } from '../_models';
 import { AuthenticationService, UserService } from '../_services';
 
 @Component({
@@ -113,6 +115,7 @@ export class Frame1Component implements OnInit {
       active: 'physical_active',
       tactive: 'physical_trade_active',
       key: 'physical',
+      insightactive: 'physical_insight_action_active',
     },
     {
       name: 'environmental well-being',
@@ -125,6 +128,7 @@ export class Frame1Component implements OnInit {
       active: 'environmental_active',
       tactive: 'environmental_trade_active',
       key: 'environmental',
+      insightactive: 'environmental_insight_action_active',
     },
     {
       name: 'intellectual well-being',
@@ -137,6 +141,7 @@ export class Frame1Component implements OnInit {
       active: 'intellectual_active',
       tactive: 'intellectual_trade_active',
       key: 'intellectual',
+      insightactive: 'intellectual_insight_action_active',
     },
     {
       name: 'spiritual well-being',
@@ -149,6 +154,7 @@ export class Frame1Component implements OnInit {
       active: 'spiritual_active',
       tactive: 'spiritual_trade_active',
       key: 'spiritual',
+      insightactive: 'spiritual_insight_action_active',
     },
     {
       name: 'emotional well-being',
@@ -161,6 +167,7 @@ export class Frame1Component implements OnInit {
       active: 'emotional_active',
       tactive: 'emotional_trade_active',
       key: 'emotional',
+      insightactive: 'emotional_insight_action_active',
     },
     {
       name: 'social well-being',
@@ -173,6 +180,7 @@ export class Frame1Component implements OnInit {
       active: 'social_active',
       tactive: 'social_trade_active',
       key: 'social',
+      insightactive: 'social_insight_action_active',
     },
     {
       name: 'occupational well-being',
@@ -185,6 +193,7 @@ export class Frame1Component implements OnInit {
       active: 'occupational_active',
       tactive: 'occupational_trade_active',
       key: 'occupational',
+      insightactive: 'occupational_insight_action_active',
     },
     {
       name: 'financial well-being',
@@ -197,6 +206,7 @@ export class Frame1Component implements OnInit {
       active: 'financial_active',
       tactive: 'financial_trade_active',
       key: 'financial',
+      insightactive: 'financial_insight_action_active',
     },
   ];
   sumOfAllData: any = {
@@ -218,13 +228,18 @@ export class Frame1Component implements OnInit {
     frustation: 0,
     feeling_happy: 0,
   };
+  staticInsightData: any;
+  environment: any = environment;
+  currentUser: User;
 
   constructor(
     private modalService: BsModalService,
     private router: Router,
     private authenticationService: AuthenticationService,
     private userService: UserService
-  ) {}
+  ) {
+    this.currentUser = this.authenticationService.currentUserValue;
+  }
 
   ngOnInit(): void {
     this.getAllData();
@@ -254,7 +269,7 @@ export class Frame1Component implements OnInit {
                 }
               );
             });
-
+            this.staticInsightData = this.data.staticInsight;
             Object.entries(this.graphValue).forEach((value: any) => {
               const [key, val] = value;
               let arr: any = this.sortAnArray(val, 'no_of_employees');
@@ -311,6 +326,29 @@ export class Frame1Component implements OnInit {
     ];
   }
 
+  getStaticInsight(
+    i: any = '',
+    dimension: string = '',
+    keyString: string = ''
+  ) {
+    let score =
+      this.wellBeingTot[i] > 4.5
+        ? 'high'
+        : this.wellBeingTot[i] > 3.5
+        ? 'medium'
+        : 'low';
+
+    let findVal =
+      this.staticInsightData.find((val: any) => {
+        return (
+          val.dimension.toLowerCase().trim() ==
+            dimension.toLowerCase().trim() &&
+          score.trim().toLowerCase() == val.score.trim().toLowerCase()
+        );
+      }) || [];
+    return findVal?.hasOwnProperty(keyString) ? findVal[keyString] : '';
+  }
+
   showChildModal(i: any, forModal = ''): void {
     if (forModal !== 'openText' && this.currentSelectedGraphName === '') {
       this.aboutModalcontent =
@@ -318,9 +356,15 @@ export class Frame1Component implements OnInit {
       this.statementModalcontent =
         this.data.alldetailValues[0][this.wellBeing[i]['state']];
       this.insightModalcontent =
-        this.data.alldetailValues[0][this.wellBeing[i]['insight']];
+        this.data.alldetailValues[0][this.wellBeing[i]['insightactive']] == 2 ||
+        this.data.alldetailValues[0][this.wellBeing[i]['insight']] == null
+          ? this.getStaticInsight(i, this.wellBeing[i].key, 'insight')
+          : this.data.alldetailValues[0][this.wellBeing[i]['insight']];
       this.actionModalcontent =
-        this.data.alldetailValues[0][this.wellBeing[i]['action']];
+        this.data.alldetailValues[0][this.wellBeing[i]['insightactive']] == 2 ||
+        this.data.alldetailValues[0][this.wellBeing[i]['action']] == null
+          ? this.getStaticInsight(i, this.wellBeing[i].key, 'action')
+          : this.data.alldetailValues[0][this.wellBeing[i]['action']];
     }
 
     if (forModal !== 'openText' && this.currentSelectedGraphName) {
@@ -329,8 +373,16 @@ export class Frame1Component implements OnInit {
       );
       this.aboutModalcontent = item[this.wellBeing[i]['about']];
       this.statementModalcontent = item[this.wellBeing[i]['state']];
-      this.insightModalcontent = item[this.wellBeing[i]['insight']];
-      this.actionModalcontent = item[this.wellBeing[i]['action']];
+      this.insightModalcontent =
+        item[this.wellBeing[i]['insightactive']] == 2 ||
+        item[this.wellBeing[i]['insight']] == null
+          ? this.getStaticInsight(i, this.wellBeing[i].key, 'insight')
+          : item[this.wellBeing[i]['insight']];
+      this.actionModalcontent =
+        item[this.wellBeing[i]['insightactive']] == 2 ||
+        item[this.wellBeing[i]['action']] == null
+          ? this.getStaticInsight(i, this.wellBeing[i].key, 'action')
+          : item[this.wellBeing[i]['action']];
     }
 
     if (forModal === 'about') this.childModal?.show();

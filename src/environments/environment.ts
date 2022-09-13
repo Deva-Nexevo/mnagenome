@@ -10,7 +10,7 @@ export const environment = {
   siteUrl: 'http://127.0.0.1:8000',
   encKey: 'mnageencriptionmodeforpass',
   encVa: '0123456789123456',
-  assestUrl: 'http://localhost:4200',
+  assestUrl: 'https://mnagenome.demo-nexevo.in/',
 };
 
 /*
