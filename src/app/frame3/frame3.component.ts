@@ -167,26 +167,34 @@ export class Frame3Component implements OnInit {
     {
       name: 'Sustaining Change',
       value: 'sustainingchange_value',
+      trade: 'sustaining_trade_value',
       desc: 'sustainingchange_title',
       key: 'sustainingchange',
+      tactive: 'sustaining_trade_active',
     },
     {
       name: 'Delivering Change',
       value: 'deliverychange_value',
+      trade: 'delivery_trade_value',
       desc: 'deliverychange_title',
       key: 'deliverychange',
+      tactive: 'delivery_trade_active',
     },
     {
       name: 'Accountability & Power of Influence',
       value: 'accountability_value',
+      trade: 'accountability_trade_value',
       desc: 'accountability_title',
       key: 'accountability',
+      tactive: 'accountability_trade_active',
     },
     {
       name: 'Ownership',
       value: 'ownership_value',
+      trade: 'ownership_trade_value',
       desc: 'ownership_title',
       key: 'ownership',
+      tactive: 'ownership_trade_active',
     },
   ];
   sumOfAllData: any = {
@@ -212,6 +220,7 @@ export class Frame3Component implements OnInit {
   environment: any = environment;
   currentUser: User;
   wellBeingDesc: any = [];
+  report: any = '';
 
   constructor(
     private modalService: BsModalService,
@@ -224,6 +233,7 @@ export class Frame3Component implements OnInit {
 
   ngOnInit(): void {
     this.getAllData();
+    this.report = `${environment.assestUrl}reports/${this.currentUser.report}`;
   }
 
   getAllData() {
@@ -244,7 +254,7 @@ export class Frame3Component implements OnInit {
             this.data = data.data;
             this.filterBy.forEach((value: any) => {
               let key = value.responseName;
-              this.graphValue[key] = this.data.alldetailValues.filter(
+              this.graphValue[key] = this.data?.alldetailValues?.filter(
                 (filterValue: any) => {
                   return filterValue[value.db_name] !== null;
                 }
@@ -287,7 +297,7 @@ export class Frame3Component implements OnInit {
             });
             this.opentextvalues = this.data.opentextvalues;
             this.openVal =
-              this.opentextvalues[this.selectedOpentext].word_cloud;
+              this.opentextvalues[this.selectedOpentext]?.word_cloud;
           }
         },
         (err) => {
@@ -319,7 +329,7 @@ export class Frame3Component implements OnInit {
       if (clickedText > -1) this.selectedOpentext = clickedText;
       this.wordLoading = true;
       setTimeout(() => {
-        this.openVal = this.opentextvalues[this.selectedOpentext].word_cloud;
+        this.openVal = this.opentextvalues[this.selectedOpentext]?.word_cloud;
         this.wordLoading = false;
       });
     }
@@ -379,7 +389,7 @@ export class Frame3Component implements OnInit {
       setTimeout(() => {
         this.wellBeingDesc = [];
         this.initializeValue();
-        this.data.alldetailValues.forEach((item: any, index: any) => {
+        this.data.alldetailValues?.forEach((item: any, index: any) => {
           this.sumOfAllData['no_of_employees'] =
             Number(this.sumOfAllData['no_of_employees']) +
             Number(item['no_of_employees']);
@@ -422,54 +432,68 @@ export class Frame3Component implements OnInit {
         ).toFixed(2);
         this.wellBeingQuet = Number(
           this.data.alldetailValues
-            .map((item: any) => item.well_being_quotient)
+            ?.map((item: any) => item.well_being_quotient)
             .reduce((prev: any, curr: any) => Number(prev) + Number(curr), 0) /
-            this.data.alldetailValues.length
+            this.data.alldetailValues?.length
         ).toFixed(2);
         this.wellBeingTot = [];
         this.wellBeingTrade = [];
         this.wellBeing.forEach((val: any) => {
           //this.wellBeingDesc.push(item[val.desc])
           this.wellBeingTot.push(
-            Number(
-              this.data.alldetailValues
-                .map((item: any) => item[val.value])
-                .reduce(
-                  (prev: any, curr: any) => Number(prev) + Number(curr),
-                  0
-                ) / this.data.alldetailValues.length
-            ).toFixed(2)
+            this.data.alldetailValues.length > 0
+              ? Number(
+                  this.data.alldetailValues
+                    .map((item: any) => Number(item[val.value]))
+                    .reduce(
+                      (prev: any, curr: any) => Number(prev) + Number(curr),
+                      0
+                    ) / this.data.alldetailValues?.length
+                ).toFixed(2)
+              : 0
           );
+        });
+        this.wellBeing.forEach((val: any) => {
           this.wellBeingTrade.push(
-            (
-              this.data.alldetailValues
-                .map((item: any) =>
-                  item[val.tactive] == 1 ? item[val.trade] : 0
-                )
-                .reduce((prev: any, curr: any) => {
-                  return Number(prev) + Number(curr);
-                }, 0) / this.data.alldetailValues.length
-            ).toFixed(2)
+            this.data.alldetailValues.length > 0
+              ? Number(
+                  this.data.alldetailValues
+                    .map((item: any) => {
+                      // console.log(val.trade, item[val.trade]);
+                      return item[val.tactive] == 1
+                        ? Number(item[val.trade])
+                        : 0;
+                    })
+                    .reduce((prev: any, curr: any) => {
+                      /*  console.log(
+                        Number(prev) + '==' + Number(curr) + '==' + curr
+                      ); */
+
+                      return Number(prev) + Number(curr);
+                    }, 0) / this.data.alldetailValues?.length
+                ).toFixed(2)
+              : 0
           );
         });
         this.employeeMood = [
-          this.sumOfAllData['veryhappy'] / this.data.alldetailValues.length,
-          this.sumOfAllData['happy'] / this.data.alldetailValues.length,
-          this.sumOfAllData['neitherhappy'] / this.data.alldetailValues.length,
-          this.sumOfAllData['sad'] / this.data.alldetailValues.length,
-          this.sumOfAllData['verysad'] / this.data.alldetailValues.length,
+          this.sumOfAllData['veryhappy'] / this.data.alldetailValues?.length,
+          this.sumOfAllData['happy'] / this.data.alldetailValues?.length,
+          this.sumOfAllData['neitherhappy'] / this.data.alldetailValues?.length,
+          this.sumOfAllData['sad'] / this.data.alldetailValues?.length,
+          this.sumOfAllData['verysad'] / this.data.alldetailValues?.length,
         ];
         this.employeeFeeling = [
-          this.sumOfAllData['easy'] / this.data.alldetailValues.length,
-          this.sumOfAllData['engaged'] / this.data.alldetailValues.length,
-          this.sumOfAllData['fun'] / this.data.alldetailValues.length,
-          this.sumOfAllData['feeling_happy'] / this.data.alldetailValues.length,
-          this.sumOfAllData['managable'] / this.data.alldetailValues.length,
-          this.sumOfAllData['anger'] / this.data.alldetailValues.length,
-          this.sumOfAllData['anxiety'] / this.data.alldetailValues.length,
-          this.sumOfAllData['depression'] / this.data.alldetailValues.length,
-          this.sumOfAllData['fear'] / this.data.alldetailValues.length,
-          this.sumOfAllData['frustation'] / this.data.alldetailValues.length,
+          this.sumOfAllData['easy'] / this.data.alldetailValues?.length,
+          this.sumOfAllData['engaged'] / this.data.alldetailValues?.length,
+          this.sumOfAllData['fun'] / this.data.alldetailValues?.length,
+          this.sumOfAllData['feeling_happy'] /
+            this.data.alldetailValues?.length,
+          this.sumOfAllData['managable'] / this.data.alldetailValues?.length,
+          this.sumOfAllData['anger'] / this.data.alldetailValues?.length,
+          this.sumOfAllData['anxiety'] / this.data.alldetailValues?.length,
+          this.sumOfAllData['depression'] / this.data.alldetailValues?.length,
+          this.sumOfAllData['fear'] / this.data.alldetailValues?.length,
+          this.sumOfAllData['frustation'] / this.data.alldetailValues?.length,
         ];
         this.loading = false;
       });
@@ -515,13 +539,23 @@ export class Frame3Component implements OnInit {
           this.wellBeingTot = [];
           this.wellBeingDesc = [];
           this.wellBeing.forEach((val: any) => {
-            Number(this.wellBeingTot.push(Number(item[val.value]).toFixed(2)));
-            Number(
-              this.wellBeingTrade.push(
-                item[val.tactive] == 1 ? Number(item[val.trade]).toFixed(2) : 0
-              )
-            );
+            this.data.alldetailValues.length > 0
+              ? Number(
+                  this.wellBeingTot.push(Number(item[val.value]).toFixed(2))
+                )
+              : 0;
             this.wellBeingDesc.push(item[val.desc]);
+          });
+          this.wellBeing.forEach((val: any) => {
+            this.data.alldetailValues.length > 0
+              ? Number(
+                  this.wellBeingTrade.push(
+                    item[val.tactive] == 1
+                      ? Number(item[val.trade]).toFixed(2)
+                      : 0
+                  )
+                )
+              : 0;
           });
           this.employeeMood = [
             this.sumOfAllData['veryhappy'],

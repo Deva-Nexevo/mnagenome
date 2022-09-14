@@ -57,8 +57,9 @@
 
       <div class="col-12 text-center pt-4">
 
-        <a class="filter-btn btn filter-modal fs-16 bgc-blue text-white br-30 px-5"
-          href="{{ environment.assestUrl }}reports/{{currentUser.report}}" target="_blank">Report</a>
+        <a *ngIf="currentUser.report != '' && currentUser.report != null"
+          class="filter-btn btn filter-modal fs-16 bgc-blue text-white br-30 px-5" rel="noopener noreferrer"
+          [href]="report" target="_blank">Report</a>
       </div>
 
       <div class="col-12 pt-4 mt-3 overall-dimensions">
@@ -78,7 +79,14 @@
                   <doughnut-chart [title]="well.name" [value]="wellBeingTot[i]" [titleDisplay]="false"></doughnut-chart>
                 </ng-container>
                 <p class="pt-4 fs-30 mb-3">
-                  {{ wellBeingTot[i] }}
+                  {{ wellBeingTot[i] }} <span *ngIf="wellBeingTrade[i]"> | {{wellBeingTrade[i]}}
+                    <!-- <img *ngIf="wellBeingTrade[i] == 0" src="assets/images/normal.jpeg"
+                      [ngStyle]="{'width': '20px', 'height':'20px'}"> -->
+                    <img *ngIf="wellBeingTrade[i] > 0" src="assets/images/increase.png"
+                      [ngStyle]="{'width': '20px', 'height':'20px'}">
+                    <img *ngIf="wellBeingTrade[i] < 0" src="assets/images/decrease.png"
+                      [ngStyle]="{'width': '20px', 'height':'20px'}">
+                  </span>
                 </p>
               </div>
             </div>
@@ -170,12 +178,13 @@
           <div class="col-lg-12">
             <div *ngIf="!loading && !wordLoading && !error">
               <p class="text-center">
-                <span class="font-bold cl-orange pr-1">{{ opentextvalues[selectedOpentext].category_name }} : </span>{{
-                opentextvalues[selectedOpentext].question }}
+                <span class="font-bold cl-orange pr-1" *ngIf="opentextvalues[selectedOpentext]?.question">{{
+                  opentextvalues[selectedOpentext]?.category_name }} : </span>{{
+                opentextvalues[selectedOpentext]?.question }}
               </p>
-              <p class="text-center" *ngIf="opentextvalues[selectedOpentext].questionvaluestatus == 1">
+              <p class="text-center" *ngIf="opentextvalues[selectedOpentext]?.questionvaluestatus == 1">
                 % of disagreement : <span class="font-bold cl-orange pr-1">
-                  {{opentextvalues[selectedOpentext].questionvalue}} %</span>
+                  {{opentextvalues[selectedOpentext]?.questionvalue}} %</span>
               </p>
             </div>
           </div>
@@ -186,7 +195,7 @@
           <div class="col-lg-6">
             <div *ngIf="!loading && !wordLoading && !error" class="box-shadow br-15 pl-5 pr-4 py-4 flex-container"
               [innerHTML]="
-                opentextvalues[selectedOpentext].statement | safeHtml
+                opentextvalues[selectedOpentext]?.statement != null ? opentextvalues[selectedOpentext]?.statement : '' | safeHtml
               "></div>
             <div *ngIf="loading || wordLoading && !error" class="box-shadow br-15 pl-5 pr-4 py-4 flex-container">
               Loading...
@@ -208,7 +217,7 @@
                   <ng-container *ngFor="let text of opentextvalues; let i = index">
                     <li (click)="hideChildModal('openText', i)">
                       <div>
-                        <span class="font-bold cl-orange pr-1">{{ text.category_name }} : </span>{{ text.question }}
+                        <span class="font-bold cl-orange pr-1">{{ text?.category_name }} : </span>{{ text?.question }}
                       </div>
                     </li>
                   </ng-container>
@@ -239,7 +248,7 @@
             <div class="col-md-6 col-xs-12" [ngStyle]="{'padding': '20px 0'} ">
               <h2>{{ pie.name.name }}</h2>
               <pie-chart [data]="pie.values" [name]="pie.name"
-                [dropDownData]="data.dropDownList[pie.name.responseName]">
+                [dropDownData]="data?.dropDownList[pie.name.responseName]">
               </pie-chart>
               <!-- <div class="row">
               <div class="col-md-6">

@@ -304,7 +304,7 @@ export class Frame1Component implements OnInit {
             });
             this.opentextvalues = this.data.opentextvalues;
             this.openVal =
-              this.opentextvalues[this.selectedOpentext].word_cloud;
+              this.opentextvalues[this.selectedOpentext]?.word_cloud;
           }
         },
         (err) => {
@@ -400,7 +400,7 @@ export class Frame1Component implements OnInit {
       if (clickedText > -1) this.selectedOpentext = clickedText;
       this.wordLoading = true;
       setTimeout(() => {
-        this.openVal = this.opentextvalues[this.selectedOpentext].word_cloud;
+        this.openVal = this.opentextvalues[this.selectedOpentext]?.word_cloud;
         this.wordLoading = false;
       });
     }
@@ -494,40 +494,53 @@ export class Frame1Component implements OnInit {
         this.totNoOfEmp = this.sumOfAllData['no_of_employees'];
         this.totNoOfRes = this.sumOfAllData['no_of_responses'];
         this.totNoOfPer = Number(
-          (this.totNoOfRes / this.totNoOfEmp) * 100
+          (Number(this.totNoOfRes) / Number(this.totNoOfEmp)) * 100
         ).toFixed(2);
         this.wellBeingQuet = Number(
           this.data.alldetailValues
-            .map((item: any) => item.well_being_quotient)
-            .reduce((prev: any, curr: any) => Number(prev) + Number(curr), 0) /
-            this.data.alldetailValues.length
+            .map((item: any) => {
+              console.log(item.well_being_quotient);
+              return item.well_being_quotient;
+            })
+            .reduce((prev: any, curr: any) => {
+              console.log(Number(prev) + '==' + Number(curr) + '==' + curr);
+              return Number(prev) + Number(curr);
+            }, 0) / this.data.alldetailValues.length
         ).toFixed(2);
         this.wellBeingTot = [];
         this.wellBeingTrade = [];
         this.wellBeing.forEach((val: any) => {
           this.wellBeingTot.push(
-            Number(
-              this.data.alldetailValues
-                .map((item: any) => item[val.value])
-                .reduce(
-                  (prev: any, curr: any) => Number(prev) + Number(curr),
-                  0
-                ) / this.data.alldetailValues.length
-            ).toFixed(2)
+            this.data.alldetailValues.length > 0
+              ? Number(
+                  this.data.alldetailValues
+                    .map((item: any) => item[val.value])
+                    .reduce(
+                      (prev: any, curr: any) => Number(prev) + Number(curr),
+                      0
+                    ) / this.data.alldetailValues.length
+                ).toFixed(2)
+              : 0
           );
         });
         this.wellBeing.forEach((val: any) => {
           this.wellBeingTrade.push(
-            Number(
-              this.data.alldetailValues
-                .map((item: any) =>
-                  item[val.tactive] == 1 ? item[val.trade] : 0
-                )
-                .reduce(
-                  (prev: any, curr: any) => Number(prev) + Number(curr),
-                  0
-                ) / this.data.alldetailValues.length
-            ).toFixed(2)
+            this.data.alldetailValues.length > 0
+              ? Number(
+                  this.data.alldetailValues
+                    .map((item: any) => {
+                      // console.log(val.trade, Number(item[val.trade]));
+
+                      return item[val.tactive] == 1
+                        ? Number(item[val.trade])
+                        : 0;
+                    })
+                    .reduce((prev: any, curr: any) => {
+                      //console.log(Number(prev) + '==' + Number(curr) + '==' + curr);
+                      return Number(prev) + Number(curr);
+                    }, 0) / this.data.alldetailValues.length
+                ).toFixed(2)
+              : 0
           );
         });
         this.employeeMood = [
@@ -583,7 +596,7 @@ export class Frame1Component implements OnInit {
           this.totNoOfEmp = Number(item['no_of_employees']);
           this.totNoOfRes = Number(item['no_of_responses']);
           this.totNoOfPer = Number(
-            (this.totNoOfRes / this.totNoOfEmp) * 100
+            (Number(this.totNoOfRes) / Number(this.totNoOfEmp)) * 100
           ).toFixed(2);
           this.wellBeingQuet = Number(item['well_being_quotient']).toFixed(2);
           this.wellBeingTot = [];

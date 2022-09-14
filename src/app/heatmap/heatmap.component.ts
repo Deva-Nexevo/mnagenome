@@ -79,6 +79,15 @@ export class HeatmapComponent implements OnInit {
       chart: {
         height: yData.length * 25 + 142,
       },
+      plotOptions: {
+        heatmap: {
+          states: {
+            hover: {
+              enabled: false,
+            },
+          },
+        },
+      },
       colorAxis: {
         min: 0,
         minColor: this.currentUser.color1 ? this.currentUser.color1 : '#FFFFFF',

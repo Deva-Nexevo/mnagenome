@@ -19,11 +19,13 @@ export class WordcloudComponent {
 
   ngOnInit() {
     var data1: any = [];
-    this.data[0].forEach((val: any, index: any) => {
-      if (val) {
-        data1.push({ name: val, weight: this.data[1][index] });
-      }
-    });
+    this.data &&
+      this.data.length &&
+      this.data[0].forEach((val: any, index: any) => {
+        if (val) {
+          data1.push({ name: val, weight: this.data[1][index] });
+        }
+      });
     var arr1 = [];
     for (let i = 0; i < data1.length; i++) {
       if (data1[i]) {

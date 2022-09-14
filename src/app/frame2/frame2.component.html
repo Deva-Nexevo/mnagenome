@@ -68,7 +68,7 @@
           <h1 class="bar-chart-insight">INSIGHTS & ACTION</h1>
           <div class="d-flex flex-wrap justify-content-center">
             <ng-container *ngFor="let data of oltjData">
-              <button class="btn bgc-orange br-30" (click)="showChildModal(0, 'oltj', data)">{{ data.name | uppercase
+              <button class="btn bgc-orange br-30" (click)="showChildModal(0, 'oltj', data)">{{ data?.name | uppercase
                 }}</button>
             </ng-container>
           </div>
@@ -93,7 +93,17 @@
               </div>
               <div class="modal-body insight-content">
                 <h1 class="insight-title">Overall Insights</h1>
-                <div *ngIf="!loading && !error" [innerHTML]="data.insight.insight | safeHtml"></div>
+                <div *ngIf="!loading && !error && data?.insight?.insight!='' && data?.insight?.insight!=null"
+                  [innerHTML]="data?.insight?.insight | safeHtml"></div>
+                <div *ngIf="!loading && !error && (data?.insight?.insight=='' || data?.insight?.insight==null)">
+                  <img src="assets/images/li-logo.png">
+                  <div class="row">
+                    <div class="col-md-6"><img src="assets/images/culture-logo.png"></div>
+                    <div class="col-md-6"><img src="{{ environment.assestUrl }}client_logos/{{currentUser.logo}}" alt=""
+                        class="logo-img" /> </div>
+                  </div>
+                </div>
+                <!-- <div *ngIf="!loading && !error" [innerHTML]="data?.insight?.insight | safeHtml"></div> -->
               </div>
             </div>
           </div>
@@ -111,7 +121,17 @@
               </div>
               <div class="modal-body insight-content">
                 <h1 class="insight-title">Overall Actions</h1>
-                <div *ngIf="!loading && !error" [innerHTML]="data.insight.action | safeHtml"></div>
+                <div *ngIf="!loading && !error && data?.insight?.action!='' && data?.insight?.action!=null"
+                  [innerHTML]="data?.insight?.action | safeHtml"></div>
+                <div *ngIf="!loading && !error && (data?.insight?.action=='' || data?.insight?.action==null)">
+                  <img src="assets/images/li-logo.png">
+                  <div class="row">
+                    <div class="col-md-6"><img src="assets/images/culture-logo.png"></div>
+                    <div class="col-md-6"><img src="{{ environment.assestUrl }}client_logos/{{currentUser.logo}}" alt=""
+                        class="logo-img" /> </div>
+                  </div>
+                </div>
+                <!-- <div *ngIf="!loading && !error" [innerHTML]="data?.insight?.action | safeHtml"></div> -->
               </div>
             </div>
           </div>
@@ -176,12 +196,9 @@
         <ng-container *ngIf="!loading && !error">
           <div class="box-shadow box-overflow padding-5 br-15 mb-50">
             <ng-container *ngFor="let heat of filterBy; let i = index" class="">
-              <div [ngClass]="
-                currentEnabled === '' || currentEnabled === heat.name
-                  ? 'show'
-                  : 'hide'
-              ">
-                <app-heatmap [name]="heat.name" [data]="graphValue[heat.responseName]" [xData]="wellBeing"
+              <div *ngIf="graphValue[heat.responseName].length > 0" [ngClass]=" currentEnabled==='' ||
+                currentEnabled===heat.name ? 'show' : 'hide' ">
+                <app-heatmap [name]=" heat.name" [data]="graphValue[heat.responseName]" [xData]="wellBeing"
                   [yData]="data.dropDownList[heat.responseName]" [searchName]="heat.findName" [dbName]="heat.db_name">
                 </app-heatmap>
               </div>
@@ -237,8 +254,10 @@
           </div>
         </div>
       </div> -->
+
       <div class="col-12 pt-5" id="word">
         <h2 class="fs-25 mb-3 cl-purple text-center">OPEN TEXT ANALYSIS</h2>
+
         <div class="d-flex justify-content-center align-items-center">
           <p class="cl-purple text-center mb-0 mr-4">Choose question :</p>
           <button type="button" class="filter-btn btn br-30" (click)="showChildModal(0, 'openText')">
@@ -249,8 +268,15 @@
         <div class="row pt-5">
           <div class="col-lg-12">
             <div *ngIf="!loading && !wordLoading && !error">
-              <span class="font-bold cl-orange pr-1">{{ opentextvalues[selectedOpentext].category_name }} : </span>{{
-              opentextvalues[selectedOpentext].question }}
+              <p class="text-center">
+                <span class="font-bold cl-orange pr-1" *ngIf="opentextvalues[selectedOpentext]?.question">{{
+                  opentextvalues[selectedOpentext]?.category_name }} : </span>{{
+                opentextvalues[selectedOpentext]?.question }}
+              </p>
+              <p class="text-center" *ngIf="opentextvalues[selectedOpentext]?.questionvaluestatus == 1">
+                % of disagreement : <span class="font-bold cl-orange pr-1">
+                  {{opentextvalues[selectedOpentext]?.questionvalue}} %</span>
+              </p>
             </div>
           </div>
           <div class="col-lg-6">
@@ -260,7 +286,7 @@
           <div class="col-lg-6">
             <div *ngIf="!loading && !wordLoading && !error" class="box-shadow br-15 pl-5 pr-4 py-4 flex-container"
               [innerHTML]="
-                opentextvalues[selectedOpentext].statement | safeHtml
+                opentextvalues[selectedOpentext]?.statement != null ? opentextvalues[selectedOpentext]?.statement : '' | safeHtml
               "></div>
             <div *ngIf="loading || wordLoading && !error" class="box-shadow br-15 pl-5 pr-4 py-4 flex-container">
               Loading...
@@ -282,7 +308,7 @@
                   <ng-container *ngFor="let text of opentextvalues; let i = index">
                     <li (click)="hideChildModal('openText', i)">
                       <div>
-                        <span class="font-bold cl-orange pr-1">{{ text.category_name }} : </span>{{ text.question }}
+                        <span class="font-bold cl-orange pr-1">{{ text?.category_name }} : </span>{{ text?.question }}
                       </div>
                     </li>
                   </ng-container>
@@ -309,7 +335,7 @@
       </div>
       <div *ngIf="!loading && !error" class="modal-body insight-content text-center">
         <h1 class="insight-title">Mandate</h1>
-        <div [innerHTML]="data.insight.mandate | safeHtml"></div>
+        <div [innerHTML]="data?.insight?.mandate | safeHtml"></div>
       </div>
       <!-- <div *ngIf="!loading && !error" class="modal-body" [innerHTML]="data.insight.mandate | safeHtml"></div> -->
     </div>
@@ -333,7 +359,7 @@
             <div class="col-md-6 col-xs-12" [ngStyle]="{'padding': '20px 0'} ">
               <h2>{{ pie.name.name }}</h2>
               <pie-chart [data]="pie.values" [name]="pie.name"
-                [dropDownData]="data.dropDownList[pie.name.responseName]">
+                [dropDownData]="data?.dropDownList[pie.name.responseName]">
               </pie-chart>
               <!-- <div class="row">
               <div class="col-md-6">
@@ -397,9 +423,29 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div *ngIf="!loading && !error" class="modal-body">
-        <div class="modal-body1" [innerHTML]="oltjContent.insight| safeHtml"></div>
-        <div class="modal-body1" [innerHTML]="oltjContent.action | safeHtml"></div>
+      <div *ngIf="!loading && !error" class="modal-body insight-content text-center">
+        <h1 class="insight-title">Insights</h1>
+        <div *ngIf="!loading && !error && oltjContent?.insight!='' && oltjContent?.insight!=null"
+          [innerHTML]="oltjContent?.insight| safeHtml"></div>
+        <div *ngIf="!loading && !error && (oltjContent?.insight=='' || oltjContent?.insight==null)">
+          <img src="assets/images/li-logo.png">
+        </div>
+        <h1 class="insight-title pt-25">Actions</h1>
+        <div *ngIf="!loading && !error && oltjContent?.action!='' && oltjContent?.action!=null"
+          [innerHTML]="oltjContent?.insight| safeHtml"></div>
+        <div *ngIf="!loading && !error && (oltjContent?.action=='' || oltjContent?.action==null)">
+          <img src="assets/images/li-logo.png">
+        </div>
+
+        <div class="row"
+          *ngIf="(oltjContent?.insight=='' || oltjContent?.insight==null) || (oltjContent?.action=='' || oltjContent?.action==null)">
+          <div class="col-md-6"><img src="assets/images/culture-logo.png"></div>
+          <div class="col-md-6"><img src="{{ environment.assestUrl }}client_logos/{{currentUser.logo}}" alt=""
+              class="logo-img" /> </div>
+        </div>
+
+        <div class="modal-body1" [innerHTML]="oltjContent?.insight| safeHtml"></div>
+        <div class="modal-body1" [innerHTML]="oltjContent?.action | safeHtml"></div>
       </div>
 
     </div>

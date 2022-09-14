@@ -384,7 +384,7 @@ export class Frame2Component implements OnInit {
             });
             this.opentextvalues = this.data.opentextvalues;
             this.openVal =
-              this.opentextvalues[this.selectedOpentext].word_cloud;
+              this.opentextvalues[this.selectedOpentext]?.word_cloud;
           }
         },
         (err) => {
@@ -507,6 +507,8 @@ export class Frame2Component implements OnInit {
       }
     }
 
+    console.log(this.oltjContent);
+
     if (forModal === 'openText') this.openTextModal?.show();
     if (forModal === 'about') this.childModal?.show();
     if (forModal === 'insight') this.childInsightModal?.show();
@@ -524,7 +526,7 @@ export class Frame2Component implements OnInit {
       if (clickedText > -1) this.selectedOpentext = clickedText;
       this.wordLoading = true;
       setTimeout(() => {
-        this.openVal = this.opentextvalues[this.selectedOpentext].word_cloud;
+        this.openVal = this.opentextvalues[this.selectedOpentext]?.word_cloud;
         this.wordLoading = false;
       });
     }
@@ -652,7 +654,7 @@ export class Frame2Component implements OnInit {
         this.totNoOfEmp = this.sumOfAllData['no_of_employees'];
         this.totNoOfRes = this.sumOfAllData['no_of_responses'];
         this.totNoOfPer = Number(
-          (this.totNoOfRes / this.totNoOfEmp) * 100
+          (Number(this.totNoOfRes) / Number(this.totNoOfEmp)) * 100
         ).toFixed(2);
         this.wellBeingQuet = Number(
           this.data.alldetailValues
@@ -664,25 +666,29 @@ export class Frame2Component implements OnInit {
         this.wellBeingTrade = [];
         this.wellBeing.forEach((val: any) => {
           this.wellBeingTot.push(
-            (
-              this.data.alldetailValues
-                .map((item: any) => item[val.value])
-                .reduce(
-                  (prev: any, curr: any) => Number(prev) + Number(curr),
-                  0
-                ) / this.data.alldetailValues.length
-            ).toFixed(2)
+            this.data.alldetailValues.length > 0
+              ? (
+                  this.data.alldetailValues
+                    .map((item: any) => item[val.value])
+                    .reduce(
+                      (prev: any, curr: any) => Number(prev) + Number(curr),
+                      0
+                    ) / this.data.alldetailValues.length
+                ).toFixed(2)
+              : 0
           );
           this.wellBeingTrade.push(
-            (
-              this.data.alldetailValues
-                .map((item: any) =>
-                  item[val.tactive] == 1 ? item[val.trade] : 0
-                )
-                .reduce((prev: any, curr: any) => {
-                  return Number(prev) + Number(curr);
-                }, 0) / this.data.alldetailValues.length
-            ).toFixed(2)
+            this.data.alldetailValues.length > 0
+              ? (
+                  this.data.alldetailValues
+                    .map((item: any) =>
+                      item[val.tactive] == 1 ? item[val.trade] : 0
+                    )
+                    .reduce((prev: any, curr: any) => {
+                      return Number(prev) + Number(curr);
+                    }, 0) / this.data.alldetailValues.length
+                ).toFixed(2)
+              : 0
           );
         });
         this.employeeMood = [
@@ -763,7 +769,7 @@ export class Frame2Component implements OnInit {
           this.totNoOfEmp = Number(item['no_of_employees']);
           this.totNoOfRes = Number(item['no_of_responses']);
           this.totNoOfPer = Number(
-            (this.totNoOfRes / this.totNoOfEmp) * 100
+            (Number(this.totNoOfRes) / Number(this.totNoOfEmp)) * 100
           ).toFixed(2);
           this.sumOfAllData['beats_quotient'] = item['beats_quotient'];
           this.wellBeingQuet = Number(item['well_being_quotient']).toFixed(2);
