@@ -538,6 +538,7 @@ export class Frame3Component implements OnInit {
           this.wellBeingQuet = Number(item['well_being_quotient']).toFixed(2);
           this.wellBeingTot = [];
           this.wellBeingDesc = [];
+          this.wellBeingTrade = [];
           this.wellBeing.forEach((val: any) => {
             this.data.alldetailValues.length > 0
               ? Number(
@@ -548,12 +549,10 @@ export class Frame3Component implements OnInit {
           });
           this.wellBeing.forEach((val: any) => {
             this.data.alldetailValues.length > 0
-              ? Number(
-                  this.wellBeingTrade.push(
-                    item[val.tactive] == 1
-                      ? Number(item[val.trade]).toFixed(2)
-                      : 0
-                  )
+              ? this.wellBeingTrade.push(
+                  item[val.tactive] == 1
+                    ? Number(item[val.trade]).toFixed(2)
+                    : 0
                 )
               : 0;
           });

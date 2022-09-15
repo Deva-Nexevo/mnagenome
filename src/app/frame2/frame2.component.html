@@ -432,7 +432,7 @@
         </div>
         <h1 class="insight-title pt-25">Actions</h1>
         <div *ngIf="!loading && !error && oltjContent?.action!='' && oltjContent?.action!=null"
-          [innerHTML]="oltjContent?.insight| safeHtml"></div>
+          [innerHTML]="oltjContent?.action | safeHtml"></div>
         <div *ngIf="!loading && !error && (oltjContent?.action=='' || oltjContent?.action==null)">
           <img src="assets/images/li-logo.png">
         </div>
@@ -444,8 +444,8 @@
               class="logo-img" /> </div>
         </div>
 
-        <div class="modal-body1" [innerHTML]="oltjContent?.insight| safeHtml"></div>
-        <div class="modal-body1" [innerHTML]="oltjContent?.action | safeHtml"></div>
+        <!--         <div class="modal-body1" [innerHTML]="oltjContent?.insight| safeHtml"></div>
+        <div class="modal-body1" [innerHTML]="oltjContent?.action | safeHtml"></div> -->
       </div>
 
     </div>
