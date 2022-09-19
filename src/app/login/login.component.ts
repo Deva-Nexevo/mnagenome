@@ -21,7 +21,7 @@ export class LoginComponent implements OnInit {
   tempUser: string = '';
   tempPassword: string = '';
   application_loaded: boolean = false;
-  imageSrc = 'assets/images/beats.gif';
+  imageSrc = 'assets/images/new-logo.gif';
 
   constructor(
     private formBuilder: FormBuilder,

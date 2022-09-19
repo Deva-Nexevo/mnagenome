@@ -1,15 +1,18 @@
 <section class="section_frame">
-  <section class="section_frame1 py-1">
+  <section class="section_frame1 py-2">
     <div class="container">
       <div class="d-flex justify-content-between align-items-center">
-        <a class="d-flex" href="javascript:void(0);">
-          <img src="{{ imageSrc }}" alt="" class="logo-img" />
-          <img src="{{ environment.assestUrl }}client_logos/{{currentUser.logo}}" alt="" class="logo-img" />
+        <a class="d-flex align-items-center" href="javascript:void(0);">
+          <img src="{{ imageSrc }}" alt="" class="logo-img mr-3" />
+          <img src="{{ environment.assestUrl }}client_logos/{{currentUser.logo}}" alt="" class="admin-img" />
         </a>
-        <h1 class="fs-25 mb-0 cl-purple">{{ text }}</h1>
+        <h1 class="fs-25 mb-0 cl-purple d-none d-md-block">{{ text }}</h1>
         <a class="d-flex" href="javascript:void(0);" (click)="logout()">
           <mat-icon>power_settings_new</mat-icon>
         </a>
+      </div>
+      <div class="text-center d-block d-md-none pt-1">
+        <h1 class="fs-25 mb-0 cl-purple">{{ text }}</h1>
       </div>
     </div>
   </section>
@@ -28,7 +31,7 @@
   <div class="container">
     <div class="row justify-content-between align-items-center">
       <div class="col-12 text-center">
-        <img src="{{imageSrc}}" alt="" class="footer-img">
+        <img src="{{imageSrc}}" alt="" class="footer-img mb-2">
         <p>&#169; Culturelytics All Rights Reserved</p>
       </div>
     </div>

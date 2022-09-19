@@ -1,11 +1,11 @@
-<section class="section_login bg-dark d-flex align-items-center py-5">
+<section class="section_login bg-dark d-flex align-items-center py-4 py-sm-5">
   <div class="container">
-    <div class="login-details bg-white p-5 br-30">
+    <div class="login-details bg-white p-3 p-sm-5 br-30">
       <div class="row p-4">
         <div class="col-lg-6 text-center align-self-center">
-          <img src="{{ imageSrc }}" alt="" class="img-fluid" />
+          <img src="{{ imageSrc }}" alt="" class="w-25" />
         </div>
-        <div class="col-lg-6">
+        <div class="col-lg-6 pt-4 pt-lg-0">
           <h1 class="text-center mb-4 fs-30">BEATS LOGIN</h1>
           <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
             <div class="form-group">

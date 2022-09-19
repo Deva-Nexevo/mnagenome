@@ -10,7 +10,7 @@ import { AuthenticationService, UserService } from '../_services';
 })
 export class DashboardComponent implements OnInit {
   logo = 'assets/images/beats-logo.png';
-  imageSrc = 'assets/images/beats.gif';
+  imageSrc = 'assets/images/new-logo.gif';
   text = '';
   environment: any = environment;
   currentUser: User;
@@ -30,7 +30,10 @@ export class DashboardComponent implements OnInit {
   ngOnInit(): void {}
 
   logout() {
-    this.authenticationService.logout();
-    this.router.navigate(['/login']);
+    let text = "Do you want to logout?";
+    if (confirm(text) == true) {
+      this.authenticationService.logout();
+      this.router.navigate(['/login']);
+    } 
   }
 }

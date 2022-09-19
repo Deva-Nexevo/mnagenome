@@ -110,7 +110,7 @@
         </div>
 
         <!-- ACTIONS POPUP -->
-        <div bsModal #action="bs-modal" class="modal fade" tabindex="-1" role="dialog"
+        <div bsModal #action="bs-modal" class="modal fade actions" tabindex="-1" role="dialog"
           aria-labelledby="dialog-sizes-name1">
           <div class="modal-dialog modal-lg modal-dialog-centered">
             <div class="modal-content p-4">
@@ -178,7 +178,7 @@
           </ng-container>
         </div>
       </div>
-      <div class="col-12 pt-5" id="heat">
+      <div class="col-12 pt-4" id="heat">
         <h2 class="fs-25 mb-5 cl-purple text-center">WELL-BEING HEAT MAP</h2>
         <ng-container *ngIf="loading && !error">
           <div class="box-shadow box-overflow p-5 br-15 mb-50">
@@ -194,7 +194,7 @@
           </div>
         </ng-container>
         <ng-container *ngIf="!loading && !error">
-          <div class="box-shadow box-overflow padding-5 br-15 mb-50">
+          <div class="box-shadow box-overflow padding-5 br-15">
             <ng-container *ngFor="let heat of filterBy; let i = index" class="">
               <div *ngIf="graphValue[heat.responseName].length > 0" [ngClass]=" currentEnabled==='' ||
                 currentEnabled===heat.name ? 'show' : 'hide' ">
@@ -280,11 +280,11 @@
             </div>
           </div>
           <div class="col-lg-6">
-            <div *ngIf="(loading || wordLoading) && !error">Loading...</div>
+            <div *ngIf="(loading || wordLoading) && !error" class="h-100">Loading...</div>
             <app-wordcloud *ngIf="!loading && !wordLoading && !error" [data]="openVal"></app-wordcloud>
           </div>
           <div class="col-lg-6">
-            <div *ngIf="!loading && !wordLoading && !error" class="box-shadow br-15 pl-5 pr-4 py-4 flex-container"
+            <div *ngIf="!loading && !wordLoading && !error" class="box-shadow br-15 pl-5 pr-4 py-4 flex-container h-100"
               [innerHTML]="
                 opentextvalues[selectedOpentext]?.statement != null ? opentextvalues[selectedOpentext]?.statement : '' | safeHtml
               "></div>
@@ -303,7 +303,7 @@
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
-              <div class="modal-body">
+              <div class="modal-body px-0 pt-2 pb-0">
                 <ul class="mb-0 open-text">
                   <ng-container *ngFor="let text of opentextvalues; let i = index">
                     <li (click)="hideChildModal('openText', i)">
@@ -325,7 +325,7 @@
 
 
 <!-- Mandate -->
-<div bsModal #mandate="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="dialog-sizes-name1">
+<div bsModal #mandate="bs-modal" class="modal mandate fade" tabindex="-1" role="dialog" aria-labelledby="dialog-sizes-name1">
   <div class="modal-dialog modal-lg modal-dialog-centered">
     <div class="modal-content p-4">
       <div class="">
@@ -464,9 +464,9 @@
       <div class="modal-body text-center">
         <h2 class="fs-25">About</h2>
         <div [innerHTML]="aboutModalcontent | safeHtml"></div>
+        <hr class="my-2" />
         <h2 class="fs-25">Statements</h2>
         <div [innerHTML]="statementModalcontent | safeHtml"></div>
-        <hr class="my-2" />
       </div>
     </div>
   </div>
@@ -494,7 +494,7 @@
 </div>
 
 <!-- ACTIONS POPUP -->
-<div bsModal #childActionModal="bs-modal" class="modal fade" tabindex="-1" role="dialog"
+<div bsModal #childActionModal="bs-modal" class="modal fade action" tabindex="-1" role="dialog"
   aria-labelledby="dialog-sizes-name1">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content p-4">
