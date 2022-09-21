@@ -12,15 +12,19 @@ export class RadarchartComponent implements OnInit {
 
   public radarChartOptions: ChartConfiguration<any>['options'] = {
     responsive: true,
+    hover: { mode: null },
     maintainAspectRatio: false,
     plugins: {
       legend: {
         display: false,
       },
+      tooltip: {
+        displayColors: false,
+      },
     },
     elements: {
       line: {
-        borderWidth: 3,
+        //borderWidth: 3,
       },
     },
   };
@@ -29,7 +33,7 @@ export class RadarchartComponent implements OnInit {
   };
 
   ngOnInit(): void {
-    const bgColor: any = [];
+    /* const bgColor: any = [];
     this.data.forEach((val: any) => {
       bgColor.push(
         val > 4.5
@@ -38,7 +42,7 @@ export class RadarchartComponent implements OnInit {
           ? 'rgb(255,140,0)'
           : 'rgb(139, 0, 0)'
       );
-    });
+    }); */
     this.radarChartData = {
       labels: [
         'EASY 😇 ',
@@ -69,7 +73,21 @@ export class RadarchartComponent implements OnInit {
           data: this.data,
           backgroundColor: ['#074B6E'],
           borderColor: ['#e1e1e1'],
-          pointBackgroundColor: bgColor,
+          pointBackgroundColor: [
+            '#69B34C',
+            '#69B34C',
+            '#69B34C',
+            '#69B34C',
+            '#69B34C',
+            '#ff0d0d',
+            '#ff0d0d',
+            '#ff0d0d',
+            '#ff0d0d',
+            '#ff0d0d',
+          ],
+          pointBorderColor: ['#e1e1e1'],
+          pointRadius: 5,
+          borderWidth: 4,
         },
       ],
     };

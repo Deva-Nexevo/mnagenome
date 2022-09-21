@@ -198,7 +198,8 @@
             <ng-container *ngFor="let heat of filterBy; let i = index" class="">
               <div *ngIf="graphValue[heat.responseName].length > 0" [ngClass]=" currentEnabled==='' ||
                 currentEnabled===heat.name ? 'show' : 'hide' ">
-                <app-heatmap [name]=" heat.name" [data]="graphValue[heat.responseName]" [xData]="wellBeing"
+                <app-heatmap [name]="heat.name" [minColorHeat]="data.color1" [maxColorHeat]="data.color2"
+                  [data]="graphValue[heat.responseName]" [xData]="wellBeing"
                   [yData]="data.dropDownList[heat.responseName]" [searchName]="heat.findName" [dbName]="heat.db_name">
                 </app-heatmap>
               </div>
@@ -359,7 +360,7 @@
           <ng-container *ngFor="let pie of overviewResponse; let i = index">
             <div class="col-md-6 col-xs-12" [ngStyle]="{'padding': '20px 0'} ">
               <h2 class="tiitle-h2">{{ pie.name.name }}</h2>
-              <pie-chart [data]="pie.values" [name]="pie.name"
+              <pie-chart [colorValue]="i" [data]="pie.values" [name]="pie.name"
                 [dropDownData]="data?.dropDownList[pie.name.responseName]">
               </pie-chart>
               <!-- <div class="row">
