@@ -57,6 +57,9 @@ export class PieChartComponent implements OnInit {
           },
         },
       },
+      credits: {
+        enabled: false,
+      },
       series: [
         {
           type: 'pie',

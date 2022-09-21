@@ -44,6 +44,9 @@ export class WordcloudComponent {
         borderWidth: '1',
         //backgroundColor: 'red',
       },
+      credits: {
+        enabled: false,
+      },
       series: [
         {
           type: 'wordcloud',

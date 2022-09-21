@@ -320,8 +320,8 @@
               <app-wordcloud *ngIf="!loading && !wordLoading && !error" [data]="openVal"></app-wordcloud>
             </div>
             <div class="col-lg-6">
-              <div *ngIf="!loading && !wordLoading && !error" class="box-shadow br-15 pl-5 pr-4 py-4 flex-container h-100"
-                [innerHTML]="
+              <div *ngIf="!loading && !wordLoading && !error"
+                class="box-shadow br-15 pl-5 pr-4 py-4 flex-container h-100" [innerHTML]="
                   opentextvalues[selectedOpentext]?.statement != null ? opentextvalues[selectedOpentext]?.statement : '' | safeHtml
                 "></div>
               <div *ngIf="loading || wordLoading && !error" class="box-shadow br-15 pl-5 pr-4 py-4 flex-container">
@@ -361,7 +361,8 @@
 </ng-container>
 
 <!-- Mandate -->
-<div bsModal #mandate="bs-modal" class="modal mandate fade" tabindex="-1" role="dialog" aria-labelledby="dialog-sizes-name1">
+<div bsModal #mandate="bs-modal" class="modal mandate fade" tabindex="-1" role="dialog"
+  aria-labelledby="dialog-sizes-name1">
   <div class="modal-dialog modal-lg modal-dialog-centered">
     <div class="modal-content p-4">
       <div class="">
@@ -393,7 +394,7 @@
         <div class="row">
           <ng-container *ngFor="let pie of overviewResponse; let i = index">
             <div class="col-md-6 col-xs-12" [ngStyle]="{'padding': '20px 0'} ">
-              <h2>{{ pie.name.name }}</h2>
+              <h2 class="tiitle-h2">{{ pie.name.name }}</h2>
               <pie-chart [data]="pie.values" [name]="pie.name"
                 [dropDownData]="data?.dropDownList[pie.name.responseName]">
               </pie-chart>

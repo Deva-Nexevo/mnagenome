@@ -9,6 +9,7 @@ export class RadarchartComponent implements OnInit {
   @Input() data: any = [];
   public height: number = 500;
   public radarChartType: ChartType = 'radar';
+
   public radarChartOptions: ChartConfiguration<any>['options'] = {
     responsive: true,
     maintainAspectRatio: false,
@@ -53,11 +54,21 @@ export class RadarchartComponent implements OnInit {
       ],
       datasets: [
         {
-          label: '',
+          labels: [
+            'EASY 😇 ',
+            'ENGAGED 🧐 ',
+            'FUN 🤗 ',
+            'HAPPY 😀',
+            'MANAGABLE 🙂 ',
+            'ANGER 😡 ',
+            'ANXIETY 😓 ',
+            'DEPRESSION 😖',
+            'FEAR 😰 ',
+            'FRUSTRATION 😤 ',
+          ],
           data: this.data,
-          fill: true,
           backgroundColor: ['#074B6E'],
-          borderColor: 'transparent',
+          borderColor: ['#e1e1e1'],
           pointBackgroundColor: bgColor,
         },
       ],

@@ -325,7 +325,8 @@
 
 
 <!-- Mandate -->
-<div bsModal #mandate="bs-modal" class="modal mandate fade" tabindex="-1" role="dialog" aria-labelledby="dialog-sizes-name1">
+<div bsModal #mandate="bs-modal" class="modal mandate fade" tabindex="-1" role="dialog"
+  aria-labelledby="dialog-sizes-name1">
   <div class="modal-dialog modal-lg modal-dialog-centered">
     <div class="modal-content p-4">
       <div class="">
@@ -357,7 +358,7 @@
         <div class="row">
           <ng-container *ngFor="let pie of overviewResponse; let i = index">
             <div class="col-md-6 col-xs-12" [ngStyle]="{'padding': '20px 0'} ">
-              <h2>{{ pie.name.name }}</h2>
+              <h2 class="tiitle-h2">{{ pie.name.name }}</h2>
               <pie-chart [data]="pie.values" [name]="pie.name"
                 [dropDownData]="data?.dropDownList[pie.name.responseName]">
               </pie-chart>
@@ -367,7 +368,7 @@
                   [dropDownData]="data.dropDownList[pie.name.responseName]"></pie-chart>
               </div>
               <div class="col-md-6">
-                <h2>{{ pie.name.name }}</h2>
+                <h2 class="tiitle-h2">{{ pie.name.name }}</h2>
                 <div class="col-md-12">
                   <div class="row">
                     <div class="col-sm-6">

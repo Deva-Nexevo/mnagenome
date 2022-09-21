@@ -499,11 +499,11 @@ export class Frame1Component implements OnInit {
         this.wellBeingQuet = Number(
           this.data.alldetailValues
             .map((item: any) => {
-              console.log(item.well_being_quotient);
+              // console.log(item.well_being_quotient);
               return item.well_being_quotient;
             })
             .reduce((prev: any, curr: any) => {
-              console.log(Number(prev) + '==' + Number(curr) + '==' + curr);
+              //console.log(Number(prev) + '==' + Number(curr) + '==' + curr);
               return Number(prev) + Number(curr);
             }, 0) / this.data.alldetailValues.length
         ).toFixed(2);

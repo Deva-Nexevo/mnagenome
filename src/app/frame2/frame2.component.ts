@@ -507,7 +507,7 @@ export class Frame2Component implements OnInit {
       }
     }
 
-    console.log(this.oltjContent);
+    //console.log(this.oltjContent);
 
     if (forModal === 'openText') this.openTextModal?.show();
     if (forModal === 'about') this.childModal?.show();
