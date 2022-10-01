@@ -262,10 +262,15 @@
               <ng-container *ngFor="let heat of filterBy; let i = index" class="">
                 <div *ngIf="graphValue[heat.responseName].length > 0" [ngClass]=" currentEnabled==='' ||
                   currentEnabled===heat.name ? 'show' : 'hide' ">
-                  <app-heatmap [name]="heat.name" [data]="graphValue[heat.responseName]" [xData]="wellBeing"
+                  <app-heatmapgraph [name]="heat.name" [data]="graphValue[heat.responseName]" [xData]="wellBeing"
+                    [yData]="data.dropDownList[heat.responseName]" [minColorHeat]="data.color1"
+                    [maxColorHeat]="data.color3" [middleColorHeat]="data.color2" [searchName]="heat.findName"
+                    [dbName]="heat.db_name" [id]="i">
+                  </app-heatmapgraph>
+                  <!-- <app-heatmap [name]="heat.name" [data]="graphValue[heat.responseName]" [xData]="wellBeing"
                     [yData]="data.dropDownList[heat.responseName]" [minColorHeat]="data.color1"
                     [maxColorHeat]="data.color2" [searchName]="heat.findName" [dbName]="heat.db_name">
-                  </app-heatmap>
+                  </app-heatmap> -->
                 </div>
               </ng-container>
             </div>
