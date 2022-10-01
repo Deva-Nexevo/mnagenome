@@ -50,6 +50,7 @@ export class HeatMapEj2Component implements OnInit {
     let xData: any = [];
     let yData: any = [];
     let data: any = [];
+    let indexData: any = [];
 
     this.xData.forEach((val: any) => {
       const str = val.name.split(' ')[0];
@@ -60,13 +61,16 @@ export class HeatMapEj2Component implements OnInit {
       const currentIndex = this.isPresentInData(val.id);
       if (currentIndex > -1) {
         yData.push(val[this.searchName]);
+        indexData.push(currentIndex);
       }
     });
 
-    xData.forEach((val1: any, index1: any) => {
+    this.xData.forEach((val1: any, index1: any) => {
       let datNewValue: number[] = [];
       yData.forEach((val: any, index: number) => {
-        datNewValue.push(Number(this.data[index][this.xData[index1]['key']]));
+        datNewValue.push(
+          Number(this.data[indexData[index]][this.xData[index1]['key']])
+        );
       });
       data.push(datNewValue);
     });
