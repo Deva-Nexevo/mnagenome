@@ -355,9 +355,3 @@ button.close span {
   text-align: center;
 }
 
-text {
-  color: rgb(102, 102, 102)!important;
-    cursor: default!important;
-    font-size: 11px!important;
-    fill: rgb(102, 102, 102)!important;
-}
