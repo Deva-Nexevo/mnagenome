@@ -21,6 +21,7 @@ export class HeatmapComponent implements OnInit {
   @Input() dbName: any = '';
   @Input() minColorHeat: any = '';
   @Input() maxColorHeat: any = '';
+  @Input() middleColorHeat: any = '';
 
   height: any = '';
   Highcharts: typeof Highcharts = Highcharts;
@@ -93,8 +94,11 @@ export class HeatmapComponent implements OnInit {
       },
       colorAxis: {
         min: 0,
-        minColor: this.minColorHeat ? this.minColorHeat : '#FFFFFF',
-        maxColor: this.maxColorHeat ? this.maxColorHeat : '#FF0000',
+        stops: [
+          [0, this.minColorHeat ? this.minColorHeat : '#FF0000'],
+          [0.5, this.middleColorHeat ? this.middleColorHeat : '#FFFFFF'],
+          [1, this.maxColorHeat ? this.maxColorHeat : '#FF0000'],
+        ],
       },
       xAxis: {
         categories: xData,
