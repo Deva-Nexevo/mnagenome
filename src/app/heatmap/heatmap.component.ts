@@ -63,7 +63,9 @@ export class HeatmapComponent implements OnInit {
           data.push({
             x: index1,
             y: yDataIndex,
-            value: this.data[currentIndex][this.xData[index1]['key']],
+            value: this.data[currentIndex][this.xData[index1]['key']]
+              ? this.data[currentIndex][this.xData[index1]['key']]
+              : 0,
             /* color:
               this.data[currentIndex][this.xData[index1]['key']] > 4.5
                 ? 'rgb(0,100,0)'
