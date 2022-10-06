@@ -355,3 +355,9 @@ button.close span {
   text-align: center;
 }
 
+.apexcharts-xaxis-label-new tspan, .apexcharts-yaxis-label-new tspan {
+    color: rgb(102, 102, 102);
+    cursor: default;
+    font-size: 11px;
+    fill: rgb(102, 102, 102);
+}

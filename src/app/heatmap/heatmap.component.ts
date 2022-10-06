@@ -22,6 +22,8 @@ export class HeatmapComponent implements OnInit {
   @Input() minColorHeat: any = '';
   @Input() maxColorHeat: any = '';
   @Input() middleColorHeat: any = '';
+  @Input() minColorHeatValue: any = 0;
+  @Input() maxColorHeatValue: any = 0;
 
   height: any = '';
   Highcharts: typeof Highcharts = Highcharts;
@@ -44,7 +46,6 @@ export class HeatmapComponent implements OnInit {
     let xData: any = [];
     let yData: any = [];
     let data: any = [];
-
     this.xData
       .sort(function (a: any, b: any) {
         return a.id - b.id;
@@ -96,10 +97,12 @@ export class HeatmapComponent implements OnInit {
       },
       colorAxis: {
         min: 0,
+        max: 5,
+        tickInterval: 2.5,
         stops: [
           [0, this.minColorHeat ? this.minColorHeat : '#FF0000'],
           [0.5, this.middleColorHeat ? this.middleColorHeat : '#FFFFFF'],
-          [1, this.maxColorHeat ? this.maxColorHeat : '#FF0000'],
+          [1, this.maxColorHeat ? this.maxColorHeat : '#00FF00'],
         ],
       },
       xAxis: {
@@ -113,6 +116,9 @@ export class HeatmapComponent implements OnInit {
         title: {
           text: '',
         },
+      },
+      credits: {
+        enabled: false,
       },
       series: [
         {

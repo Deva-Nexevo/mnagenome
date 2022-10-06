@@ -7,6 +7,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HighchartsChartModule } from 'highcharts-angular';
+import { NgApexchartsModule } from 'ng-apexcharts';
 import { NgChartsModule } from 'ng2-charts';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { ModalModule } from 'ngx-bootstrap/modal';
@@ -20,6 +21,7 @@ import { Frame1Component } from './frame1/frame1.component';
 import { Frame2Component } from './frame2/frame2.component';
 import { Frame3Component } from './frame3/frame3.component';
 import { HeatmapComponent } from './heatmap/heatmap.component';
+import { HeatmapapexComponent } from './heatmap/heatmapapex.component';
 import { LoginComponent } from './login/login.component';
 import { PieChartComponent } from './piechart/piechart.component';
 import { RadarchartComponent } from './radarchart/radarchart.component';
@@ -42,6 +44,7 @@ import { SafeHtmlPipe } from './_helpers/safeHtml.pipe';
     BarchartComponent,
     RadarchartComponent,
     HeatmapComponent,
+    HeatmapapexComponent,
     WordcloudComponent,
     SafeHtmlPipe,
     DashboardComponent,
@@ -60,6 +63,7 @@ import { SafeHtmlPipe } from './_helpers/safeHtml.pipe';
     MatMenuModule,
     NgChartsModule,
     HighchartsChartModule,
+    NgApexchartsModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
